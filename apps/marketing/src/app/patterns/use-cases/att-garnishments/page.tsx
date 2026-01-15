@@ -21,94 +21,248 @@ import {
 // DATA
 // ============================================================================
 
-const legalEntities = [
-  { entity: 'Alascom, Inc.', state: 'AK' },
-  { entity: 'AT&T Corp.', state: 'NY' },
-  { entity: 'AT&T Global Network Services LLC', state: 'DE' },
-  { entity: 'AT&T Internet Services', state: 'NV' },
-  { entity: 'AT&T Mobility LLC', state: 'DE' },
-  { entity: 'AT&T Mobility National Accounts LLC', state: 'DE' },
-  { entity: 'AT&T Mobility Puerto Rico Inc.', state: 'DE' },
-  { entity: 'AT&T of the Virgin Islands, Inc.', state: 'DE' },
-  { entity: 'AT&T Services, Inc.', state: 'DE' },
-  { entity: 'AT&T Teleholdings, Inc.', state: 'DE' },
-  { entity: 'BellSouth Long Distance, Inc.', state: 'GA' },
-  { entity: 'BellSouth Telecommunications, LLC', state: 'GA' },
-  { entity: 'Cricket Wireless LLC', state: 'DE' },
-  { entity: 'DIRECTV, LLC', state: 'CA' },
-  { entity: 'Illinois Bell Telephone Company', state: 'IL' },
-  { entity: 'Indiana Bell Telephone Company, Inc.', state: 'IN' },
-  { entity: 'Michigan Bell Telephone Company', state: 'MI' },
-  { entity: 'Nevada Bell Telephone Company', state: 'NV' },
-  { entity: 'New Cingular Wireless PCS, LLC', state: 'DE' },
-  { entity: 'Ohio Bell Telephone Company', state: 'OH' },
-  { entity: 'Pacific Bell Telephone Company', state: 'CA' },
-  { entity: 'Southwestern Bell Telephone Company', state: 'MO' },
-  { entity: 'SBC Global Services, Inc.', state: 'TX' },
-  { entity: 'SBC Internet Services, Inc.', state: 'DE' },
-  { entity: 'SBC Long Distance, LLC', state: 'TX' },
-  { entity: 'TCG New York, Inc.', state: 'NY' },
-  { entity: 'Teleport Communications America, LLC', state: 'DE' },
-  { entity: 'The Southern New England Telephone Company', state: 'CT' },
-  { entity: 'Wisconsin Bell, Inc.', state: 'WI' },
-  { entity: 'YELLOWPAGES.COM LLC', state: 'DE' },
-  { entity: 'Yp Holdings LLC', state: 'DE' },
+interface LegalEntity {
+  entity: string;
+  states: string[];
+  fallbackState?: string;
+  fallbackNote?: string;
+}
+
+const legalEntities: LegalEntity[] = [
+  {
+    entity: 'Alascom, Inc.',
+    states: ['AK', 'CA', 'HI', 'WA'],
+    fallbackState: 'AK',
+    fallbackNote: 'If the state is not listed above, have the garnishment served to the Alaska CT Corporation.',
+  },
+  {
+    entity: 'AT&T Billing Southeast, LLC',
+    states: ['AL', 'GA', 'NC'],
+    fallbackState: 'GA',
+    fallbackNote: 'If the state is not listed above, have the garnishment served to the Georgia CT Corporation.',
+  },
+  {
+    entity: 'AT&T Billing Southwest, LLC',
+    states: ['CA'],
+    fallbackState: 'DE',
+    fallbackNote: 'If the state is not listed above, have the garnishment served to the Delaware CT Corporation.',
+  },
+  {
+    entity: 'AT&T Corp.',
+    states: ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM', 'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY'],
+    fallbackState: 'MO',
+    fallbackNote: 'If the state is not listed above, have the garnishment served to the Missouri CT Corporation.',
+  },
+  {
+    entity: 'AT&T Customer Services, Inc.',
+    states: ['AL', 'CA', 'CO', 'ID', 'IL', 'MN', 'MT', 'NV', 'OK', 'WV'],
+    fallbackState: 'IL',
+    fallbackNote: 'If the state is not listed above, have the garnishment served to the Illinois CT Corporation.',
+  },
+  {
+    entity: 'AT&T Digital Life, Inc.',
+    states: ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME'],
+    fallbackState: 'MO',
+    fallbackNote: 'If the state is not listed above, have the garnishment served to the Missouri CT location.',
+  },
+  {
+    entity: 'AT&T Global Communications Services, Inc.',
+    states: ['DE', 'VI'],
+    fallbackState: 'DE',
+    fallbackNote: 'If the state is not listed above, have the garnishment served to the Delaware CT Corporation.',
+  },
+  {
+    entity: 'AT&T Government Solutions, Inc.',
+    states: ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM', 'NV', 'NY', 'OH', 'OR', 'PA', 'SC', 'SD', 'TN', 'TX', 'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY'],
+    fallbackState: 'MO',
+    fallbackNote: 'If the state is not listed above, have the garnishment served to the Missouri CT Corporation.',
+  },
+  {
+    entity: 'AT&T Management Services, L.P.',
+    states: ['DC', 'MO', 'TX'],
+    fallbackState: 'MO',
+    fallbackNote: 'If the state is not listed above, have the garnishment served to the Missouri CT Corporation.',
+  },
+  {
+    entity: 'AT&T Mobility Puerto Rico, Inc.',
+    states: ['PR'],
+    fallbackState: 'DE',
+    fallbackNote: 'If the state is not listed above, have the garnishment served to the Delaware CT Corporation.',
+  },
+  {
+    entity: 'AT&T Mobility Services, LLC',
+    states: ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NJ', 'NM', 'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY'],
+    fallbackState: 'MO',
+    fallbackNote: 'If the state is not listed above, have the garnishment served to the Missouri CT Corporation.',
+  },
+  {
+    entity: 'AT&T of Puerto Rico, Inc.',
+    states: ['NY', 'PR'],
+    fallbackState: 'NY',
+    fallbackNote: 'If the state is not listed above, have the garnishment served to the New York CT Corporation.',
+  },
+  {
+    entity: 'AT&T of the Virgin Islands, Inc.',
+    states: ['DE', 'VI'],
+    fallbackState: 'DE',
+    fallbackNote: 'If the state is not listed above, have the garnishment served to the Delaware CT Corporation.',
+  },
+  {
+    entity: 'AT&T Services, Inc.',
+    states: ['AK', 'AL', 'AR', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'IL', 'IN', 'KS', 'KY', 'LA', 'MD', 'MI', 'MN', 'MO', 'MS', 'NC', 'NJ', 'NV', 'NY', 'OH', 'OK', 'PA', 'SC', 'TN', 'TX', 'VA', 'VT', 'WA', 'WI', 'WV'],
+    fallbackState: 'MO',
+    fallbackNote: 'If the state is not listed above, have the garnishment served to the Missouri CT location.',
+  },
+  {
+    entity: 'AT&T Support Services Company, Inc.',
+    states: ['CA', 'CO', 'DC', 'DE', 'HI', 'ID', 'KY', 'MD', 'MI', 'NC', 'NJ', 'NY', 'OH', 'TX', 'VA', 'WA', 'WV'],
+    fallbackState: 'MI',
+    fallbackNote: 'If the state is not listed above, have the garnishment served to the Michigan CT location.',
+  },
+  {
+    entity: 'AT&T Technical Services Company, Inc.',
+    states: ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM', 'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY'],
+    fallbackState: 'MO',
+    fallbackNote: 'If the state is not listed above, have the garnishment served to the Missouri CT location.',
+  },
+  {
+    entity: 'AT&T World Personnel Services, Inc.',
+    states: ['DE'],
+    fallbackState: 'DE',
+    fallbackNote: 'If the state is not listed above, have the garnishment served to the Delaware CT Corporation.',
+  },
+  {
+    entity: 'BellSouth Telecommunications, LLC',
+    states: ['AL', 'FL', 'GA', 'KY', 'LA', 'MS', 'NC', 'SC', 'TN'],
+    fallbackState: 'GA',
+    fallbackNote: 'If the state is not listed above, have the garnishment served to the Georgia CT Corporation.',
+  },
+  {
+    entity: 'Cricket Wireless LLC',
+    states: ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'FL', 'GA', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME'],
+    fallbackState: 'MO',
+    fallbackNote: 'If the state is not listed above, have the garnishment served to the Missouri CT Corporation.',
+  },
+  {
+    entity: 'Illinois Bell Telephone Company',
+    states: ['CT', 'IL', 'IN', 'MI', 'OH'],
+    fallbackState: 'IL',
+    fallbackNote: 'If the state is not listed above, have the garnishment served to the Illinois CT Corporation.',
+  },
+  {
+    entity: 'Indiana Bell Telephone Company, Incorporated',
+    states: ['IN'],
+  },
+  {
+    entity: 'Michigan Bell Telephone Company',
+    states: ['IL', 'IN', 'MI'],
+    fallbackState: 'MI',
+    fallbackNote: 'If the state is not listed above, have the garnishment served to the Michigan CT Corporation.',
+  },
+  {
+    entity: 'Nevada Bell Telephone Company',
+    states: ['CA', 'NV'],
+    fallbackState: 'NV',
+    fallbackNote: 'If the state is not listed above, have the garnishment served to The Corporation Trust Co. of Nevada.',
+  },
+  {
+    entity: 'Pacific Bell Telephone Company',
+    states: ['CA', 'MO', 'PA'],
+    fallbackState: 'CA',
+    fallbackNote: 'If the state is not listed above, have the garnishment served to the California CT Corporation.',
+  },
+  {
+    entity: 'SBC Global Services, Inc.',
+    states: ['AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NJ', 'NV', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'TN', 'UT', 'TX', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY'],
+    fallbackState: 'MO',
+    fallbackNote: 'If the state is not listed above, have the garnishment served to the Missouri CT Corporation.',
+  },
+  {
+    entity: 'Southwestern Bell Telephone Company, LP',
+    states: ['AR', 'KS', 'MO', 'OK', 'TX'],
+    fallbackState: 'MO',
+    fallbackNote: 'If the state is not listed above, have the garnishment served to the Missouri CT Corporation.',
+  },
+  {
+    entity: 'Teleport Communications America, LLC',
+    states: ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM', 'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY'],
+    fallbackState: 'NY',
+    fallbackNote: 'If the state is not listed above, have the garnishment served to the New York CT Corporation.',
+  },
+  {
+    entity: 'The Ohio Bell Telephone Company',
+    states: ['IN', 'OH'],
+    fallbackState: 'OH',
+    fallbackNote: 'If the state is not listed above, have the garnishment served to the Ohio CT Corporation.',
+  },
+  {
+    entity: 'Wisconsin Bell, Inc.',
+    states: ['IN', 'MI', 'WI'],
+    fallbackState: 'WI',
+    fallbackNote: 'If the state is not listed above, have the garnishment served to the Wisconsin CT Corporation.',
+  },
+  {
+    entity: 'Xandr, Inc.',
+    states: ['CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'IL', 'MI', 'MO', 'NJ', 'NV', 'NY', 'OR', 'PA', 'TX', 'VA', 'VT', 'WA'],
+    fallbackState: 'DE',
+    fallbackNote: 'If the state is not listed above, have the garnishment served to the Delaware CT Corporation.',
+  },
 ];
 
 const ctLocations = [
-  { state: 'AL', abbr: 'AL', address: '2 N. Jackson St., Suite 605, Montgomery, AL 36104' },
-  { state: 'AK', abbr: 'AK', address: '9360 Glacier Highway, Suite 202, Juneau, AK 99801' },
-  { state: 'AZ', abbr: 'AZ', address: '3800 N. Central Ave., Suite 460, Phoenix, AZ 85012' },
-  { state: 'AR', abbr: 'AR', address: '124 W. Capitol Ave., Suite 1900, Little Rock, AR 72201' },
-  { state: 'CA', abbr: 'CA', address: '330 N. Brand Blvd., Suite 700, Glendale, CA 91203' },
-  { state: 'CO', abbr: 'CO', address: '7700 E. Arapahoe Road, Suite 220, Centennial, CO 80112' },
-  { state: 'CT', abbr: 'CT', address: '67 Burnside Avenue, East Hartford, CT 06108' },
-  { state: 'DE', abbr: 'DE', address: '1209 Orange Street, Wilmington, DE 19801' },
-  { state: 'DC', abbr: 'DC', address: '1015 15th Street N.W., Suite 1000, Washington, DC 20005' },
-  { state: 'FL', abbr: 'FL', address: '1200 South Pine Island Rd., Suite 250, Plantation, FL 33324' },
-  { state: 'GA', abbr: 'GA', address: '289 S. Culver Street, Lawrenceville, GA 30046' },
-  { state: 'HI', abbr: 'HI', address: '1003 Bishop Street, Suite 1600, Honolulu, HI 96813' },
-  { state: 'ID', abbr: 'ID', address: '1111 W. Jefferson St., Suite 530, Boise, ID 83702' },
-  { state: 'IL', abbr: 'IL', address: '208 So. LaSalle Street, Suite 814, Chicago, IL 60604' },
-  { state: 'IN', abbr: 'IN', address: '334 N. Senate Avenue, Indianapolis, IN 46204' },
-  { state: 'IA', abbr: 'IA', address: '505 5th Avenue, Suite 729, Des Moines, IA 50309' },
-  { state: 'KS', abbr: 'KS', address: '112 SW 7th St., Suite 3C, Topeka, KS 66603' },
-  { state: 'KY', abbr: 'KY', address: '306 W. Main Street, Suite 512, Frankfort, KY 40601' },
-  { state: 'LA', abbr: 'LA', address: '3867 Plaza Tower Drive, Baton Rouge, LA 70816' },
-  { state: 'ME', abbr: 'ME', address: '45 Memorial Circle, Suite 302, Augusta, ME 04330' },
-  { state: 'MD', abbr: 'MD', address: '7 St. Paul Street, Suite 820, Baltimore, MD 21202' },
-  { state: 'MA', abbr: 'MA', address: '155 Federal Street, Suite 700, Boston, MA 02110' },
-  { state: 'MI', abbr: 'MI', address: '40600 Ann Arbor Road East, Suite 201, Plymouth, MI 48170' },
-  { state: 'MN', abbr: 'MN', address: '1010 Dale Street North, St. Paul, MN 55117' },
-  { state: 'MS', abbr: 'MS', address: '645 Lakeland East Drive, Suite 101, Flowood, MS 39232' },
-  { state: 'MO', abbr: 'MO', address: '120 South Central Avenue, Clayton, MO 63105' },
-  { state: 'MT', abbr: 'MT', address: '3553 Claremont Drive, Helena, MT 59601' },
-  { state: 'NE', abbr: 'NE', address: '1327 H Street, Suite 101, Lincoln, NE 68508' },
-  { state: 'NV', abbr: 'NV', address: '701 S. Carson Street, Suite 200, Carson City, NV 89701' },
-  { state: 'NH', abbr: 'NH', address: '11 Ferry Street, Suite 310, Concord, NH 03301' },
-  { state: 'NJ', abbr: 'NJ', address: '820 Bear Tavern Road, Suite 312, Ewing, NJ 08628' },
-  { state: 'NM', abbr: 'NM', address: '206 S. Coronado Avenue, Espanola, NM 87532' },
-  { state: 'NY', abbr: 'NY', address: '28 Liberty Street, New York, NY 10005' },
-  { state: 'NC', abbr: 'NC', address: '150 Fayetteville Street, Box 1011, Raleigh, NC 27601' },
-  { state: 'ND', abbr: 'ND', address: '314 E. Thayer Avenue, Suite 1, Bismarck, ND 58501' },
-  { state: 'OH', abbr: 'OH', address: '4400 Easton Commons, Suite 125, Columbus, OH 43219' },
-  { state: 'OK', abbr: 'OK', address: '1833 S. Morgan Road, Oklahoma City, OK 73128' },
-  { state: 'OR', abbr: 'OR', address: '780 Commercial Street SE, Suite 100, Salem, OR 97301' },
-  { state: 'PA', abbr: 'PA', address: '600 N. 2nd Street, Suite 401, Harrisburg, PA 17101' },
-  { state: 'PR', abbr: 'PR', address: 'American Airlines Building, 1509 Lopez Landron Street, San Juan, PR 00911' },
-  { state: 'RI', abbr: 'RI', address: '100 Midway Place, Suite 3, Cranston, RI 02920' },
-  { state: 'SC', abbr: 'SC', address: '2 Office Park Court, Suite 103, Columbia, SC 29223' },
-  { state: 'SD', abbr: 'SD', address: '319 S. Coteau, Pierre, SD 57501' },
-  { state: 'TN', abbr: 'TN', address: '300 Montvue Road, Knoxville, TN 37919' },
-  { state: 'TX', abbr: 'TX', address: '1999 Bryan Street, Suite 900, Dallas, TX 75201' },
-  { state: 'UT', abbr: 'UT', address: '215 South State Street, Suite 800, Salt Lake City, UT 84111' },
-  { state: 'VT', abbr: 'VT', address: '30 Main Street, Suite 207, Burlington, VT 05401' },
-  { state: 'VA', abbr: 'VA', address: '4701 Cox Road, Suite 285, Glen Allen, VA 23060' },
-  { state: 'VI', abbr: 'VI', address: 'Hibiscus Alley, Charlotte Amalie, St. Thomas, VI 00801' },
-  { state: 'WA', abbr: 'WA', address: '711 Capitol Way S., Suite 204, Olympia, WA 98501' },
-  { state: 'WV', abbr: 'WV', address: '1018 Kanawha Blvd., E., Suite 700, Charleston, WV 25301' },
-  { state: 'WI', abbr: 'WI', address: '301 S. Bedford Street, Suite 1, Madison, WI 53703' },
-  { state: 'WY', abbr: 'WY', address: '1712 Pioneer Avenue, Suite 500, Cheyenne, WY 82001' },
+  { abbr: 'AK', agent: 'CT Corporation System', address: '9360 Glacier Highway, Suite 202, Juneau, AK 99801' },
+  { abbr: 'AL', agent: 'CT Corporation System', address: '2 North Jackson Street, Suite 605, Montgomery, AL 36104' },
+  { abbr: 'AR', agent: 'The Corporation Company', address: '124 West Capitol Ave, Suite 1900, Little Rock, AR 72201' },
+  { abbr: 'AZ', agent: 'CT Corporation System', address: '3800 N. Central Avenue, Suite 460, Phoenix, AZ 85012' },
+  { abbr: 'CA', agent: 'CT Corporation System', address: '330 N. Brand Blvd., Suite 700, Glendale, CA 91203' },
+  { abbr: 'CO', agent: 'The Corporation Co.', address: '7700 E. Arapahoe Road, Suite 220, Centennial, CO 80112' },
+  { abbr: 'CT', agent: 'CT Corporation System', address: '67 Burnside Avenue, East Hartford, CT 06108' },
+  { abbr: 'DC', agent: 'CT Corporation System', address: '1015 15th Street, NW, Suite 1000, Washington, DC 20005' },
+  { abbr: 'DE', agent: 'The Corporation Trust Co.', address: '1209 Orange Street, Wilmington, DE 19801' },
+  { abbr: 'FL', agent: 'CT Corporation System', address: '1200 South Pine Island Road, Plantation, FL 33324' },
+  { abbr: 'GA', agent: 'CT Corporation System', address: '289 Culver Street, Lawrenceville, GA 30046' },
+  { abbr: 'HI', agent: 'The Corporation Co., Inc.', address: '1136 Union Mall, Suite 301, Honolulu, HI 96813' },
+  { abbr: 'IA', agent: 'CT Corporation System', address: '400 East Court Avenue, Des Moines, IA 50309' },
+  { abbr: 'ID', agent: 'CT Corporation System', address: '921 S. Orchard Street, Suite G, Boise, ID 83705' },
+  { abbr: 'IL', agent: 'CT Corporation System', address: '208 So. LaSalle Street, Suite 814, Chicago, IL 60604' },
+  { abbr: 'IN', agent: 'CT Corporation System', address: '334 North Senate Avenue, Indianapolis, IN 46204' },
+  { abbr: 'KS', agent: 'The Corporation Co., Inc.', address: '112 SW 7th Street, Suite 3C, Topeka, KS 66603' },
+  { abbr: 'KY', agent: 'CT Corporation System', address: '306 W. Main Street, Suite 512, Frankfort, KY 40601' },
+  { abbr: 'LA', agent: 'CT Corporation System', address: '3867 Plaza Tower Drive, Baton Rouge, LA 70816' },
+  { abbr: 'MA', agent: 'CT Corporation System', address: '155 Federal Street, Suite 700, Boston, MA 02110' },
+  { abbr: 'MD', agent: 'The Corporation Trust Inc.', address: '2405 York Road, Suite 201, Lutherville Timonium, MD 21093' },
+  { abbr: 'ME', agent: 'CT Corporation System', address: '128 State St #3, Augusta, ME 04330' },
+  { abbr: 'MI', agent: 'The Corporation Co.', address: '40600 Ann Arbor Road E, Suite 201, Plymouth, MI 48170' },
+  { abbr: 'MN', agent: 'CT Corporation System', address: '1010 Dale Street N, St. Paul, MN 55117' },
+  { abbr: 'MO', agent: 'CT Corporation System', address: '120 South Central Ave, Clayton, MO 63105' },
+  { abbr: 'MS', agent: 'CT Corporation System', address: '645 Lakeland East Drive, Suite 101, Flowood, MS 39232' },
+  { abbr: 'MT', agent: 'CT Corporation System', address: '3011 American Way, Missoula, MT 59808' },
+  { abbr: 'NC', agent: 'CT Corporation System', address: '160 Mine Lake CT, Suite 200, Raleigh, NC 27615' },
+  { abbr: 'ND', agent: 'CT Corporation System', address: '120 W Sweet Avenue, Bismarck, ND 58504' },
+  { abbr: 'NE', agent: 'CT Corporation System', address: '5601 South 59th Street, Lincoln, NE 68516' },
+  { abbr: 'NH', agent: 'CT Corporation System', address: '2 ½ Beacon Street, Concord, NH 03301' },
+  { abbr: 'NJ', agent: 'The Corporation Trust Co.', address: '820 Bear Tavern Road, West Trenton, NJ 08628' },
+  { abbr: 'NM', agent: 'CT Corporation System', address: '206 S. Coronado Avenue, Espanola, NM 87532' },
+  { abbr: 'NV', agent: 'The Corporation Trust Co. of Nevada', address: '701 S. Carson Street, Suite 200, Carson City, NV 89701' },
+  { abbr: 'NY', agent: 'CT Corporation System', address: '28 Liberty Street, New York, NY 10005' },
+  { abbr: 'OH', agent: 'CT Corporation System', address: '4400 Easton Commons Way, Suite 125, Columbus, OH 43219' },
+  { abbr: 'OK', agent: 'The Corporation Company', address: '1833 South Morgan Road, Oklahoma City, OK 73128' },
+  { abbr: 'OR', agent: 'CT Corporation System', address: '780 Commercial Street SE, Suite 100, Salem, OR 97301' },
+  { abbr: 'PA', agent: 'CT Corporation System', address: '600 N. 2nd Street, Suite 401, Harrisburg, PA 17101' },
+  { abbr: 'PR', agent: 'CT Corporation', address: '361 San Francisco Street, Penthouse, Old San Juan, PR 00901' },
+  { abbr: 'RI', agent: 'CT Corporation System', address: '450 Veterans Memorial Highway, Suite 7A, East Providence, RI 02914' },
+  { abbr: 'SC', agent: 'CT Corporation System', address: '2 Office Park Court, Suite 103, Columbia, SC 29223' },
+  { abbr: 'SD', agent: 'CT Corporation System', address: '319 South Coteau Street, Pierre, SD 57501' },
+  { abbr: 'TN', agent: 'CT Corporation System', address: '300 Montvue Road, Knox County, Knoxville, TN 37919' },
+  { abbr: 'TX', agent: 'CT Corporation System', address: '1999 Bryan Street, Suite 900, Dallas, TX 75201' },
+  { abbr: 'UT', agent: 'CT Corporation System', address: '1108 East South Union Avenue, Midvale, UT 84047' },
+  { abbr: 'VA', agent: 'CT Corporation System', address: '4701 Cox Road, Suite 285, Glen Allen, VA 23060' },
+  { abbr: 'VI', agent: 'CT Corporation System', address: 'Trident Trust Company (V.I.) Ltd, Waterfront Center, Suite A, 72 Kronprindsens Gade, St. Thomas, USVI 00802' },
+  { abbr: 'VT', agent: 'CT Corporation System', address: '17 G W Tatro Drive, Jeffersonville, VT 05464' },
+  { abbr: 'WA', agent: 'CT Corporation System', address: '711 Capitol Way S, Suite 204, Olympia, WA 98501' },
+  { abbr: 'WI', agent: 'CT Corporation System', address: '301 S. Bedford Street, Suite 1, Madison, WI 53703' },
+  { abbr: 'WV', agent: 'CT Corporation System', address: '1627 Quarrier Street, Charleston, WV 25311' },
+  { abbr: 'WY', agent: 'CT Corporation System', address: '1908 Thomas Avenue, Cheyenne, WY 82001' },
 ];
 
 // ============================================================================
@@ -285,7 +439,8 @@ function LegalEntitiesTable({ searchQuery }: { searchQuery: string }) {
     return legalEntities.filter(
       (entity) =>
         entity.entity.toLowerCase().includes(query) ||
-        entity.state.toLowerCase().includes(query)
+        entity.states.some((state) => state.toLowerCase().includes(query)) ||
+        (entity.fallbackState && entity.fallbackState.toLowerCase().includes(query))
     );
   }, [searchQuery]);
 
@@ -299,7 +454,7 @@ function LegalEntitiesTable({ searchQuery }: { searchQuery: string }) {
                 Legal Entity
               </th>
               <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
-                Default Service State
+                CT Corporation within the state served
               </th>
             </tr>
           </thead>
@@ -316,11 +471,25 @@ function LegalEntitiesTable({ searchQuery }: { searchQuery: string }) {
                   key={entity.entity}
                   className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}
                 >
-                  <td className="px-6 py-4 text-sm text-gray-900">{entity.entity}</td>
+                  <td className="px-6 py-4 text-sm font-medium text-gray-900">
+                    {entity.entity}
+                  </td>
                   <td className="px-6 py-4">
-                    <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
-                      {entity.state}
-                    </span>
+                    <div className="flex flex-wrap gap-1">
+                      {entity.states.map((state) => (
+                        <span
+                          key={state}
+                          className="inline-flex items-center rounded bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-800"
+                        >
+                          {state}
+                        </span>
+                      ))}
+                    </div>
+                    {entity.fallbackNote && (
+                      <p className="mt-2 text-xs text-gray-500 italic">
+                        {entity.fallbackNote}
+                      </p>
+                    )}
                   </td>
                 </tr>
               ))
@@ -341,8 +510,8 @@ function CTLocationsTable({ searchQuery }: { searchQuery: string }) {
     const query = searchQuery.toLowerCase();
     return ctLocations.filter(
       (location) =>
-        location.state.toLowerCase().includes(query) ||
         location.abbr.toLowerCase().includes(query) ||
+        location.agent.toLowerCase().includes(query) ||
         location.address.toLowerCase().includes(query)
     );
   }, [searchQuery]);
@@ -357,14 +526,17 @@ function CTLocationsTable({ searchQuery }: { searchQuery: string }) {
                 State
               </th>
               <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
-                CT Corporation Address
+                Agent
+              </th>
+              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
+                Address
               </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
             {filteredLocations.length === 0 ? (
               <tr>
-                <td colSpan={2} className="px-6 py-8 text-center text-gray-500">
+                <td colSpan={3} className="px-6 py-8 text-center text-gray-500">
                   No locations found matching &quot;{searchQuery}&quot;
                 </td>
               </tr>
@@ -380,6 +552,7 @@ function CTLocationsTable({ searchQuery }: { searchQuery: string }) {
                       <span className="font-medium text-gray-900">{location.abbr}</span>
                     </span>
                   </td>
+                  <td className="px-6 py-4 text-sm text-gray-600">{location.agent}</td>
                   <td className="px-6 py-4 text-sm text-gray-600">{location.address}</td>
                 </tr>
               ))
