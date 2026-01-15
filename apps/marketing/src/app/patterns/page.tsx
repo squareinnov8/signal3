@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight, Layout, CreditCard, Layers, SplitSquareHorizontal, Navigation } from 'lucide-react';
+import { ArrowRight, Layout, CreditCard, Layers, SplitSquareHorizontal, Navigation, Building2, FileText } from 'lucide-react';
 
 const patterns = [
   {
@@ -94,6 +94,64 @@ export default function PatternsPage() {
             </Link>
           ))}
         </div>
+
+        {/* Use Cases Section */}
+        <section className="mt-16">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900">Use Cases</h2>
+              <p className="mt-2 text-gray-600">
+                Complete page recreations demonstrating patterns in real-world scenarios.
+              </p>
+            </div>
+            <Link
+              href="/patterns/use-cases"
+              className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700"
+            >
+              View all use cases
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+
+          <div className="mt-8">
+            <Link
+              href="/patterns/use-cases/att-garnishments"
+              className="group flex flex-col rounded-2xl border border-gray-200 bg-white p-8 transition-all hover:border-blue-200 hover:shadow-lg sm:flex-row sm:items-center sm:gap-8"
+            >
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                <Building2 className="h-8 w-8" />
+              </div>
+              <div className="mt-4 flex-1 sm:mt-0">
+                <div className="flex items-center gap-2">
+                  <h3 className="text-xl font-semibold text-gray-900">AT&T Garnishments Service</h3>
+                  <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
+                    New
+                  </span>
+                </div>
+                <p className="mt-2 text-gray-600">
+                  A reference page for proper service of legal garnishments to AT&T entities through CT Corporation.
+                  Features searchable data tables with filtering.
+                </p>
+                <div className="mt-4 flex items-center gap-4">
+                  <span className="inline-flex items-center gap-1 text-xs text-gray-500">
+                    <FileText className="h-3 w-3" />
+                    Source: attgarnishments.com
+                  </span>
+                  <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
+                    Legal
+                  </span>
+                  <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
+                    Data Table
+                  </span>
+                  <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
+                    Search
+                  </span>
+                </div>
+              </div>
+              <ArrowRight className="hidden h-5 w-5 text-gray-400 transition-transform group-hover:translate-x-1 group-hover:text-blue-600 sm:block" />
+            </Link>
+          </div>
+        </section>
 
         {/* Usage Guidelines */}
         <section className="mt-16">
