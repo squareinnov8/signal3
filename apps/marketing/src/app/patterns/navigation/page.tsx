@@ -38,7 +38,7 @@ function MarketplaceHeader() {
 
   return (
     <header className="w-full bg-white shadow-sm">
-      <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <nav className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <Link href="/" className="flex-shrink-0">
           <span className="text-2xl font-bold tracking-tight text-primary-600">
@@ -46,14 +46,14 @@ function MarketplaceHeader() {
           </span>
         </Link>
 
-        {/* Desktop Navigation */}
+        {/* Desktop Navigation - Blue themed links */}
         <div className="hidden items-center gap-1 lg:flex">
           {/* Solutions Dropdown */}
           <div className="relative">
             <button
               onClick={() => setActiveSolutionsDropdown(!activeSolutionsDropdown)}
               onBlur={() => setTimeout(() => setActiveSolutionsDropdown(false), 200)}
-              className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-gray-600 transition-colors hover:text-primary-600"
+              className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-blue-600 transition-colors hover:text-blue-800"
             >
               Solutions
               <ChevronDown className={`h-4 w-4 transition-transform ${activeSolutionsDropdown ? 'rotate-180' : ''}`} />
@@ -65,7 +65,7 @@ function MarketplaceHeader() {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary-600"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600"
                   >
                     {item.name}
                   </Link>
@@ -74,29 +74,29 @@ function MarketplaceHeader() {
             )}
           </div>
 
-          {/* Static Links */}
+          {/* Static Links - Blue with blue underline for active */}
           <Link
             href="#"
-            className="border-b-2 border-primary-600 px-4 py-2 text-sm font-medium text-primary-600"
+            className="border-b-2 border-blue-600 px-4 py-2 text-sm font-medium text-blue-600"
           >
             Products
           </Link>
           <Link
             href="#"
-            className="px-4 py-2 text-sm font-medium text-gray-600 transition-colors hover:text-primary-600"
+            className="px-4 py-2 text-sm font-medium text-blue-600 transition-colors hover:text-blue-800"
           >
             Get Started
           </Link>
           <Link
             href="#"
-            className="px-4 py-2 text-sm font-medium text-gray-600 transition-colors hover:text-primary-600"
+            className="px-4 py-2 text-sm font-medium text-blue-600 transition-colors hover:text-blue-800"
           >
             Contact Us
           </Link>
         </div>
 
         {/* Desktop Right Actions */}
-        <div className="hidden items-center gap-2 lg:flex">
+        <div className="hidden items-center gap-3 lg:flex">
           <button className="rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700">
             <ShoppingCart className="h-5 w-5" />
           </button>
@@ -135,7 +135,7 @@ function MarketplaceHeader() {
                 </Link>
               ))}
             </div>
-            <Link href="#" className="block rounded-lg px-3 py-2 text-sm font-medium text-primary-600">
+            <Link href="#" className="block rounded-lg px-3 py-2 text-sm font-medium text-blue-600">
               Products
             </Link>
             <Link href="#" className="block rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-50">
@@ -265,6 +265,47 @@ function MarketplaceFooter() {
 }
 
 // ============================================
+// ICON WITH BADGE COMPONENT
+// ============================================
+function IconWithBadge({
+  children,
+  count,
+  showBadge = true
+}: {
+  children: React.ReactNode;
+  count?: number;
+  showBadge?: boolean;
+}) {
+  return (
+    <span className="relative inline-flex">
+      {children}
+      {showBadge && (
+        <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-orange-500 text-[10px] font-bold text-white">
+          {count !== undefined ? (count > 9 ? '9+' : count) : ''}
+        </span>
+      )}
+    </span>
+  );
+}
+
+// ============================================
+// USER AVATAR COMPONENT
+// ============================================
+function UserAvatar({ initials = 'JD', imageUrl }: { initials?: string; imageUrl?: string }) {
+  return (
+    <div className="relative h-8 w-8 overflow-hidden rounded-full bg-gradient-to-br from-blue-500 to-blue-600">
+      {imageUrl ? (
+        <Image src={imageUrl} alt="User avatar" fill className="object-cover" />
+      ) : (
+        <span className="flex h-full w-full items-center justify-center text-xs font-semibold text-white">
+          {initials}
+        </span>
+      )}
+    </div>
+  );
+}
+
+// ============================================
 // DEVELOPER HEADER VARIANT (with sub-navigation)
 // ============================================
 function DeveloperHeader() {
@@ -292,18 +333,26 @@ function DeveloperHeader() {
               API Documentation
             </Link>
           </div>
-          <div className="flex items-center gap-4">
-            <button className="rounded p-1 text-gray-400 hover:text-white">
-              <Grid3X3 className="h-4 w-4" />
+          <div className="flex items-center gap-3">
+            {/* App Switcher */}
+            <button className="rounded p-1.5 text-gray-400 hover:bg-gray-800 hover:text-white">
+              <Grid3X3 className="h-5 w-5" />
             </button>
-            <button className="rounded p-1 text-gray-400 hover:text-white">
-              <Bell className="h-4 w-4" />
+            {/* Notifications with badge */}
+            <button className="rounded p-1.5 text-gray-400 hover:bg-gray-800 hover:text-white">
+              <IconWithBadge count={3}>
+                <Bell className="h-5 w-5" />
+              </IconWithBadge>
             </button>
-            <button className="rounded p-1 text-gray-400 hover:text-white">
-              <ShoppingCart className="h-4 w-4" />
+            {/* Cart with badge */}
+            <button className="rounded p-1.5 text-gray-400 hover:bg-gray-800 hover:text-white">
+              <IconWithBadge count={2}>
+                <ShoppingCart className="h-5 w-5" />
+              </IconWithBadge>
             </button>
-            <button className="rounded-full p-1 text-gray-400 hover:text-white">
-              <User className="h-4 w-4" />
+            {/* User Avatar */}
+            <button className="ml-1">
+              <UserAvatar initials="JD" />
             </button>
           </div>
         </div>
@@ -311,7 +360,7 @@ function DeveloperHeader() {
 
       {/* Main navigation */}
       <header className="w-full bg-white shadow-sm">
-        <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <nav className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           {/* Logo */}
           <Link href="/" className="flex-shrink-0">
             <span className="text-2xl font-bold tracking-tight text-primary-600">
@@ -319,14 +368,14 @@ function DeveloperHeader() {
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation - Blue themed links */}
           <div className="hidden items-center gap-1 lg:flex">
             {/* Solutions Dropdown */}
             <div className="relative">
               <button
                 onClick={() => setActiveSolutionsDropdown(!activeSolutionsDropdown)}
                 onBlur={() => setTimeout(() => setActiveSolutionsDropdown(false), 200)}
-                className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-gray-600 transition-colors hover:text-primary-600"
+                className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-blue-600 transition-colors hover:text-blue-800"
               >
                 Solutions
                 <ChevronDown className={`h-4 w-4 transition-transform ${activeSolutionsDropdown ? 'rotate-180' : ''}`} />
@@ -338,7 +387,7 @@ function DeveloperHeader() {
                     <Link
                       key={item.name}
                       href={item.href}
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary-600"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600"
                     >
                       {item.name}
                     </Link>
@@ -347,39 +396,29 @@ function DeveloperHeader() {
               )}
             </div>
 
-            {/* Static Links */}
+            {/* Static Links - Blue with blue underline for active */}
             <Link
               href="#"
-              className="border-b-2 border-primary-600 px-4 py-2 text-sm font-medium text-primary-600"
+              className="border-b-2 border-blue-600 px-4 py-2 text-sm font-medium text-blue-600"
             >
               Products
             </Link>
             <Link
               href="#"
-              className="px-4 py-2 text-sm font-medium text-gray-600 transition-colors hover:text-primary-600"
+              className="px-4 py-2 text-sm font-medium text-blue-600 transition-colors hover:text-blue-800"
             >
               Get Started
             </Link>
             <Link
               href="#"
-              className="px-4 py-2 text-sm font-medium text-gray-600 transition-colors hover:text-primary-600"
+              className="px-4 py-2 text-sm font-medium text-blue-600 transition-colors hover:text-blue-800"
             >
               Contact Us
             </Link>
           </div>
 
-          {/* Desktop Right Actions */}
-          <div className="hidden items-center gap-2 lg:flex">
-            <button className="rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700">
-              <ShoppingCart className="h-5 w-5" />
-            </button>
-            <Link
-              href="#"
-              className="rounded-lg bg-primary-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary-700"
-            >
-              Sign up
-            </Link>
-          </div>
+          {/* Empty div for spacing on desktop (icons are in top bar) */}
+          <div className="hidden lg:block" />
 
           {/* Mobile menu button */}
           <button
@@ -408,7 +447,7 @@ function DeveloperHeader() {
                   </Link>
                 ))}
               </div>
-              <Link href="#" className="block rounded-lg px-3 py-2 text-sm font-medium text-primary-600">
+              <Link href="#" className="block rounded-lg px-3 py-2 text-sm font-medium text-blue-600">
                 Products
               </Link>
               <Link href="#" className="block rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-50">
@@ -712,10 +751,12 @@ export default function NavigationPatternsPage() {
               <h3 className="font-semibold text-green-900">Do</h3>
               <ul className="mt-4 space-y-2 text-sm text-green-800">
                 <li>Use the primary red color (#9e1b32) for the Equifax logo</li>
+                <li>Use blue (#007298) for navigation link text</li>
+                <li>Show active nav state with blue bottom border</li>
+                <li>Add orange notification badges to cart/bell icons</li>
+                <li>Use circular avatar for logged-in user profile</li>
+                <li>Include app switcher (grid icon) in developer portal</li>
                 <li>Keep navigation items to 4-5 primary links maximum</li>
-                <li>Use dropdown menus for nested navigation (Solutions)</li>
-                <li>Show active state with bottom border, not background</li>
-                <li>Include mobile hamburger menu for responsive design</li>
                 <li>Use dark footer with gray-900 background</li>
               </ul>
             </div>
@@ -723,6 +764,8 @@ export default function NavigationPatternsPage() {
               <h3 className="font-semibold text-red-900">Don&apos;t</h3>
               <ul className="mt-4 space-y-2 text-sm text-red-800">
                 <li>Don&apos;t use custom colors for the logo</li>
+                <li>Don&apos;t use gray text for main navigation links</li>
+                <li>Don&apos;t omit notification badges when counts exist</li>
                 <li>Don&apos;t overcrowd the navigation with too many items</li>
                 <li>Don&apos;t use multi-level nested dropdowns</li>
                 <li>Don&apos;t hide the Sign up CTA on desktop</li>
