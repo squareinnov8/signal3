@@ -1,12 +1,13 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { Upload, File, CheckCircle, XCircle, Loader2 } from 'lucide-react';
+import { Upload, File, CheckCircle, XCircle, Loader2, ExternalLink } from 'lucide-react';
 
 interface UploadedFile {
   name: string;
   status: 'uploading' | 'success' | 'error';
   message?: string;
+  url?: string;
 }
 
 export default function IngestPage() {
@@ -33,7 +34,12 @@ export default function IngestPage() {
         setFiles(prev =>
           prev.map(f =>
             f.name === file.name
-              ? { ...f, status: response.ok ? 'success' : 'error', message: result.message }
+              ? {
+                  ...f,
+                  status: response.ok ? 'success' : 'error',
+                  message: result.message,
+                  url: result.url,
+                }
               : f
           )
         );
@@ -113,17 +119,29 @@ export default function IngestPage() {
                 key={`${file.name}-${index}`}
                 className="flex items-center gap-3 rounded-lg bg-gray-800 p-4"
               >
-                <File className="h-5 w-5 text-gray-400" />
-                <span className="flex-1 truncate text-sm text-gray-300">{file.name}</span>
+                <File className="h-5 w-5 shrink-0 text-gray-400" />
+                <div className="flex-1 min-w-0">
+                  <span className="block truncate text-sm text-gray-300">{file.name}</span>
+                  {file.url && (
+                    <a
+                      href={file.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1 text-xs text-primary-400 hover:text-primary-300"
+                    >
+                      View file <ExternalLink className="h-3 w-3" />
+                    </a>
+                  )}
+                </div>
                 {file.status === 'uploading' && (
-                  <Loader2 className="h-5 w-5 animate-spin text-primary-500" />
+                  <Loader2 className="h-5 w-5 shrink-0 animate-spin text-primary-500" />
                 )}
                 {file.status === 'success' && (
-                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <CheckCircle className="h-5 w-5 shrink-0 text-green-500" />
                 )}
                 {file.status === 'error' && (
                   <span title={file.message}>
-                    <XCircle className="h-5 w-5 text-red-500" />
+                    <XCircle className="h-5 w-5 shrink-0 text-red-500" />
                   </span>
                 )}
               </div>
