@@ -1,7 +1,14 @@
 import Link from 'next/link';
-import { ArrowRight, Layout, CreditCard, Layers, SplitSquareHorizontal } from 'lucide-react';
+import { ArrowRight, Layout, CreditCard, Layers, SplitSquareHorizontal, Navigation } from 'lucide-react';
 
 const patterns = [
+  {
+    title: 'Global Navigation',
+    description: 'Marketplace-style header, footer, and breadcrumb navigation components.',
+    href: '/patterns/navigation',
+    icon: Navigation,
+    variants: ['Marketplace Header', 'Developer Portal', 'Footer', 'Breadcrumb'],
+  },
   {
     title: 'Hero Sections',
     description: 'Full-width hero patterns with various button and image configurations for landing pages.',
