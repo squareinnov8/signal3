@@ -1,0 +1,127 @@
+---
+title: Button
+description: Buttons trigger actions and communicate what action will occur when the user interacts with them.
+status: stable
+package: signal3-web
+figmaLink: https://figma.com/...
+---
+
+import { Button } from '@signal3/web';
+
+## Overview
+
+Buttons are used to trigger actions and make choices with a single tap. They communicate actions that users can take and are typically placed in areas like dialogs, forms, cards, and toolbars.
+
+## Use Cases
+
+**When to use:**
+- Triggering form submissions
+- Navigating to a new page or view
+- Opening dialogs or modals
+- Confirming destructive actions
+
+**When NOT to use:**
+- For navigation that doesn't trigger an action (use Link instead)
+- When space is limited (consider IconButton)
+- For toggle states (use Switch or Checkbox)
+
+## Variants
+
+### Primary
+
+Use primary buttons for the main action on a page. There should typically only be one primary button visible at a time.
+
+```tsx
+<Button variant="primary">Get Started</Button>
+```
+
+### Secondary
+
+Secondary buttons are for actions that complement the primary action.
+
+```tsx
+<Button variant="secondary">Learn More</Button>
+```
+
+### Tertiary
+
+Tertiary buttons are for less prominent actions.
+
+```tsx
+<Button variant="tertiary">Cancel</Button>
+```
+
+### Destructive
+
+Use destructive buttons for actions that delete data or have irreversible consequences.
+
+```tsx
+<Button variant="destructive">Delete Account</Button>
+```
+
+## Sizes
+
+Buttons come in multiple sizes to fit different contexts.
+
+```tsx
+<Button size="sm">Small</Button>
+<Button size="md">Medium</Button>
+<Button size="lg">Large</Button>
+<Button size="xl">Extra Large</Button>
+<Button size="2xl">2X Large</Button>
+```
+
+## With Icons
+
+Buttons can include icons to reinforce the action.
+
+```tsx
+import { ArrowRight, Plus } from 'lucide-react';
+
+<Button leftIcon={<Plus />}>Add Item</Button>
+<Button rightIcon={<ArrowRight />}>Continue</Button>
+```
+
+## Loading State
+
+Show a loading spinner when the button action is processing.
+
+```tsx
+<Button isLoading>Processing...</Button>
+```
+
+## Disabled State
+
+Disable buttons when the action is not available.
+
+```tsx
+<Button disabled>Not Available</Button>
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| variant | `'primary' \| 'secondary' \| 'tertiary' \| 'destructive' \| 'ghost' \| 'link'` | `'primary'` | Visual style of the button |
+| size | `'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl' \| 'icon'` | `'md'` | Size of the button |
+| isLoading | `boolean` | `false` | Shows loading spinner |
+| leftIcon | `ReactNode` | - | Icon before text |
+| rightIcon | `ReactNode` | - | Icon after text |
+| disabled | `boolean` | `false` | Disables the button |
+
+## Accessibility
+
+- Buttons have appropriate ARIA roles and states
+- Focus is visually indicated with a ring
+- Loading state is announced to screen readers
+- Disabled buttons are not focusable
+- Color contrast meets WCAG 2.1 AA standards
+
+## Keyboard Navigation
+
+| Key | Action |
+|-----|--------|
+| `Enter` | Activates the button |
+| `Space` | Activates the button |
+| `Tab` | Moves focus to next element |
+| `Shift + Tab` | Moves focus to previous element |

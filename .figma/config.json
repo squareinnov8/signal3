@@ -1,0 +1,31 @@
+{
+  "$schema": "./config.schema.json",
+  "figmaFileId": "YOUR_FIGMA_FILE_ID_HERE",
+  "figmaAccessToken": "${FIGMA_ACCESS_TOKEN}",
+  "tokensPath": ".figma/tokens.json",
+  "outputPaths": {
+    "css": "packages/signal3-core/src/tokens/variables.css",
+    "tailwind": "packages/signal3-core/src/tokens/tailwind.tokens.js",
+    "json": "packages/signal3-core/src/tokens/tokens.json",
+    "typescript": "packages/signal3-core/src/tokens/generated.ts"
+  },
+  "tokenSets": [
+    "global",
+    "equifax/light",
+    "equifax/dark"
+  ],
+  "transforms": {
+    "colors": {
+      "format": "hex",
+      "includeAlpha": true
+    },
+    "spacing": {
+      "unit": "rem",
+      "baseSize": 16
+    },
+    "typography": {
+      "fontSizeUnit": "rem",
+      "lineHeightUnit": "unitless"
+    }
+  }
+}
