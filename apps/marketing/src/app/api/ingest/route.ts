@@ -1,38 +1,45 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { put } from '@vercel/blob';
+import { handleUpload, type HandleUploadBody } from '@vercel/blob/client';
 
 export async function POST(request: NextRequest) {
+  const body = (await request.json()) as HandleUploadBody;
+
   try {
-    const formData = await request.formData();
-    const file = formData.get('file') as File | null;
-
-    if (!file) {
-      return NextResponse.json(
-        { success: false, message: 'No file provided' },
-        { status: 400 }
-      );
-    }
-
-    // Generate unique filename with timestamp
-    const timestamp = Date.now();
-    const sanitizedName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
-    const filename = `ingest/${timestamp}_${sanitizedName}`;
-
-    // Upload to Vercel Blob
-    const blob = await put(filename, file, {
-      access: 'public',
+    const jsonResponse = await handleUpload({
+      body,
+      request,
+      onBeforeGenerateToken: async () => {
+        // Authenticate user here if needed
+        return {
+          allowedContentTypes: [
+            'image/jpeg',
+            'image/png',
+            'image/gif',
+            'image/svg+xml',
+            'image/webp',
+            'application/pdf',
+            'application/zip',
+            'application/x-zip-compressed',
+            'application/octet-stream',
+            'text/plain',
+            'text/csv',
+            'application/json',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          ],
+          tokenPayload: JSON.stringify({}),
+        };
+      },
+      onUploadCompleted: async ({ blob }) => {
+        console.log('Upload completed:', blob.url);
+      },
     });
 
-    return NextResponse.json({
-      success: true,
-      message: 'File uploaded successfully',
-      url: blob.url,
-      filename,
-    });
+    return NextResponse.json(jsonResponse);
   } catch (error) {
     console.error('Upload error:', error);
     return NextResponse.json(
-      { success: false, message: 'Upload failed' },
+      { error: 'Upload failed' },
       { status: 500 }
     );
   }

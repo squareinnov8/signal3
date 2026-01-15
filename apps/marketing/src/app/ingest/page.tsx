@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
+import { upload } from '@vercel/blob/client';
 import { Upload, File, CheckCircle, XCircle, Loader2, ExternalLink } from 'lucide-react';
 
 interface UploadedFile {
@@ -8,6 +9,7 @@ interface UploadedFile {
   status: 'uploading' | 'success' | 'error';
   message?: string;
   url?: string;
+  progress?: number;
 }
 
 export default function IngestPage() {
@@ -18,36 +20,36 @@ export default function IngestPage() {
     const newFiles = Array.from(fileList);
 
     for (const file of newFiles) {
-      setFiles(prev => [...prev, { name: file.name, status: 'uploading' }]);
+      const timestamp = Date.now();
+      const sanitizedName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+      const filename = `ingest/${timestamp}_${sanitizedName}`;
 
-      const formData = new FormData();
-      formData.append('file', file);
+      setFiles(prev => [...prev, { name: file.name, status: 'uploading', progress: 0 }]);
 
       try {
-        const response = await fetch('/api/ingest', {
-          method: 'POST',
-          body: formData,
+        const blob = await upload(filename, file, {
+          access: 'public',
+          handleUploadUrl: '/api/ingest',
         });
-
-        const result = await response.json();
 
         setFiles(prev =>
           prev.map(f =>
             f.name === file.name
               ? {
                   ...f,
-                  status: response.ok ? 'success' : 'error',
-                  message: result.message,
-                  url: result.url,
+                  status: 'success',
+                  message: 'Uploaded successfully',
+                  url: blob.url,
                 }
               : f
           )
         );
-      } catch {
+      } catch (error) {
+        console.error('Upload error:', error);
         setFiles(prev =>
           prev.map(f =>
             f.name === file.name
-              ? { ...f, status: 'error', message: 'Upload failed' }
+              ? { ...f, status: 'error', message: error instanceof Error ? error.message : 'Upload failed' }
               : f
           )
         );
@@ -80,6 +82,9 @@ export default function IngestPage() {
           <h1 className="text-2xl font-bold text-white">Asset Ingestion</h1>
           <p className="mt-2 text-gray-400">
             Upload files for consideration (zip, images, PDFs, etc.)
+          </p>
+          <p className="mt-1 text-xs text-gray-500">
+            Supports large files up to 500MB
           </p>
         </div>
 
@@ -132,6 +137,9 @@ export default function IngestPage() {
                       View file <ExternalLink className="h-3 w-3" />
                     </a>
                   )}
+                  {file.status === 'error' && file.message && (
+                    <span className="text-xs text-red-400">{file.message}</span>
+                  )}
                 </div>
                 {file.status === 'uploading' && (
                   <Loader2 className="h-5 w-5 shrink-0 animate-spin text-primary-500" />
@@ -140,9 +148,7 @@ export default function IngestPage() {
                   <CheckCircle className="h-5 w-5 shrink-0 text-green-500" />
                 )}
                 {file.status === 'error' && (
-                  <span title={file.message}>
-                    <XCircle className="h-5 w-5 shrink-0 text-red-500" />
-                  </span>
+                  <XCircle className="h-5 w-5 shrink-0 text-red-500" />
                 )}
               </div>
             ))}
