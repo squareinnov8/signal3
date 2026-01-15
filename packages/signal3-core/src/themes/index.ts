@@ -8,12 +8,16 @@ import { shadows } from '../tokens/shadows';
 import { radii } from '../tokens/radii';
 
 // Base theme type
-export interface Signal3Theme {
+export interface Signal3BaseTheme {
   name: string;
   displayName: string;
   colors: {
     primary: typeof colors.primary;
-    secondary: typeof colors.secondary;
+    blue: typeof colors.blue;
+    green: typeof colors.green;
+    orange: typeof colors.orange;
+    yellow: typeof colors.yellow;
+    purple: typeof colors.purple;
     gray: typeof colors.gray;
     success: typeof colors.success;
     warning: typeof colors.warning;
@@ -59,21 +63,25 @@ export interface Signal3Theme {
 // ============================================
 // EQUIFAX DEFAULT THEME (Light)
 // ============================================
-export const equifaxLight: Signal3Theme = {
+export const equifaxLight: Signal3BaseTheme = {
   name: 'equifax-light',
   displayName: 'Equifax Light',
   colors: {
     primary: colors.primary,
-    secondary: colors.secondary,
+    blue: colors.blue,
+    green: colors.green,
+    orange: colors.orange,
+    yellow: colors.yellow,
+    purple: colors.purple,
     gray: colors.gray,
     success: colors.success,
     warning: colors.warning,
     error: colors.error,
-    brand: colors.primary[600],
+    brand: colors.primary[600], // Equifax Red
     brandDark: colors.primary[800],
     brandLight: colors.primary[100],
     textPrimary: colors.gray[900],
-    textSecondary: colors.gray[600],
+    textSecondary: colors.gray[500], // Equifax Gray
     bgPrimary: '#FFFFFF',
     bgSecondary: colors.gray[50],
   },
@@ -108,12 +116,16 @@ export const equifaxLight: Signal3Theme = {
 // ============================================
 // EQUIFAX DARK THEME
 // ============================================
-export const equifaxDark: Signal3Theme = {
+export const equifaxDark: Signal3BaseTheme = {
   name: 'equifax-dark',
   displayName: 'Equifax Dark',
   colors: {
     primary: colors.primary,
-    secondary: colors.secondary,
+    blue: colors.blue,
+    green: colors.green,
+    orange: colors.orange,
+    yellow: colors.yellow,
+    purple: colors.purple,
     gray: colors.gray,
     success: colors.success,
     warning: colors.warning,
@@ -157,7 +169,7 @@ export const equifaxDark: Signal3Theme = {
 // ============================================
 // SUBTHEME: Rounded (More playful/friendly)
 // ============================================
-export const equifaxRounded: Signal3Theme = {
+export const equifaxRounded: Signal3BaseTheme = {
   ...equifaxLight,
   name: 'equifax-rounded',
   displayName: 'Equifax Rounded',
@@ -184,7 +196,7 @@ export const equifaxRounded: Signal3Theme = {
 // ============================================
 // SUBTHEME: Sharp (More corporate/serious)
 // ============================================
-export const equifaxSharp: Signal3Theme = {
+export const equifaxSharp: Signal3BaseTheme = {
   ...equifaxLight,
   name: 'equifax-sharp',
   displayName: 'Equifax Sharp',
@@ -211,7 +223,7 @@ export const equifaxSharp: Signal3Theme = {
 // ============================================
 // SUBTHEME: High Contrast (Accessibility)
 // ============================================
-export const equifaxHighContrast: Signal3Theme = {
+export const equifaxHighContrast: Signal3BaseTheme = {
   ...equifaxLight,
   name: 'equifax-high-contrast',
   displayName: 'Equifax High Contrast',
@@ -255,9 +267,9 @@ export const defaultTheme = equifaxLight;
  * Create a custom subtheme by extending a base theme
  */
 export function createSubtheme(
-  baseTheme: Signal3Theme,
-  overrides: Partial<Signal3Theme>
-): Signal3Theme {
+  baseTheme: Signal3BaseTheme,
+  overrides: Partial<Signal3BaseTheme>
+): Signal3BaseTheme {
   return {
     ...baseTheme,
     ...overrides,
@@ -269,13 +281,13 @@ export function createSubtheme(
       ...baseTheme.components,
       ...(overrides.components || {}),
     },
-  } as Signal3Theme;
+  } as Signal3BaseTheme;
 }
 
 /**
  * Generate CSS custom properties from a theme
  */
-export function generateThemeCSS(theme: Signal3Theme): string {
+export function generateThemeCSS(theme: Signal3BaseTheme): string {
   const lines: string[] = [];
 
   // Colors

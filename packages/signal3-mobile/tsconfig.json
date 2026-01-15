@@ -3,7 +3,8 @@
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src",
-    "jsx": "react-native"
+    "jsx": "react-native",
+    "incremental": false
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]

@@ -1,10 +1,11 @@
 // Typography Tokens
 // Based on Equifax brand typography guidelines
+// Primary font: Open Sans (Google Fonts)
 
 export const fontFamilies = {
-  display: '"Equifax Sans", ui-sans-serif, system-ui, sans-serif',
-  body: '"Equifax Sans", ui-sans-serif, system-ui, sans-serif',
-  mono: '"JetBrains Mono", ui-monospace, monospace',
+  display: '"Open Sans", Arial, sans-serif',
+  body: '"Open Sans", Arial, sans-serif',
+  mono: '"Lucida Console", Courier, monospace',
 } as const;
 
 export const fontSizes = {

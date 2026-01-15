@@ -1,52 +1,66 @@
 'use client';
 
 import Link from 'next/link';
-import { Palette, Type, Maximize, Moon, Layers, Grid3X3 } from 'lucide-react';
+import { Palette, Type, Maximize, Layers, Grid3X3, Eye, FileText, Sparkles } from 'lucide-react';
 
 const foundations = [
   {
     icon: Palette,
     name: 'Colors',
-    description: 'Brand colors, semantic colors, and color scales',
+    description: 'Equifax brand colors, semantic colors, and color scales',
     href: '/foundations/colors',
   },
   {
     icon: Type,
     name: 'Typography',
-    description: 'Font families, sizes, weights, and text styles',
+    description: 'Open Sans typeface, sizes, weights, and text styles',
     href: '/foundations/typography',
+  },
+  {
+    icon: Eye,
+    name: 'Accessibility',
+    description: 'WCAG 2.1 AA compliance guidelines and best practices',
+    href: '/foundations/accessibility',
+  },
+  {
+    icon: FileText,
+    name: 'Content Style',
+    description: 'Voice, tone, and writing guidelines',
+    href: '/foundations/content',
   },
   {
     icon: Maximize,
     name: 'Spacing',
     description: 'Consistent spacing scale for margins and padding',
     href: '/foundations/spacing',
+    comingSoon: true,
   },
   {
     icon: Layers,
     name: 'Shadows',
     description: 'Elevation and depth with shadow tokens',
     href: '/foundations/shadows',
+    comingSoon: true,
   },
   {
     icon: Grid3X3,
     name: 'Border Radius',
     description: 'Consistent rounding for UI elements',
     href: '/foundations/radii',
+    comingSoon: true,
   },
   {
-    icon: Moon,
-    name: 'Dark Mode',
-    description: 'Coming soon - Dark theme tokens',
-    href: '/foundations/dark-mode',
-    comingSoon: true,
+    icon: Sparkles,
+    name: 'Design Tokens',
+    description: 'Browse all design tokens',
+    href: '/foundations/tokens',
   },
 ];
 
-// Color preview data
+// Color preview data - Equifax brand colors
 const colorPreview = {
-  primary: ['#F5F8FF', '#EFF4FF', '#D1E0FF', '#B2CCFF', '#84ADFF', '#528BFF', '#2970FF', '#1849A9', '#155EEF', '#0C2B5E', '#0A1D3D', '#051024'],
-  gray: ['#FCFCFD', '#F9FAFB', '#F2F4F7', '#EAECF0', '#D0D5DD', '#98A2B3', '#667085', '#475467', '#344054', '#182230', '#101828', '#0C111D'],
+  primary: ['#FEF5F6', '#FDF2F4', '#FCE4E8', '#F9C8D0', '#F4A1AE', '#EC7085', '#D84560', '#9E1B32', '#8A1729', '#6E1221', '#520D18', '#3A0911'],
+  gray: ['#FCFCFD', '#F9FAFB', '#F2F4F6', '#E7E7E7', '#D0D4D8', '#A3AAAD', '#5B6771', '#4A545D', '#3A424A', '#2A3037', '#1A1E24', '#0D0F11'],
 };
 
 export default function FoundationsPage() {
@@ -97,15 +111,15 @@ export default function FoundationsPage() {
 
         {/* Color Preview */}
         <section className="mt-16">
-          <h2 className="text-2xl font-bold text-gray-900">Color System</h2>
+          <h2 className="text-2xl font-bold text-gray-900">Equifax Color System</h2>
           <p className="mt-2 text-gray-600">
-            A comprehensive color palette built for accessibility and brand consistency.
+            The official Equifax color palette built for accessibility and brand consistency.
           </p>
 
           <div className="mt-8 space-y-8">
-            {/* Primary */}
+            {/* Primary - Equifax Red */}
             <div>
-              <h3 className="text-sm font-semibold text-gray-700">Primary</h3>
+              <h3 className="text-sm font-semibold text-gray-700">Equifax Red (Primary)</h3>
               <div className="mt-3 flex overflow-hidden rounded-lg">
                 {colorPreview.primary.map((color, i) => (
                   <div

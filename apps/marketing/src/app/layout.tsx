@@ -1,12 +1,15 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Open_Sans } from 'next/font/google';
 import './globals.css';
 import { Navigation } from '@/components/layout/Navigation';
 import { Footer } from '@/components/layout/Footer';
 
-const inter = Inter({
+// Open Sans - Official Equifax brand typeface
+const openSans = Open_Sans({
   subsets: ['latin'],
-  variable: '--font-body',
+  variable: '--font-open-sans',
+  display: 'swap',
+  weight: ['400', '500', '600', '700'],
 });
 
 export const metadata: Metadata = {
@@ -22,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={openSans.variable}>
       <body className="min-h-screen bg-white font-body text-gray-900 antialiased">
         <Navigation />
         <main>{children}</main>

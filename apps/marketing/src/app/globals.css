@@ -4,9 +4,9 @@
 
 @layer base {
   :root {
-    --font-display: 'Inter', system-ui, sans-serif;
-    --font-body: 'Inter', system-ui, sans-serif;
-    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+    --font-display: 'Open Sans', Arial, sans-serif;
+    --font-body: 'Open Sans', Arial, sans-serif;
+    --font-mono: 'Lucida Console', Courier, monospace;
   }
 
   html {
@@ -36,7 +36,7 @@
   }
 
   .gradient-bg {
-    @apply bg-gradient-to-br from-primary-50 via-white to-secondary-50;
+    @apply bg-gradient-to-br from-primary-50 via-white to-blue-50;
   }
 }
 
