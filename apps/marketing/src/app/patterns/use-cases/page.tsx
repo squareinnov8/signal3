@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight, FileText, Building2 } from 'lucide-react';
+import { ArrowRight, FileText, Building2, Briefcase } from 'lucide-react';
 
 const useCases = [
   {
@@ -9,6 +9,14 @@ const useCases = [
     icon: Building2,
     tags: ['Legal', 'Data Table', 'Search'],
     sourceUrl: 'https://www.attgarnishments.com/',
+  },
+  {
+    title: "Employer's Edge",
+    description: 'Workforce solutions landing page showcasing unemployment cost control, I-9 management, and verification services.',
+    href: '/patterns/use-cases/employers-edge',
+    icon: Briefcase,
+    tags: ['Landing Page', 'Cards', 'CTA'],
+    sourceUrl: 'https://employersedge.com/',
   },
 ];
 

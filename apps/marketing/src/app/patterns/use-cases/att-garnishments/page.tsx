@@ -2,7 +2,6 @@
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import {
   Search,
   ExternalLink,
@@ -10,11 +9,6 @@ import {
   Building2,
   MapPin,
   ArrowRight,
-  ShoppingCart,
-  Bell,
-  User,
-  ChevronDown,
-  Menu,
 } from 'lucide-react';
 
 // ============================================================================
@@ -269,105 +263,18 @@ const ctLocations = [
 // COMPONENTS
 // ============================================================================
 
-function IconWithBadge({
-  children,
-  count,
-  showBadge = true,
-}: {
-  children: React.ReactNode;
-  count?: number;
-  showBadge?: boolean;
-}) {
-  return (
-    <span className="relative inline-flex">
-      {children}
-      {showBadge && (
-        <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-orange-500 text-[10px] font-bold text-white">
-          {count !== undefined ? (count > 9 ? '9+' : count) : ''}
-        </span>
-      )}
-    </span>
-  );
-}
-
-function MarketplaceHeader() {
-  return (
-    <header className="border-b border-gray-200 bg-white">
-      {/* Top bar */}
-      <div className="border-b border-gray-100 bg-gray-50">
-        <div className="container-marketing flex items-center justify-between py-2 text-sm">
-          <div className="flex items-center gap-4">
-            <span className="text-gray-600">For Business</span>
-            <span className="text-gray-600">Support</span>
-          </div>
-          <div className="flex items-center gap-4">
-            <span className="text-gray-600">1-888-722-1787</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Main navigation */}
-      <div className="container-marketing">
-        <div className="flex items-center justify-between py-4">
-          {/* Logo */}
-          <div className="flex items-center gap-8">
-            <Link href="/patterns/use-cases/att-garnishments" className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600">
-                <Building2 className="h-5 w-5 text-white" />
-              </div>
-              <span className="text-xl font-bold text-gray-900">AT&T Legal</span>
-            </Link>
-
-            {/* Primary nav */}
-            <nav className="hidden items-center gap-6 lg:flex">
-              <Link href="#entities" className="flex items-center gap-1 text-blue-600 hover:text-blue-700">
-                Legal Entities
-                <ChevronDown className="h-4 w-4" />
-              </Link>
-              <Link href="#locations" className="flex items-center gap-1 text-blue-600 hover:text-blue-700">
-                CT Locations
-                <ChevronDown className="h-4 w-4" />
-              </Link>
-              <Link
-                href="https://www.attgarnishments.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1 text-blue-600 hover:text-blue-700"
-              >
-                Original Site
-                <ExternalLink className="h-4 w-4" />
-              </Link>
-            </nav>
-          </div>
-
-          {/* Right side */}
-          <div className="flex items-center gap-4">
-            <button className="hidden rounded-lg p-2 text-gray-600 hover:bg-gray-100 lg:flex">
-              <Search className="h-5 w-5" />
-            </button>
-            <button className="rounded-lg p-2 text-gray-600 hover:bg-gray-100">
-              <IconWithBadge count={3}>
-                <Bell className="h-5 w-5" />
-              </IconWithBadge>
-            </button>
-            <button className="rounded-lg p-2 text-gray-600 hover:bg-gray-100">
-              <User className="h-5 w-5" />
-            </button>
-            <button className="rounded-lg p-2 text-gray-600 hover:bg-gray-100 lg:hidden">
-              <Menu className="h-5 w-5" />
-            </button>
-          </div>
-        </div>
-      </div>
-    </header>
-  );
-}
-
 function HeroSection() {
   return (
     <section className="bg-gradient-to-b from-blue-50 to-white py-16">
-      <div className="container-marketing">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
+          <Link
+            href="/patterns/use-cases"
+            className="mb-4 inline-flex items-center text-sm text-gray-600 hover:text-gray-900"
+          >
+            <ArrowRight className="mr-2 h-4 w-4 rotate-180" />
+            Back to Use Cases
+          </Link>
           <div className="inline-flex items-center gap-2 rounded-full bg-blue-100 px-4 py-2 text-sm font-medium text-blue-700">
             <Building2 className="h-4 w-4" />
             Legal Service Information
@@ -567,40 +474,6 @@ function CTLocationsTable({ searchQuery }: { searchQuery: string }) {
   );
 }
 
-function Footer() {
-  return (
-    <footer className="border-t border-gray-200 bg-gray-900 py-12">
-      <div className="container-marketing">
-        <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
-          <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600">
-              <Building2 className="h-5 w-5 text-white" />
-            </div>
-            <span className="text-lg font-bold text-white">AT&T Legal</span>
-          </div>
-          <p className="text-sm text-gray-400">
-            This is a Signal3 design system demonstration.{' '}
-            <a
-              href="https://www.attgarnishments.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-400 hover:text-blue-300"
-            >
-              View original site
-            </a>
-          </p>
-          <Link
-            href="/patterns/use-cases"
-            className="text-sm text-gray-400 hover:text-white"
-          >
-            Back to Use Cases
-          </Link>
-        </div>
-      </div>
-    </footer>
-  );
-}
-
 // ============================================================================
 // MAIN PAGE
 // ============================================================================
@@ -611,10 +484,9 @@ export default function ATTGarnishmentsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <MarketplaceHeader />
       <HeroSection />
 
-      <main className="container-marketing py-16">
+      <main className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         {/* Legal Entities Section */}
         <section id="entities" className="scroll-mt-24">
           <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -677,8 +549,6 @@ export default function ATTGarnishmentsPage() {
           </p>
         </section>
       </main>
-
-      <Footer />
     </div>
   );
 }
