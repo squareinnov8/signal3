@@ -3,22 +3,35 @@ import OpenAI from 'openai';
 import fs from 'fs';
 import path from 'path';
 
-// Initialize OpenAI client
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
-// Load knowledge base at startup
+// Lazy initialization to avoid build-time errors
+let openai: OpenAI | null = null;
 let knowledgeBase = '';
-try {
-  const knowledgePath = path.join(process.cwd(), 'src/data/aura-knowledge.md');
-  knowledgeBase = fs.readFileSync(knowledgePath, 'utf-8');
-} catch (error) {
-  console.error('Failed to load Aura knowledge base:', error);
+
+function getOpenAI() {
+  if (!openai) {
+    openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+  }
+  return openai;
 }
 
-// System prompt for Aura
-const SYSTEM_PROMPT = `You are Aura, the official conversational assistant for Signal3, Equifax's digital design system.
+function getKnowledgeBase() {
+  if (!knowledgeBase) {
+    try {
+      const knowledgePath = path.join(process.cwd(), 'src/data/aura-knowledge.md');
+      knowledgeBase = fs.readFileSync(knowledgePath, 'utf-8');
+    } catch (error) {
+      console.error('Failed to load Aura knowledge base:', error);
+      knowledgeBase = 'Knowledge base not available.';
+    }
+  }
+  return knowledgeBase;
+}
+
+// System prompt template for Aura
+function getSystemPrompt() {
+  return `You are Aura, the official conversational assistant for Signal3, Equifax's digital design system.
 
 ## Your Identity
 - Name: Aura
@@ -54,7 +67,7 @@ When you encounter ambiguity, conflict, or out-of-scope questions, respond with:
 "That decision isn't defined in the Signal3 knowledgebase. Please contact Rob Ramsay (rob.ramsay@equifax.com) from the UX&A Team for guidance."
 
 ## Knowledge Base
-${knowledgeBase}
+${getKnowledgeBase()}
 
 ## Response Guidelines
 1. Be factual and concise
@@ -62,6 +75,7 @@ ${knowledgeBase}
 3. Avoid speculation
 4. Escalate when uncertain
 5. Never claim to be human or a decision authority`;
+}
 
 interface Message {
   role: 'user' | 'assistant' | 'system';
@@ -88,14 +102,14 @@ export async function POST(request: NextRequest) {
 
     // Build conversation with system prompt
     const conversationMessages: Message[] = [
-      { role: 'system', content: SYSTEM_PROMPT },
+      { role: 'system', content: getSystemPrompt() },
       ...messages.map((msg: { role: string; content: string }) => ({
         role: msg.role as 'user' | 'assistant',
         content: msg.content,
       })),
     ];
 
-    const completion = await openai.chat.completions.create({
+    const completion = await getOpenAI().chat.completions.create({
       model: 'gpt-4o-mini',
       messages: conversationMessages,
       temperature: 0.3, // Lower temperature for more consistent, factual responses

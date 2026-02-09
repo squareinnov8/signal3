@@ -306,6 +306,70 @@ function UserAvatar({ initials = 'JD', imageUrl }: { initials?: string; imageUrl
 }
 
 // ============================================
+// ACCOUNT DROPDOWN COMPONENT
+// ============================================
+const accountMenuItems = [
+  { name: 'My Profile', href: '#' },
+  { name: 'Account Settings', href: '#' },
+  { name: 'Billing & Subscription', href: '#' },
+  { name: 'API Keys', href: '#' },
+  { name: 'Team Members', href: '#' },
+  { divider: true },
+  { name: 'Help Center', href: '#' },
+  { name: 'Documentation', href: '#' },
+  { divider: true },
+  { name: 'Sign Out', href: '#', danger: true },
+];
+
+function AccountDropdown() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="relative">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        onBlur={() => setTimeout(() => setIsOpen(false), 200)}
+        className="ml-1 flex items-center gap-2"
+      >
+        <UserAvatar initials="JD" />
+        <ChevronDown className={`h-4 w-4 text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+      </button>
+
+      {isOpen && (
+        <div className="absolute right-0 top-full z-50 mt-2 w-56 rounded-lg border border-gray-200 bg-white py-2 shadow-lg">
+          {/* User Info Header */}
+          <div className="border-b border-gray-100 px-4 pb-3 pt-1">
+            <p className="text-sm font-medium text-gray-900">John Doe</p>
+            <p className="text-xs text-gray-500">john.doe@company.com</p>
+          </div>
+
+          {/* Menu Items */}
+          <div className="py-1">
+            {accountMenuItems.map((item, index) =>
+              item.divider ? (
+                <div key={index} className="my-1 border-t border-gray-100" />
+              ) : (
+                <Link
+                  key={item.name}
+                  href={item.href || '#'}
+                  className={`block px-4 py-2 text-sm ${
+                    item.danger
+                      ? 'text-red-600 hover:bg-red-50'
+                      : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600'
+                  }`}
+                >
+                  {item.name}
+                </Link>
+              )
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ============================================
 // DEVELOPER HEADER VARIANT (with sub-navigation)
 // ============================================
 function DeveloperHeader() {
@@ -350,10 +414,8 @@ function DeveloperHeader() {
                 <ShoppingCart className="h-5 w-5" />
               </IconWithBadge>
             </button>
-            {/* User Avatar */}
-            <button className="ml-1">
-              <UserAvatar initials="JD" />
-            </button>
+            {/* User Account Dropdown */}
+            <AccountDropdown />
           </div>
         </div>
       </div>

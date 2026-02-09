@@ -1,8 +1,17 @@
 import Link from 'next/link';
-import { ArrowRight, FileText, Building2, Briefcase } from 'lucide-react';
+import { ArrowRight, FileText, Building2, Briefcase, Home } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 const useCases = [
+  {
+    title: 'Equifax.com Homepage',
+    description: 'Complete rebuild of the Equifax consumer homepage featuring navigation, hero, pricing cards, offers, and app promotion sections.',
+    href: '/patterns/use-cases/equifax-homepage',
+    icon: Home,
+    tags: ['Homepage', 'Pricing', 'Navigation', 'Hero'],
+    sourceUrl: 'https://www.equifax.com/',
+    featured: true,
+  },
   {
     title: 'AT&T Garnishments Service',
     description: 'A reference page for proper service of legal garnishments to AT&T entities through CT Corporation.',
@@ -47,13 +56,24 @@ export default function UseCasesPage() {
             <Link
               key={useCase.title}
               href={useCase.href}
-              className="group rounded-2xl border border-gray-200 bg-white p-8 transition-all hover:border-primary-200 hover:shadow-lg"
+              className={`group rounded-2xl border bg-white p-8 transition-all hover:shadow-lg ${
+                (useCase as any).featured
+                  ? 'border-primary-200 ring-2 ring-primary-100'
+                  : 'border-gray-200 hover:border-primary-200'
+              }`}
             >
               <div className="flex items-start justify-between">
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary-50 text-primary-600">
                   <useCase.icon className="h-6 w-6" />
                 </div>
-                <ArrowRight className="h-5 w-5 text-gray-400 transition-transform group-hover:translate-x-1 group-hover:text-primary-600" />
+                <div className="flex items-center gap-2">
+                  {(useCase as any).featured && (
+                    <span className="rounded-full bg-primary-600 px-2 py-0.5 text-xs font-medium text-white">
+                      Featured
+                    </span>
+                  )}
+                  <ArrowRight className="h-5 w-5 text-gray-400 transition-transform group-hover:translate-x-1 group-hover:text-primary-600" />
+                </div>
               </div>
 
               <h2 className="mt-6 text-xl font-semibold text-gray-900">

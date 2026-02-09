@@ -34,7 +34,7 @@ function IconWithBadge({
     <span className="relative inline-flex">
       {children}
       {showBadge && (
-        <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-orange-500 text-[10px] font-bold text-white">
+        <span className="absolute -right-1.5 -top-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-orange-500 text-[9px] font-bold text-white">
           {count !== undefined ? (count > 9 ? '9+' : count) : ''}
         </span>
       )}
@@ -44,13 +44,75 @@ function IconWithBadge({
 
 function UserAvatar({ initials = 'JD', imageUrl }: { initials?: string; imageUrl?: string }) {
   return (
-    <div className="relative h-8 w-8 overflow-hidden rounded-full bg-gradient-to-br from-blue-500 to-blue-600">
+    <div className="relative h-7 w-7 overflow-hidden rounded-full bg-gradient-to-br from-blue-500 to-blue-600">
       {imageUrl ? (
         <Image src={imageUrl} alt="User avatar" fill className="object-cover" />
       ) : (
-        <span className="flex h-full w-full items-center justify-center text-xs font-semibold text-white">
+        <span className="flex h-full w-full items-center justify-center text-[10px] font-semibold text-white">
           {initials}
         </span>
+      )}
+    </div>
+  );
+}
+
+// Account dropdown menu items
+const accountMenuItems = [
+  { name: 'My Profile', href: '#' },
+  { name: 'Account Settings', href: '#' },
+  { name: 'Billing & Subscription', href: '#' },
+  { name: 'API Keys', href: '#' },
+  { name: 'Team Members', href: '#' },
+  { divider: true },
+  { name: 'Help Center', href: '#' },
+  { name: 'Documentation', href: '#' },
+  { divider: true },
+  { name: 'Sign Out', href: '#', danger: true },
+];
+
+function AccountDropdown() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="relative flex items-center">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        onBlur={() => setTimeout(() => setIsOpen(false), 200)}
+        className="flex items-center gap-1.5 rounded p-1 hover:bg-gray-800"
+      >
+        <UserAvatar initials="S3" />
+        <ChevronDown className={`h-3 w-3 text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+      </button>
+
+      {isOpen && (
+        <div className="absolute right-0 top-full z-50 mt-2 w-56 rounded-lg border border-gray-200 bg-white py-2 shadow-lg">
+          {/* User Info Header */}
+          <div className="border-b border-gray-100 px-4 pb-3 pt-1">
+            <p className="text-sm font-medium text-gray-900">Sarah Johnson</p>
+            <p className="text-xs text-gray-500">sarah.johnson@equifax.com</p>
+          </div>
+
+          {/* Menu Items */}
+          <div className="py-1">
+            {accountMenuItems.map((item, index) =>
+              item.divider ? (
+                <div key={index} className="my-1 border-t border-gray-100" />
+              ) : (
+                <Link
+                  key={item.name}
+                  href={item.href || '#'}
+                  className={`block px-4 py-2 text-sm ${
+                    item.danger
+                      ? 'text-red-600 hover:bg-red-50'
+                      : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600'
+                  }`}
+                >
+                  {item.name}
+                </Link>
+              )
+            )}
+          </div>
+        </div>
       )}
     </div>
   );
@@ -76,7 +138,7 @@ export function Navigation() {
     <div className="sticky top-0 z-50 w-full">
       {/* Top dark bar for developer context */}
       <div className="bg-gray-900">
-        <div className="mx-auto flex h-10 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto flex h-11 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-4">
             <span className="text-sm font-medium text-white">Signal3</span>
             <span className="text-gray-600">|</span>
@@ -84,27 +146,25 @@ export function Navigation() {
               Documentation
             </Link>
           </div>
-          <div className="hidden items-center gap-3 sm:flex">
+          <div className="hidden items-center gap-2 sm:flex">
             {/* App Switcher */}
-            <button className="rounded p-1.5 text-gray-400 hover:bg-gray-800 hover:text-white">
-              <Grid3X3 className="h-5 w-5" />
+            <button className="flex items-center justify-center rounded p-2 text-gray-400 hover:bg-gray-800 hover:text-white">
+              <Grid3X3 className="h-4 w-4" />
             </button>
             {/* Notifications with badge */}
-            <button className="rounded p-1.5 text-gray-400 hover:bg-gray-800 hover:text-white">
+            <button className="flex items-center justify-center rounded p-2 text-gray-400 hover:bg-gray-800 hover:text-white">
               <IconWithBadge count={3}>
-                <Bell className="h-5 w-5" />
+                <Bell className="h-4 w-4" />
               </IconWithBadge>
             </button>
             {/* Cart with badge */}
-            <button className="rounded p-1.5 text-gray-400 hover:bg-gray-800 hover:text-white">
+            <button className="flex items-center justify-center rounded p-2 text-gray-400 hover:bg-gray-800 hover:text-white">
               <IconWithBadge count={2}>
-                <ShoppingCart className="h-5 w-5" />
+                <ShoppingCart className="h-4 w-4" />
               </IconWithBadge>
             </button>
-            {/* User Avatar */}
-            <button className="ml-1">
-              <UserAvatar initials="S3" />
-            </button>
+            {/* User Account Dropdown */}
+            <AccountDropdown />
           </div>
         </div>
       </div>

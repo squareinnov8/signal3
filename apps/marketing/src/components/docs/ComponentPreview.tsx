@@ -1,7 +1,21 @@
 'use client';
 
 import { useState } from 'react';
-import { ChevronDown, Search, Menu, Bell, User, Sun, Database, Shield, Building, Users, BarChart3, Zap, Puzzle, BookOpen, FileText, Video, Send, Sparkles, Check, CheckCheck, MessageCircle, X } from 'lucide-react';
+import { ChevronDown, Search, Menu, Bell, User, Sun, Database, Shield, Building, Users, BarChart3, Zap, Puzzle, BookOpen, FileText, Video, Send, Sparkles, Check, CheckCheck, MessageCircle, X, Settings, CreditCard, Key, HelpCircle, LogOut } from 'lucide-react';
+
+// Account dropdown menu items for navbar preview
+const accountMenuItems = [
+  { name: 'My Profile', href: '#', icon: User },
+  { name: 'Account Settings', href: '#', icon: Settings },
+  { name: 'Billing & Subscription', href: '#', icon: CreditCard },
+  { name: 'API Keys', href: '#', icon: Key },
+  { name: 'Team Members', href: '#', icon: Users },
+  { divider: true },
+  { name: 'Help Center', href: '#', icon: HelpCircle },
+  { name: 'Documentation', href: '#', icon: BookOpen },
+  { divider: true },
+  { name: 'Sign Out', href: '#', icon: LogOut, danger: true },
+];
 
 interface ComponentPreviewProps {
   componentName: string;
@@ -10,6 +24,7 @@ interface ComponentPreviewProps {
 export function ComponentPreview({ componentName }: ComponentPreviewProps) {
   const [variant, setVariant] = useState('simple');
   const [megamenuOpen, setMegamenuOpen] = useState(false);
+  const [accountDropdownOpen, setAccountDropdownOpen] = useState(false);
 
   // Render different previews based on component name
   const renderPreview = () => {
@@ -81,8 +96,49 @@ export function ComponentPreview({ componentName }: ComponentPreviewProps) {
                     </nav>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center">
-                      <User className="h-4 w-4 text-gray-600" />
+                    {/* Account Dropdown */}
+                    <div className="relative">
+                      <button
+                        onClick={() => setAccountDropdownOpen(!accountDropdownOpen)}
+                        className="flex items-center gap-1.5"
+                      >
+                        <div className="h-8 w-8 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
+                          <span className="text-xs font-semibold text-white">JD</span>
+                        </div>
+                        <ChevronDown className={`h-4 w-4 text-gray-400 transition-transform ${accountDropdownOpen ? 'rotate-180' : ''}`} />
+                      </button>
+
+                      {accountDropdownOpen && (
+                        <div className="absolute right-0 top-full z-50 mt-2 w-56 rounded-lg border border-gray-200 bg-white py-2 shadow-lg">
+                          {/* User Info Header */}
+                          <div className="border-b border-gray-100 px-4 pb-3 pt-1">
+                            <p className="text-sm font-medium text-gray-900">John Doe</p>
+                            <p className="text-xs text-gray-500">john.doe@company.com</p>
+                          </div>
+
+                          {/* Menu Items */}
+                          <div className="py-1">
+                            {accountMenuItems.map((item, index) =>
+                              item.divider ? (
+                                <div key={index} className="my-1 border-t border-gray-100" />
+                              ) : (
+                                <a
+                                  key={item.name}
+                                  href={item.href || '#'}
+                                  className={`flex items-center gap-2 px-4 py-2 text-sm ${
+                                    item.danger
+                                      ? 'text-red-600 hover:bg-red-50'
+                                      : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600'
+                                  }`}
+                                >
+                                  {item.icon && <item.icon className="h-4 w-4" />}
+                                  {item.name}
+                                </a>
+                              )
+                            )}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -169,8 +225,49 @@ export function ComponentPreview({ componentName }: ComponentPreviewProps) {
                       <Bell className="h-4 w-4" />
                       <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-error-500"></span>
                     </button>
-                    <div className="h-6 w-6 rounded-full bg-gray-700 flex items-center justify-center">
-                      <User className="h-3 w-3 text-gray-300" />
+                    {/* Account Dropdown */}
+                    <div className="relative">
+                      <button
+                        onClick={() => setAccountDropdownOpen(!accountDropdownOpen)}
+                        className="flex items-center gap-1.5"
+                      >
+                        <div className="h-6 w-6 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
+                          <span className="text-[10px] font-semibold text-white">JD</span>
+                        </div>
+                        <ChevronDown className={`h-3 w-3 text-gray-400 transition-transform ${accountDropdownOpen ? 'rotate-180' : ''}`} />
+                      </button>
+
+                      {accountDropdownOpen && (
+                        <div className="absolute right-0 top-full z-50 mt-2 w-56 rounded-lg border border-gray-200 bg-white py-2 shadow-lg">
+                          {/* User Info Header */}
+                          <div className="border-b border-gray-100 px-4 pb-3 pt-1">
+                            <p className="text-sm font-medium text-gray-900">John Doe</p>
+                            <p className="text-xs text-gray-500">john.doe@company.com</p>
+                          </div>
+
+                          {/* Menu Items */}
+                          <div className="py-1">
+                            {accountMenuItems.map((item, index) =>
+                              item.divider ? (
+                                <div key={index} className="my-1 border-t border-gray-100" />
+                              ) : (
+                                <a
+                                  key={item.name}
+                                  href={item.href || '#'}
+                                  className={`flex items-center gap-2 px-4 py-2 text-sm ${
+                                    item.danger
+                                      ? 'text-red-600 hover:bg-red-50'
+                                      : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600'
+                                  }`}
+                                >
+                                  {item.icon && <item.icon className="h-4 w-4" />}
+                                  {item.name}
+                                </a>
+                              )
+                            )}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
