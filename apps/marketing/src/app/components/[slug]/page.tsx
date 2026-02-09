@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { ChevronRight, ExternalLink, Figma, Bot, Sparkles } from 'lucide-react';
+import { ChevronRight, ExternalLink, Figma, Bot, Sparkles, Diamond } from 'lucide-react';
 import { ComponentPreview } from '@/components/docs/ComponentPreview';
 import { CodeBlock } from '@/components/docs/CodeBlock';
 import { PropsTable } from '@/components/docs/PropsTable';
@@ -108,6 +108,46 @@ const componentData: Record<string, any> = {
         'Full-width only in mobile viewports or card footers',
       ],
     } as AIDirective,
+    sitecoreUsage: {
+      templateFields: [
+        { name: 'Label', type: 'Single-Line Text', notes: 'Button display text' },
+        { name: 'Link', type: 'General Link', notes: 'Target URL and link attributes' },
+        { name: 'Variant', type: 'Single-Line Text', notes: 'primary | secondary | tertiary | destructive | ghost | link' },
+        { name: 'Size', type: 'Single-Line Text', notes: 'sm | md | lg | xl | 2xl' },
+        { name: 'Icon', type: 'Single-Line Text', notes: 'Lucide icon name (optional)' },
+      ],
+      code: `import { Text, useSitecoreContext } from '@sitecore-jss/sitecore-jss-nextjs';
+import { ComponentParams, ComponentRendering } from '@sitecore-jss/sitecore-jss-nextjs';
+import { Button } from '@signal3/web';
+
+type ButtonFields = {
+  Label: Field<string>;
+  Link: LinkField;
+  Variant: Field<string>;
+  Size: Field<string>;
+  Icon: Field<string>;
+};
+
+type ButtonProps = {
+  rendering: ComponentRendering;
+  params: ComponentParams;
+  fields: ButtonFields;
+};
+
+export const Signal3Button = ({ fields }: ButtonProps): JSX.Element => {
+  const variant = fields.Variant?.value || 'primary';
+  const size = fields.Size?.value || 'md';
+
+  return (
+    <JssLink field={fields.Link}>
+      <Button variant={variant} size={size}>
+        <Text field={fields.Label} />
+      </Button>
+    </JssLink>
+  );
+};`,
+      notes: 'Wrap Button in <JssLink> so authors control the destination URL. Use <Text> for editable label text in Experience Editor.',
+    },
   },
   badge: {
     name: 'Badge',
@@ -183,6 +223,43 @@ const componentData: Record<string, any> = {
         'Size sm for dense UIs, md for standard, lg for emphasis',
       ],
     } as AIDirective,
+    sitecoreUsage: {
+      templateFields: [
+        { name: 'Label', type: 'Single-Line Text', notes: 'Badge display text' },
+        { name: 'Variant', type: 'Single-Line Text', notes: 'gray | primary | error | warning | success' },
+        { name: 'Size', type: 'Single-Line Text', notes: 'sm | md | lg' },
+        { name: 'ShowDot', type: 'Checkbox', notes: 'Show dot indicator' },
+      ],
+      code: `import { Text } from '@sitecore-jss/sitecore-jss-nextjs';
+import { ComponentParams, ComponentRendering } from '@sitecore-jss/sitecore-jss-nextjs';
+import { Badge } from '@signal3/web';
+
+type BadgeFields = {
+  Label: Field<string>;
+  Variant: Field<string>;
+  Size: Field<string>;
+  ShowDot: Field<boolean>;
+};
+
+type BadgeProps = {
+  rendering: ComponentRendering;
+  params: ComponentParams;
+  fields: BadgeFields;
+};
+
+export const Signal3Badge = ({ fields }: BadgeProps): JSX.Element => {
+  return (
+    <Badge
+      variant={fields.Variant?.value || 'gray'}
+      size={fields.Size?.value || 'md'}
+      dot={fields.ShowDot?.value}
+    >
+      <Text field={fields.Label} />
+    </Badge>
+  );
+};`,
+      notes: 'Badge content is typically short (1-2 words). Variant values should be constrained via Sitecore field validation or a Droplist field.',
+    },
   },
   input: {
     name: 'Input',
@@ -261,6 +338,45 @@ const componentData: Record<string, any> = {
         'Group related inputs with consistent alignment',
       ],
     } as AIDirective,
+    sitecoreUsage: {
+      templateFields: [
+        { name: 'Label', type: 'Single-Line Text', notes: 'Label text above the input' },
+        { name: 'Placeholder', type: 'Single-Line Text', notes: 'Placeholder hint (e.g. "john@example.com")' },
+        { name: 'HintText', type: 'Single-Line Text', notes: 'Helper text below the input' },
+        { name: 'FieldName', type: 'Single-Line Text', notes: 'HTML name attribute for form submission' },
+        { name: 'IsRequired', type: 'Checkbox', notes: 'Marks the field as required' },
+      ],
+      code: `import { Text } from '@sitecore-jss/sitecore-jss-nextjs';
+import { ComponentParams, ComponentRendering } from '@sitecore-jss/sitecore-jss-nextjs';
+import { Input } from '@signal3/web';
+
+type InputFields = {
+  Label: Field<string>;
+  Placeholder: Field<string>;
+  HintText: Field<string>;
+  FieldName: Field<string>;
+  IsRequired: Field<boolean>;
+};
+
+type InputProps = {
+  rendering: ComponentRendering;
+  params: ComponentParams;
+  fields: InputFields;
+};
+
+export const Signal3Input = ({ fields }: InputProps): JSX.Element => {
+  return (
+    <Input
+      label={fields.Label?.value}
+      placeholder={fields.Placeholder?.value}
+      hint={fields.HintText?.value}
+      name={fields.FieldName?.value}
+      required={fields.IsRequired?.value}
+    />
+  );
+};`,
+      notes: 'For complex forms, consider Sitecore Forms module instead of individual Input components. Use this approach for simple CMS-driven fields like search bars or newsletter signups.',
+    },
   },
   card: {
     name: 'Card',
@@ -334,6 +450,56 @@ const componentData: Record<string, any> = {
         'Equal heights in grid rows for visual consistency',
       ],
     } as AIDirective,
+    sitecoreUsage: {
+      templateFields: [
+        { name: 'Title', type: 'Single-Line Text', notes: 'Card heading' },
+        { name: 'Description', type: 'Rich Text', notes: 'Card body content (supports HTML)' },
+        { name: 'Image', type: 'Image', notes: 'Card hero/thumbnail image' },
+        { name: 'Link', type: 'General Link', notes: 'Card CTA or clickable target' },
+        { name: 'Variant', type: 'Single-Line Text', notes: 'default | outlined | elevated' },
+      ],
+      code: `import { Text, RichText, JssImage, JssLink } from '@sitecore-jss/sitecore-jss-nextjs';
+import { ComponentParams, ComponentRendering } from '@sitecore-jss/sitecore-jss-nextjs';
+import { Card } from '@signal3/web';
+
+type CardFields = {
+  Title: Field<string>;
+  Description: Field<string>;
+  Image: ImageField;
+  Link: LinkField;
+  Variant: Field<string>;
+};
+
+type CardProps = {
+  rendering: ComponentRendering;
+  params: ComponentParams;
+  fields: CardFields;
+};
+
+export const Signal3Card = ({ fields }: CardProps): JSX.Element => {
+  return (
+    <Card variant={fields.Variant?.value || 'default'}>
+      {fields.Image?.value?.src && (
+        <JssImage field={fields.Image} className="w-full rounded-t-lg" />
+      )}
+      <div className="p-6">
+        <h3 className="text-lg font-semibold">
+          <Text field={fields.Title} />
+        </h3>
+        <div className="mt-2 text-gray-600">
+          <RichText field={fields.Description} />
+        </div>
+        {fields.Link?.value?.href && (
+          <JssLink field={fields.Link} className="mt-4 inline-block text-primary-600 hover:underline">
+            Learn more
+          </JssLink>
+        )}
+      </div>
+    </Card>
+  );
+};`,
+      notes: 'Use <RichText> for the description to allow content authors to format text in Experience Editor. <JssImage> supports responsive image parameters from Sitecore media library.',
+    },
   },
   avatar: {
     name: 'Avatar',
@@ -409,6 +575,44 @@ const componentData: Record<string, any> = {
         'Avatar groups: overlap by 25%, show +N for overflow',
       ],
     } as AIDirective,
+    sitecoreUsage: {
+      templateFields: [
+        { name: 'Image', type: 'Image', notes: 'Avatar photo from Sitecore media library' },
+        { name: 'Name', type: 'Single-Line Text', notes: 'Full name (used for alt text)' },
+        { name: 'Initials', type: 'Single-Line Text', notes: 'Fallback initials when no image (e.g. "JD")' },
+        { name: 'Size', type: 'Single-Line Text', notes: 'xs | sm | md | lg | xl | 2xl' },
+      ],
+      code: `import { ComponentParams, ComponentRendering } from '@sitecore-jss/sitecore-jss-nextjs';
+import { Avatar } from '@signal3/web';
+
+type AvatarFields = {
+  Image: ImageField;
+  Name: Field<string>;
+  Initials: Field<string>;
+  Size: Field<string>;
+};
+
+type AvatarProps = {
+  rendering: ComponentRendering;
+  params: ComponentParams;
+  fields: AvatarFields;
+};
+
+export const Signal3Avatar = ({ fields }: AvatarProps): JSX.Element => {
+  const imageSrc = fields.Image?.value?.src;
+  const name = fields.Name?.value || '';
+
+  return (
+    <Avatar
+      src={imageSrc}
+      alt={name}
+      fallback={fields.Initials?.value || name.charAt(0)}
+      size={fields.Size?.value || 'md'}
+    />
+  );
+};`,
+      notes: 'Extract the image src from fields.Image.value.src — Sitecore ImageField wraps the URL in a value object. Provide initials as fallback for when the media library image is not yet uploaded.',
+    },
   },
   navbar: {
     name: 'Navbar',
@@ -721,6 +925,58 @@ export function DeveloperNavbar() {
         'Sticky position with backdrop blur for scroll behavior',
       ],
     } as AIDirective,
+    sitecoreUsage: {
+      templateFields: [
+        { name: 'Logo', type: 'Image', notes: 'Brand logo from Sitecore media library' },
+        { name: 'NavigationItems', type: 'Treelist', notes: 'References to Navigation Item templates (label, href, children)' },
+        { name: 'Variant', type: 'Single-Line Text', notes: 'simple | megamenu | developer' },
+        { name: 'CTALabel', type: 'Single-Line Text', notes: 'Primary CTA button text (e.g. "Get Started")' },
+        { name: 'CTALink', type: 'General Link', notes: 'Primary CTA destination' },
+      ],
+      code: `import { JssImage, JssLink, Text } from '@sitecore-jss/sitecore-jss-nextjs';
+import { ComponentParams, ComponentRendering } from '@sitecore-jss/sitecore-jss-nextjs';
+import { Navbar, Button } from '@signal3/web';
+
+type NavbarFields = {
+  Logo: ImageField;
+  NavigationItems: Field<Item[]>;
+  Variant: Field<string>;
+  CTALabel: Field<string>;
+  CTALink: LinkField;
+};
+
+type NavbarProps = {
+  rendering: ComponentRendering;
+  params: ComponentParams;
+  fields: NavbarFields;
+};
+
+export const Signal3Navbar = ({ fields, rendering }: NavbarProps): JSX.Element => {
+  // Map Sitecore datasource children to nav items
+  const items = (rendering.fields?.NavigationItems as Item[])?.map((item) => ({
+    label: item.fields?.Label?.value,
+    href: item.fields?.Link?.value?.href,
+  })) || [];
+
+  return (
+    <Navbar
+      variant={fields.Variant?.value || 'simple'}
+      logo={<JssImage field={fields.Logo} />}
+      items={items}
+      actions={
+        fields.CTALink?.value?.href && (
+          <JssLink field={fields.CTALink}>
+            <Button variant="primary">
+              <Text field={fields.CTALabel} />
+            </Button>
+          </JssLink>
+        )
+      }
+    />
+  );
+};`,
+      notes: 'Navigation items should be a separate Sitecore template with Label and Link fields. Use Treelist to let authors reorder items. For megamenu, each item can have child items rendered as columns.',
+    },
   },
   chat: {
     name: 'Chat',
@@ -970,6 +1226,56 @@ export function AIAssistant() {
         'Timestamp: below message or grouped by time period',
       ],
     } as AIDirective,
+    sitecoreUsage: {
+      templateFields: [
+        { name: 'Title', type: 'Single-Line Text', notes: 'Chat widget header title (e.g. "Support")' },
+        { name: 'Subtitle', type: 'Single-Line Text', notes: 'Header subtitle (e.g. "We typically reply within minutes")' },
+        { name: 'Placeholder', type: 'Single-Line Text', notes: 'Input placeholder text' },
+        { name: 'WelcomeMessage', type: 'Rich Text', notes: 'Initial greeting message from the agent' },
+        { name: 'AgentAvatar', type: 'Image', notes: 'Agent avatar image' },
+      ],
+      code: `import { Text, RichText, JssImage } from '@sitecore-jss/sitecore-jss-nextjs';
+import { ComponentParams, ComponentRendering } from '@sitecore-jss/sitecore-jss-nextjs';
+import { Chat, ChatHeader, Avatar } from '@signal3/web';
+
+type ChatFields = {
+  Title: Field<string>;
+  Subtitle: Field<string>;
+  Placeholder: Field<string>;
+  WelcomeMessage: Field<string>;
+  AgentAvatar: ImageField;
+};
+
+type ChatProps = {
+  rendering: ComponentRendering;
+  params: ComponentParams;
+  fields: ChatFields;
+};
+
+export const Signal3Chat = ({ fields }: ChatProps): JSX.Element => {
+  // Chat is mostly client-side — Sitecore provides config and copy
+  const welcomeMessage = fields.WelcomeMessage?.value || 'Hello! How can I help?';
+  const agentSrc = fields.AgentAvatar?.value?.src;
+
+  return (
+    <Chat
+      variant="floating"
+      placeholder={fields.Placeholder?.value || 'Type a message...'}
+      header={
+        <ChatHeader
+          title={fields.Title?.value || 'Support'}
+          subtitle={fields.Subtitle?.value}
+          avatar={<Avatar src={agentSrc} size="sm" />}
+        />
+      }
+      messages={[
+        { id: 1, content: welcomeMessage, sender: 'agent', timestamp: new Date() },
+      ]}
+    />
+  );
+};`,
+      notes: 'Chat is primarily a client-side component — Sitecore manages configuration and copy (title, welcome message, placeholder). The actual messaging logic is handled client-side via WebSocket or API integration.',
+    },
   },
 };
 
@@ -1069,6 +1375,64 @@ export function Example() {
                 language="tsx"
               />
             </section>
+
+            {/* Sitecore Component Usage */}
+            {component.sitecoreUsage && (
+              <section id="sitecore-usage" className="mb-12">
+                <div className="mb-4 flex items-center gap-2">
+                  <Diamond className="h-5 w-5 text-purple-600" />
+                  <h2 className="text-xl font-semibold text-gray-900">Sitecore Component Usage</h2>
+                </div>
+                <p className="mb-6 text-gray-600">
+                  How to integrate this component with content from Sitecore CMS using JSS (JavaScript Services SDK) for Next.js.
+                </p>
+
+                {/* Template Fields Table */}
+                <div className="mb-6">
+                  <h3 className="mb-3 text-lg font-medium text-gray-800">Template Fields</h3>
+                  <div className="overflow-x-auto rounded-lg border border-gray-200">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="border-b border-gray-200 bg-gray-50">
+                          <th className="px-4 py-3 text-left font-semibold text-gray-900">Field Name</th>
+                          <th className="px-4 py-3 text-left font-semibold text-gray-900">Field Type</th>
+                          <th className="px-4 py-3 text-left font-semibold text-gray-900">Notes</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {component.sitecoreUsage.templateFields.map((field: any, i: number) => (
+                          <tr key={i} className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                            <td className="px-4 py-3 font-mono text-sm text-gray-900">{field.name}</td>
+                            <td className="px-4 py-3">
+                              <span className="inline-flex rounded-md bg-purple-50 px-2 py-0.5 text-xs font-medium text-purple-700 ring-1 ring-inset ring-purple-200">
+                                {field.type}
+                              </span>
+                            </td>
+                            <td className="px-4 py-3 text-gray-600">{field.notes}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                {/* JSS Code Example */}
+                <div className="mb-6">
+                  <h3 className="mb-3 text-lg font-medium text-gray-800">JSS + Next.js Example</h3>
+                  <CodeBlock code={component.sitecoreUsage.code} language="tsx" />
+                </div>
+
+                {/* Notes Callout */}
+                {component.sitecoreUsage.notes && (
+                  <div className="rounded-lg border border-purple-200 bg-purple-50 p-4">
+                    <div className="flex items-start gap-2">
+                      <Diamond className="mt-0.5 h-4 w-4 shrink-0 text-purple-600" />
+                      <p className="text-sm text-purple-800">{component.sitecoreUsage.notes}</p>
+                    </div>
+                  </div>
+                )}
+              </section>
+            )}
 
             {/* Examples - for components with multiple variants */}
             {component.examples && (
@@ -1292,6 +1656,12 @@ export function Example() {
                   <a href="#usage" className="block text-gray-600 hover:text-gray-900">
                     Usage
                   </a>
+                  {component.sitecoreUsage && (
+                    <a href="#sitecore-usage" className="flex items-center gap-1 text-purple-600 hover:text-purple-700">
+                      <Diamond className="h-3 w-3" />
+                      Sitecore Usage
+                    </a>
+                  )}
                   {component.examples && (
                     <a href="#examples" className="block text-gray-600 hover:text-gray-900">
                       Examples
