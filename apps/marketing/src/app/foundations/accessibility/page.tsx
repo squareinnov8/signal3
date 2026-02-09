@@ -48,13 +48,32 @@ const pourPrinciples = [
   },
 ];
 
+// Contrast examples — rendered via CSS variables, hex shown for reference
 const contrastExamples = [
-  { bg: '#FFFFFF', text: '#1A1E24', ratio: '16.5:1', passes: true, label: 'Gray 900 on White' },
-  { bg: '#FFFFFF', text: '#5B6771', ratio: '5.2:1', passes: true, label: 'Gray 500 on White' },
-  { bg: '#FFFFFF', text: '#9E1B32', ratio: '7.3:1', passes: true, label: 'Equifax Red on White' },
-  { bg: '#9E1B32', text: '#FFFFFF', ratio: '7.3:1', passes: true, label: 'White on Equifax Red' },
-  { bg: '#FFFFFF', text: '#A3AAAD', ratio: '2.5:1', passes: false, label: 'Gray 400 on White' },
-  { bg: '#F9FAFB', text: '#D0D4D8', ratio: '1.4:1', passes: false, label: 'Gray 300 on Gray 50' },
+  {
+    bgVar: '--color-white', textVar: '--color-gray-900',
+    ratio: '16.5:1', passes: true, label: 'Gray 900 on White',
+  },
+  {
+    bgVar: '--color-white', textVar: '--color-gray-500',
+    ratio: '5.2:1', passes: true, label: 'Gray 500 on White',
+  },
+  {
+    bgVar: '--color-white', textVar: '--color-primary-600',
+    ratio: '7.3:1', passes: true, label: 'Equifax Red on White',
+  },
+  {
+    bgVar: '--color-primary-600', textVar: '--color-white',
+    ratio: '7.3:1', passes: true, label: 'White on Equifax Red',
+  },
+  {
+    bgVar: '--color-white', textVar: '--color-gray-400',
+    ratio: '2.5:1', passes: false, label: 'Gray 400 on White',
+  },
+  {
+    bgVar: '--color-gray-50', textVar: '--color-gray-300',
+    ratio: '1.4:1', passes: false, label: 'Gray 300 on Gray 50',
+  },
 ];
 
 export default function AccessibilityPage() {
@@ -73,7 +92,7 @@ export default function AccessibilityPage() {
           <h1 className="text-3xl font-bold text-gray-900 sm:text-4xl">Accessibility</h1>
           <p className="mt-4 max-w-2xl text-lg text-gray-600">
             All Equifax digital products must meet WCAG 2.1 AA standards. Accessibility
-            is not optional—it&apos;s a requirement for creating inclusive experiences.
+            is not optional&mdash;it&apos;s a requirement for creating inclusive experiences.
           </p>
         </div>
       </div>
@@ -135,7 +154,8 @@ export default function AccessibilityPage() {
           <h2 className="text-2xl font-bold text-gray-900">Color Contrast</h2>
           <p className="mt-2 text-gray-600">
             Text must have a contrast ratio of at least 4.5:1 against its background
-            (3:1 for large text). Here are examples from our color palette.
+            (3:1 for large text). Here are examples from our color palette, rendered
+            using CSS custom properties.
           </p>
 
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -146,11 +166,11 @@ export default function AccessibilityPage() {
               >
                 <div
                   className="flex h-24 items-center justify-center p-4"
-                  style={{ backgroundColor: example.bg }}
+                  style={{ backgroundColor: `rgb(var(${example.bgVar}))` }}
                 >
                   <span
                     className="text-lg font-semibold"
-                    style={{ color: example.text }}
+                    style={{ color: `rgb(var(${example.textVar}))` }}
                   >
                     Sample Text
                   </span>
@@ -170,7 +190,12 @@ export default function AccessibilityPage() {
                       </span>
                     )}
                   </div>
-                  <p className="mt-1 text-sm text-gray-500">Contrast ratio: {example.ratio}</p>
+                  <div className="mt-1 flex items-center justify-between">
+                    <p className="text-sm text-gray-500">Contrast ratio: {example.ratio}</p>
+                    <code className="text-[10px] text-gray-400">
+                      {example.textVar.replace('--color-', '')} / {example.bgVar.replace('--color-', '')}
+                    </code>
+                  </div>
                 </div>
               </div>
             ))}

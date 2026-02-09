@@ -4,12 +4,14 @@ import Link from 'next/link';
 import { ArrowLeft, Copy, Check } from 'lucide-react';
 import { useState } from 'react';
 
+// Color scale definitions — hex values for display, CSS var names for rendering
 const colorPalettes = [
   {
     name: 'Primary (Equifax Red)',
+    key: 'primary',
     description: 'Our primary brand color. Use for key actions, links, and brand elements.',
-    baseColor: '#9E1B32',
-    colors: [
+    tailwindPrefix: 'primary',
+    shades: [
       { shade: '25', hex: '#FEF5F6' },
       { shade: '50', hex: '#FDF2F4' },
       { shade: '100', hex: '#FCE4E8' },
@@ -26,9 +28,10 @@ const colorPalettes = [
   },
   {
     name: 'Blue',
+    key: 'blue',
     description: 'Secondary brand color. Use for informational elements and links.',
-    baseColor: '#007298',
-    colors: [
+    tailwindPrefix: 'blue',
+    shades: [
       { shade: '25', hex: '#F0FAFD' },
       { shade: '50', hex: '#E5F6FB' },
       { shade: '100', hex: '#C7EDF7' },
@@ -45,9 +48,10 @@ const colorPalettes = [
   },
   {
     name: 'Green (Success)',
+    key: 'green',
     description: 'Use for success states, positive actions, and confirmations.',
-    baseColor: '#45842A',
-    colors: [
+    tailwindPrefix: 'green',
+    shades: [
       { shade: '25', hex: '#F5FBF3' },
       { shade: '50', hex: '#EDF8E9' },
       { shade: '100', hex: '#D9F0D1' },
@@ -64,9 +68,10 @@ const colorPalettes = [
   },
   {
     name: 'Orange (Warning)',
+    key: 'orange',
     description: 'Use for warning states and elements requiring attention.',
-    baseColor: '#E77204',
-    colors: [
+    tailwindPrefix: 'orange',
+    shades: [
       { shade: '25', hex: '#FFFAF5' },
       { shade: '50', hex: '#FFF5EB' },
       { shade: '100', hex: '#FFEBD4' },
@@ -83,9 +88,10 @@ const colorPalettes = [
   },
   {
     name: 'Yellow',
+    key: 'yellow',
     description: 'Use sparingly for highlights and emphasis.',
-    baseColor: '#F1C319',
-    colors: [
+    tailwindPrefix: 'yellow',
+    shades: [
       { shade: '25', hex: '#FFFDF5' },
       { shade: '50', hex: '#FFFBEB' },
       { shade: '100', hex: '#FFF5CC' },
@@ -102,9 +108,10 @@ const colorPalettes = [
   },
   {
     name: 'Purple',
+    key: 'purple',
     description: 'Use for accent elements and special features.',
-    baseColor: '#652F6C',
-    colors: [
+    tailwindPrefix: 'purple',
+    shades: [
       { shade: '25', hex: '#FAF5FB' },
       { shade: '50', hex: '#F6EDF7' },
       { shade: '100', hex: '#EDDAEF' },
@@ -121,9 +128,10 @@ const colorPalettes = [
   },
   {
     name: 'Gray',
+    key: 'gray',
     description: 'Neutral colors for text, backgrounds, and borders.',
-    baseColor: '#5B6771',
-    colors: [
+    tailwindPrefix: 'gray',
+    shades: [
       { shade: '25', hex: '#FCFCFD' },
       { shade: '50', hex: '#F9FAFB' },
       { shade: '100', hex: '#F2F4F6' },
@@ -140,7 +148,23 @@ const colorPalettes = [
   },
 ];
 
-function CopyButton({ text }: { text: string }) {
+// Convert hex to R G B channels string
+function hexToChannels(hex: string): string {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `${r} ${g} ${b}`;
+}
+
+function getContrastColor(hex: string): string {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  return luminance > 0.5 ? '#1A1E24' : '#FFFFFF';
+}
+
+function CopyButton({ text, label }: { text: string; label?: string }) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
@@ -152,23 +176,62 @@ function CopyButton({ text }: { text: string }) {
   return (
     <button
       onClick={handleCopy}
-      className="rounded p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
-      title="Copy to clipboard"
+      className="group inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors"
+      title={`Copy ${label || text}`}
     >
+      {label && <span className="text-xs text-gray-500 group-hover:text-gray-700">{label}</span>}
       {copied ? <Check className="h-3 w-3 text-green-600" /> : <Copy className="h-3 w-3" />}
     </button>
   );
 }
 
-function getContrastColor(hex: string): string {
-  const r = parseInt(hex.slice(1, 3), 16);
-  const g = parseInt(hex.slice(3, 5), 16);
-  const b = parseInt(hex.slice(5, 7), 16);
-  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-  return luminance > 0.5 ? '#1A1E24' : '#FFFFFF';
-}
+type TokenFormat = 'hex' | 'cssVar' | 'tailwind' | 'rgb' | 'semantic';
+
+const formatLabels: Record<TokenFormat, string> = {
+  hex: 'Hex',
+  cssVar: 'CSS Variable',
+  tailwind: 'Tailwind',
+  rgb: 'RGB Channels',
+  semantic: 'Semantic',
+};
 
 export default function ColorsPage() {
+  const [activeFormat, setActiveFormat] = useState<TokenFormat>('hex');
+
+  function getFormattedValue(paletteKey: string, shade: string, hex: string): string {
+    switch (activeFormat) {
+      case 'hex':
+        return hex;
+      case 'cssVar':
+        return `var(--color-${paletteKey}-${shade})`;
+      case 'tailwind':
+        return `${paletteKey}-${shade}`;
+      case 'rgb':
+        return hexToChannels(hex);
+      case 'semantic':
+        return `--color-${paletteKey}-${shade}`;
+      default:
+        return hex;
+    }
+  }
+
+  function getCopyValue(paletteKey: string, shade: string, hex: string): string {
+    switch (activeFormat) {
+      case 'hex':
+        return hex;
+      case 'cssVar':
+        return `var(--color-${paletteKey}-${shade})`;
+      case 'tailwind':
+        return `${paletteKey}-${shade}`;
+      case 'rgb':
+        return hexToChannels(hex);
+      case 'semantic':
+        return `--color-${paletteKey}-${shade}`;
+      default:
+        return hex;
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -183,9 +246,30 @@ export default function ColorsPage() {
           </Link>
           <h1 className="text-3xl font-bold text-gray-900 sm:text-4xl">Colors</h1>
           <p className="mt-4 max-w-2xl text-lg text-gray-600">
-            The official Equifax color palette. These colors are designed for accessibility
-            and consistent brand representation across all platforms.
+            The official Equifax color palette. All colors are defined as CSS custom properties
+            and available as Tailwind utility classes.
           </p>
+        </div>
+      </div>
+
+      {/* Format Switcher */}
+      <div className="sticky top-16 z-10 border-b border-gray-200 bg-white">
+        <div className="container-marketing">
+          <nav className="flex gap-1 -mb-px py-2">
+            {(Object.entries(formatLabels) as [TokenFormat, string][]).map(([format, label]) => (
+              <button
+                key={format}
+                onClick={() => setActiveFormat(format)}
+                className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
+                  activeFormat === format
+                    ? 'bg-primary-50 text-primary-700'
+                    : 'text-gray-500 hover:bg-gray-100 hover:text-gray-700'
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </nav>
         </div>
       </div>
 
@@ -199,14 +283,14 @@ export default function ColorsPage() {
 
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              { name: 'Equifax Red', hex: '#9E1B32', usage: 'Primary brand, CTAs' },
-              { name: 'Blue', hex: '#007298', usage: 'Links, info states' },
-              { name: 'Green', hex: '#45842A', usage: 'Success states' },
-              { name: 'Orange', hex: '#E77204', usage: 'Warning states' },
-              { name: 'Yellow', hex: '#F1C319', usage: 'Highlights' },
-              { name: 'Purple', hex: '#652F6C', usage: 'Accents' },
-              { name: 'Gray', hex: '#5B6771', usage: 'Text, borders' },
-              { name: 'Light Gray', hex: '#E7E7E7', usage: 'Backgrounds' },
+              { name: 'Equifax Red', key: 'primary', shade: '600', usage: 'Primary brand, CTAs' },
+              { name: 'Blue', key: 'blue', shade: '600', usage: 'Links, info states' },
+              { name: 'Green', key: 'green', shade: '600', usage: 'Success states' },
+              { name: 'Orange', key: 'orange', shade: '600', usage: 'Warning states' },
+              { name: 'Yellow', key: 'yellow', shade: '500', usage: 'Highlights' },
+              { name: 'Purple', key: 'purple', shade: '600', usage: 'Accents' },
+              { name: 'Gray', key: 'gray', shade: '500', usage: 'Text, borders' },
+              { name: 'Light Gray', key: 'gray', shade: '200', usage: 'Backgrounds' },
             ].map((color) => (
               <div
                 key={color.name}
@@ -214,19 +298,21 @@ export default function ColorsPage() {
               >
                 <div
                   className="flex h-24 items-end p-4"
-                  style={{ backgroundColor: color.hex }}
+                  style={{ backgroundColor: `rgb(var(--color-${color.key}-${color.shade}))` }}
                 >
                   <span
                     className="font-semibold"
-                    style={{ color: getContrastColor(color.hex) }}
+                    style={{ color: color.shade >= '500' ? '#FFFFFF' : '#1A1E24' }}
                   >
                     {color.name}
                   </span>
                 </div>
                 <div className="bg-white p-4">
                   <div className="flex items-center justify-between">
-                    <code className="text-sm text-gray-600">{color.hex}</code>
-                    <CopyButton text={color.hex} />
+                    <code className="text-sm text-gray-600">
+                      {getFormattedValue(color.key, color.shade, '')}
+                    </code>
+                    <CopyButton text={getCopyValue(color.key, color.shade, '')} />
                   </div>
                   <p className="mt-1 text-xs text-gray-500">{color.usage}</p>
                 </div>
@@ -237,17 +323,18 @@ export default function ColorsPage() {
 
         {/* Full Palettes */}
         {colorPalettes.map((palette) => (
-          <section key={palette.name} className="mb-16">
+          <section key={palette.key} className="mb-16">
             <h2 className="text-2xl font-bold text-gray-900">{palette.name}</h2>
             <p className="mt-2 text-gray-600">{palette.description}</p>
 
             <div className="mt-8">
+              {/* Visual scale strip — rendered via CSS vars */}
               <div className="flex overflow-hidden rounded-xl border border-gray-200">
-                {palette.colors.map((color) => (
+                {palette.shades.map((color) => (
                   <div
                     key={color.shade}
                     className="group relative flex-1"
-                    style={{ backgroundColor: color.hex }}
+                    style={{ backgroundColor: `rgb(var(--color-${palette.key}-${color.shade}))` }}
                   >
                     <div className="flex h-20 items-end justify-center pb-2">
                       <span
@@ -268,20 +355,21 @@ export default function ColorsPage() {
                 ))}
               </div>
 
-              {/* Color table */}
+              {/* Token reference table */}
               <div className="mt-4 rounded-xl border border-gray-200 bg-white">
                 <table className="w-full">
                   <thead>
                     <tr className="border-b border-gray-100">
                       <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Shade</th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Hex</th>
                       <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Swatch</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Hex</th>
                       <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">CSS Variable</th>
-                      <th className="px-4 py-3 text-right text-sm font-medium text-gray-500"></th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Tailwind</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">RGB Channels</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-100">
-                    {palette.colors.map((color) => (
+                    {palette.shades.map((color) => (
                       <tr key={color.shade} className={color.isBase ? 'bg-gray-50' : ''}>
                         <td className="px-4 py-3">
                           <span className="font-medium text-gray-900">{color.shade}</span>
@@ -290,21 +378,40 @@ export default function ColorsPage() {
                           )}
                         </td>
                         <td className="px-4 py-3">
-                          <code className="text-sm text-gray-600">{color.hex}</code>
-                        </td>
-                        <td className="px-4 py-3">
                           <div
                             className="h-6 w-12 rounded border border-gray-200"
-                            style={{ backgroundColor: color.hex }}
+                            style={{ backgroundColor: `rgb(var(--color-${palette.key}-${color.shade}))` }}
                           />
                         </td>
                         <td className="px-4 py-3">
-                          <code className="text-xs text-gray-500">
-                            --color-{palette.name.toLowerCase().split(' ')[0]}-{color.shade}
-                          </code>
+                          <div className="flex items-center gap-1">
+                            <code className="text-sm text-gray-600">{color.hex}</code>
+                            <CopyButton text={color.hex} />
+                          </div>
                         </td>
-                        <td className="px-4 py-3 text-right">
-                          <CopyButton text={color.hex} />
+                        <td className="px-4 py-3">
+                          <div className="flex items-center gap-1">
+                            <code className="text-xs text-gray-500">
+                              --color-{palette.key}-{color.shade}
+                            </code>
+                            <CopyButton text={`var(--color-${palette.key}-${color.shade})`} />
+                          </div>
+                        </td>
+                        <td className="px-4 py-3">
+                          <div className="flex items-center gap-1">
+                            <code className="text-xs text-blue-600">
+                              {palette.tailwindPrefix}-{color.shade}
+                            </code>
+                            <CopyButton text={`${palette.tailwindPrefix}-${color.shade}`} />
+                          </div>
+                        </td>
+                        <td className="px-4 py-3">
+                          <div className="flex items-center gap-1">
+                            <code className="text-xs text-gray-500 font-mono">
+                              {hexToChannels(color.hex)}
+                            </code>
+                            <CopyButton text={hexToChannels(color.hex)} />
+                          </div>
                         </td>
                       </tr>
                     ))}
@@ -314,6 +421,49 @@ export default function ColorsPage() {
             </div>
           </section>
         ))}
+
+        {/* Semantic Aliases */}
+        <section className="mb-16">
+          <h2 className="text-2xl font-bold text-gray-900">Semantic Aliases</h2>
+          <p className="mt-2 text-gray-600">
+            These color scales alias base scales for semantic usage. When the base changes, these update automatically.
+          </p>
+
+          <div className="mt-8 grid gap-6 md:grid-cols-3">
+            {[
+              { name: 'Success', key: 'success', base: 'Green', baseKey: 'green', shade: '600' },
+              { name: 'Warning', key: 'warning', base: 'Orange', baseKey: 'orange', shade: '600' },
+              { name: 'Error', key: 'error', base: 'Primary (Red)', baseKey: 'primary', shade: '600' },
+            ].map((alias) => (
+              <div key={alias.key} className="rounded-xl border border-gray-200 bg-white p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <div
+                    className="h-10 w-10 rounded-lg"
+                    style={{ backgroundColor: `rgb(var(--color-${alias.key}-${alias.shade}))` }}
+                  />
+                  <div>
+                    <h3 className="font-semibold text-gray-900">{alias.name}</h3>
+                    <p className="text-xs text-gray-500">Aliases {alias.base}</p>
+                  </div>
+                </div>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-gray-500">CSS Variable</span>
+                    <code className="text-gray-700">--color-{alias.key}-*</code>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-500">Tailwind</span>
+                    <code className="text-blue-600">{alias.key}-*</code>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-500">Resolves to</span>
+                    <code className="text-gray-700">--color-{alias.baseKey}-*</code>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
 
         {/* Usage Guidelines */}
         <section>
@@ -340,7 +490,7 @@ export default function ColorsPage() {
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-green-600" />
-                  Use lighter shades (25-100) for backgrounds
+                  Use CSS variables or Tailwind classes — never hardcode hex
                 </li>
               </ul>
             </div>

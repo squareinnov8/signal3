@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import { Check, Moon, Sun, Circle, Square, Eye } from 'lucide-react';
 
-// Theme definitions (mirroring what's in @signal3/core)
+// Theme definitions using correct Equifax brand colors
+// Previews render via CSS variables where possible, with overrides for theme-specific values
 const themes = {
   'equifax-light': {
     name: 'equifax-light',
@@ -11,10 +12,10 @@ const themes = {
     description: 'The default light theme with Equifax brand colors',
     icon: Sun,
     colors: {
-      brand: '#1849A9',
-      bgPrimary: '#FFFFFF',
-      bgSecondary: '#F9FAFB',
-      textPrimary: '#101828',
+      brand: { cssVar: '--color-primary-600', label: 'Primary 600' },
+      bgPrimary: { cssVar: '--color-white', label: 'White' },
+      bgSecondary: { cssVar: '--color-gray-50', label: 'Gray 50' },
+      textPrimary: { cssVar: '--color-gray-900', label: 'Gray 900' },
     },
     borderRadius: '10px',
   },
@@ -24,10 +25,10 @@ const themes = {
     description: 'Dark theme for low-light environments',
     icon: Moon,
     colors: {
-      brand: '#528BFF',
-      bgPrimary: '#101828',
-      bgSecondary: '#182230',
-      textPrimary: '#F9FAFB',
+      brand: { cssVar: '--color-primary-400', label: 'Primary 400' },
+      bgPrimary: { cssVar: '--color-gray-900', label: 'Gray 900' },
+      bgSecondary: { cssVar: '--color-gray-800', label: 'Gray 800' },
+      textPrimary: { cssVar: '--color-gray-50', label: 'Gray 50' },
     },
     borderRadius: '10px',
   },
@@ -37,10 +38,10 @@ const themes = {
     description: 'Friendly, approachable with pill-shaped elements',
     icon: Circle,
     colors: {
-      brand: '#1849A9',
-      bgPrimary: '#FFFFFF',
-      bgSecondary: '#F9FAFB',
-      textPrimary: '#101828',
+      brand: { cssVar: '--color-primary-600', label: 'Primary 600' },
+      bgPrimary: { cssVar: '--color-white', label: 'White' },
+      bgSecondary: { cssVar: '--color-gray-50', label: 'Gray 50' },
+      textPrimary: { cssVar: '--color-gray-900', label: 'Gray 900' },
     },
     borderRadius: '9999px',
   },
@@ -50,10 +51,10 @@ const themes = {
     description: 'Corporate, professional with minimal rounding',
     icon: Square,
     colors: {
-      brand: '#1849A9',
-      bgPrimary: '#FFFFFF',
-      bgSecondary: '#F9FAFB',
-      textPrimary: '#101828',
+      brand: { cssVar: '--color-primary-600', label: 'Primary 600' },
+      bgPrimary: { cssVar: '--color-white', label: 'White' },
+      bgSecondary: { cssVar: '--color-gray-50', label: 'Gray 50' },
+      textPrimary: { cssVar: '--color-gray-900', label: 'Gray 900' },
     },
     borderRadius: '6px',
   },
@@ -63,10 +64,10 @@ const themes = {
     description: 'Enhanced contrast for accessibility',
     icon: Eye,
     colors: {
-      brand: '#0C2B5E',
-      bgPrimary: '#FFFFFF',
-      bgSecondary: '#F2F4F7',
-      textPrimary: '#000000',
+      brand: { cssVar: '--color-primary-800', label: 'Primary 800' },
+      bgPrimary: { cssVar: '--color-white', label: 'White' },
+      bgSecondary: { cssVar: '--color-gray-100', label: 'Gray 100' },
+      textPrimary: { cssVar: '--color-black', label: 'Black' },
     },
     borderRadius: '10px',
   },
@@ -76,13 +77,14 @@ type ThemeName = keyof typeof themes;
 
 function ThemePreview({ themeName }: { themeName: ThemeName }) {
   const theme = themes[themeName];
+  const c = theme.colors;
 
   return (
     <div
       className="p-6 rounded-xl border-2 transition-all"
       style={{
-        backgroundColor: theme.colors.bgPrimary,
-        borderColor: theme.colors.bgSecondary,
+        backgroundColor: `rgb(var(${c.bgPrimary.cssVar}))`,
+        borderColor: `rgb(var(${c.bgSecondary.cssVar}))`,
       }}
     >
       {/* Sample buttons */}
@@ -90,7 +92,7 @@ function ThemePreview({ themeName }: { themeName: ThemeName }) {
         <button
           className="px-4 py-2 text-sm font-semibold text-white"
           style={{
-            backgroundColor: theme.colors.brand,
+            backgroundColor: `rgb(var(${c.brand.cssVar}))`,
             borderRadius: theme.borderRadius,
           }}
         >
@@ -99,9 +101,9 @@ function ThemePreview({ themeName }: { themeName: ThemeName }) {
         <button
           className="px-4 py-2 text-sm font-semibold border"
           style={{
-            backgroundColor: theme.colors.bgPrimary,
-            color: theme.colors.textPrimary,
-            borderColor: theme.colors.bgSecondary,
+            backgroundColor: `rgb(var(${c.bgPrimary.cssVar}))`,
+            color: `rgb(var(${c.textPrimary.cssVar}))`,
+            borderColor: `rgb(var(${c.bgSecondary.cssVar}))`,
             borderRadius: theme.borderRadius,
           }}
         >
@@ -116,9 +118,9 @@ function ThemePreview({ themeName }: { themeName: ThemeName }) {
           placeholder="Sample input..."
           className="w-full px-3 py-2 text-sm border"
           style={{
-            backgroundColor: theme.colors.bgPrimary,
-            color: theme.colors.textPrimary,
-            borderColor: theme.colors.bgSecondary,
+            backgroundColor: `rgb(var(${c.bgPrimary.cssVar}))`,
+            color: `rgb(var(${c.textPrimary.cssVar}))`,
+            borderColor: `rgb(var(${c.bgSecondary.cssVar}))`,
             borderRadius: theme.borderRadius,
           }}
         />
@@ -128,18 +130,18 @@ function ThemePreview({ themeName }: { themeName: ThemeName }) {
       <div
         className="p-4 border"
         style={{
-          backgroundColor: theme.colors.bgSecondary,
-          borderColor: theme.colors.bgSecondary,
+          backgroundColor: `rgb(var(${c.bgSecondary.cssVar}))`,
+          borderColor: `rgb(var(${c.bgSecondary.cssVar}))`,
           borderRadius: theme.borderRadius,
         }}
       >
         <p
           className="text-sm font-medium"
-          style={{ color: theme.colors.textPrimary }}
+          style={{ color: `rgb(var(${c.textPrimary.cssVar}))` }}
         >
           Card Title
         </p>
-        <p className="text-xs mt-1" style={{ color: theme.colors.textPrimary, opacity: 0.7 }}>
+        <p className="text-xs mt-1" style={{ color: `rgb(var(${c.textPrimary.cssVar}) / 0.7)` }}>
           Sample card content
         </p>
       </div>
@@ -149,7 +151,7 @@ function ThemePreview({ themeName }: { themeName: ThemeName }) {
         <span
           className="px-2 py-0.5 text-xs font-medium text-white"
           style={{
-            backgroundColor: theme.colors.brand,
+            backgroundColor: `rgb(var(${c.brand.cssVar}))`,
             borderRadius: theme.borderRadius,
           }}
         >
@@ -158,8 +160,8 @@ function ThemePreview({ themeName }: { themeName: ThemeName }) {
         <span
           className="px-2 py-0.5 text-xs font-medium"
           style={{
-            backgroundColor: '#ECFDF3',
-            color: '#067647',
+            backgroundColor: `rgb(var(--color-success-50))`,
+            color: `rgb(var(--color-success-700))`,
             borderRadius: theme.borderRadius,
           }}
         >
@@ -180,6 +182,7 @@ export default function ThemesPage() {
           <h1 className="text-3xl font-bold text-gray-900">Themes & Subthemes</h1>
           <p className="mt-2 text-gray-600">
             Signal3 supports multiple themes and subthemes for different contexts, products, and accessibility needs.
+            All themes are built on CSS custom properties, so switching themes only requires remapping token values.
           </p>
         </div>
       </div>
@@ -220,19 +223,19 @@ export default function ThemesPage() {
                     </div>
                     <p className="text-sm text-gray-500">{theme.description}</p>
                   </div>
-                  {/* Color preview dots */}
+                  {/* Color preview dots — rendered via CSS vars */}
                   <div className="flex gap-1">
                     <div
                       className="h-4 w-4 rounded-full ring-1 ring-black/10"
-                      style={{ backgroundColor: theme.colors.brand }}
+                      style={{ backgroundColor: `rgb(var(${theme.colors.brand.cssVar}))` }}
                     />
                     <div
                       className="h-4 w-4 rounded-full ring-1 ring-black/10"
-                      style={{ backgroundColor: theme.colors.bgPrimary }}
+                      style={{ backgroundColor: `rgb(var(${theme.colors.bgPrimary.cssVar}))` }}
                     />
                     <div
                       className="h-4 w-4 rounded-full ring-1 ring-black/10"
-                      style={{ backgroundColor: theme.colors.bgSecondary }}
+                      style={{ backgroundColor: `rgb(var(${theme.colors.bgSecondary.cssVar}))` }}
                     />
                   </div>
                 </button>
@@ -244,6 +247,31 @@ export default function ThemesPage() {
           <div>
             <h2 className="text-xl font-semibold text-gray-900 mb-4">Preview</h2>
             <ThemePreview themeName={selectedTheme} />
+
+            {/* Token mapping table */}
+            <div className="mt-6 rounded-xl border border-gray-200 bg-white">
+              <div className="px-4 py-3 border-b border-gray-100">
+                <h3 className="text-sm font-semibold text-gray-700">Token Mapping</h3>
+              </div>
+              <table className="w-full text-sm">
+                <tbody className="divide-y divide-gray-100">
+                  {Object.entries(themes[selectedTheme].colors).map(([role, token]) => (
+                    <tr key={role}>
+                      <td className="px-4 py-2 text-gray-500">{role}</td>
+                      <td className="px-4 py-2">
+                        <code className="text-xs text-gray-700">{token.cssVar}</code>
+                      </td>
+                      <td className="px-4 py-2">
+                        <div
+                          className="h-5 w-5 rounded ring-1 ring-black/10"
+                          style={{ backgroundColor: `rgb(var(${token.cssVar}))` }}
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
 
             {/* Usage code */}
             <div className="mt-6">
@@ -261,7 +289,7 @@ import { createSubtheme, equifaxLight } from '@signal3/core';
 const customTheme = createSubtheme(equifaxLight, {
   name: 'my-product-theme',
   colors: {
-    brand: '#FF6B00', // Custom brand color
+    brand: '--color-blue-600', // Override brand token
   },
   components: {
     button: {
@@ -280,6 +308,7 @@ const customTheme = createSubtheme(equifaxLight, {
           <h2 className="text-2xl font-bold text-gray-900">Creating Custom Subthemes</h2>
           <p className="mt-2 text-gray-600">
             You can create custom subthemes for specific products, brands, or use cases by extending a base theme.
+            All themes are powered by CSS custom properties, so switching only requires remapping token values.
           </p>
 
           <div className="mt-8 grid gap-6 md:grid-cols-2">
@@ -292,7 +321,7 @@ const customTheme = createSubtheme(equifaxLight, {
                 <code className="text-gray-700">{`const creditKarmaTheme = createSubtheme(equifaxLight, {
   name: 'credit-karma',
   colors: {
-    brand: '#00A651', // CK green
+    brand: '--color-green-600', // CK green
   },
 });`}</code>
               </pre>
@@ -307,8 +336,8 @@ const customTheme = createSubtheme(equifaxLight, {
                 <code className="text-gray-700">{`const accessibleTheme = createSubtheme(equifaxLight, {
   name: 'accessible',
   colors: {
-    textPrimary: '#000000',
-    brand: '#0C2B5E', // Darker for contrast
+    textPrimary: '--color-black',
+    brand: '--color-primary-800', // Darker for contrast
   },
 });`}</code>
               </pre>
@@ -323,7 +352,7 @@ const customTheme = createSubtheme(equifaxLight, {
                 <code className="text-gray-700">{`const partnerTheme = createSubtheme(equifaxLight, {
   name: 'partner-acme',
   colors: {
-    brand: '#6366F1', // Partner brand
+    brand: '--color-purple-600', // Partner brand
   },
   typography: {
     fontFamily: {
@@ -350,6 +379,55 @@ const customTheme = createSubtheme(equifaxLight, {
   },
 });`}</code>
               </pre>
+            </div>
+          </div>
+        </section>
+
+        {/* How Theming Works */}
+        <section className="mt-16">
+          <h2 className="text-2xl font-bold text-gray-900">How Theming Works</h2>
+          <p className="mt-2 text-gray-600">
+            Signal3 uses a three-layer token architecture for maximum flexibility.
+          </p>
+
+          <div className="mt-8 grid gap-6 md:grid-cols-3">
+            <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-100">
+                <span className="text-primary-600 font-bold text-sm">1</span>
+              </div>
+              <h3 className="mt-3 font-semibold text-gray-900">Primitive Tokens</h3>
+              <p className="mt-2 text-sm text-gray-600">
+                Raw color values stored as RGB channels in CSS variables. These never change between themes.
+              </p>
+              <code className="mt-3 block text-xs text-gray-500 bg-gray-50 rounded p-2">
+                --color-primary-600: 158 27 50;
+              </code>
+            </div>
+
+            <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-100">
+                <span className="text-primary-600 font-bold text-sm">2</span>
+              </div>
+              <h3 className="mt-3 font-semibold text-gray-900">Semantic Tokens</h3>
+              <p className="mt-2 text-sm text-gray-600">
+                Purpose-based tokens that reference primitives. These are remapped when switching themes.
+              </p>
+              <code className="mt-3 block text-xs text-gray-500 bg-gray-50 rounded p-2">
+                --s3-text-primary: rgb(var(--color-gray-900));
+              </code>
+            </div>
+
+            <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-100">
+                <span className="text-primary-600 font-bold text-sm">3</span>
+              </div>
+              <h3 className="mt-3 font-semibold text-gray-900">Tailwind Utilities</h3>
+              <p className="mt-2 text-sm text-gray-600">
+                Tailwind classes consume the CSS variables, giving you theme-aware utility classes with opacity support.
+              </p>
+              <code className="mt-3 block text-xs text-blue-600 bg-gray-50 rounded p-2">
+                className=&quot;bg-primary-600/50&quot;
+              </code>
             </div>
           </div>
         </section>
