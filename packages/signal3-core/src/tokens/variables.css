@@ -1,0 +1,153 @@
+/* ==========================================================================
+   Signal3 Primitive Design Tokens — CSS Custom Properties
+   Auto-generated from @signal3/core token definitions.
+
+   Values are R G B channels for Tailwind opacity modifier support.
+   Usage: rgb(var(--color-primary-600) / <alpha-value>)
+   ========================================================================== */
+
+:root {
+  /* Primary - Equifax Red (#9E1B32) */
+  --color-primary-25: 254 245 246;
+  --color-primary-50: 253 242 244;
+  --color-primary-100: 252 228 232;
+  --color-primary-200: 249 200 208;
+  --color-primary-300: 244 161 174;
+  --color-primary-400: 236 112 133;
+  --color-primary-500: 216 69 96;
+  --color-primary-600: 158 27 50;
+  --color-primary-700: 138 23 41;
+  --color-primary-800: 110 18 33;
+  --color-primary-900: 82 13 24;
+  --color-primary-950: 58 9 17;
+
+  /* Blue - Equifax Blue (#007298) */
+  --color-blue-25: 240 250 253;
+  --color-blue-50: 229 246 251;
+  --color-blue-100: 199 237 247;
+  --color-blue-200: 148 220 239;
+  --color-blue-300: 92 197 227;
+  --color-blue-400: 42 173 212;
+  --color-blue-500: 8 144 184;
+  --color-blue-600: 0 114 152;
+  --color-blue-700: 0 77 102;
+  --color-blue-800: 0 61 82;
+  --color-blue-900: 0 45 61;
+  --color-blue-950: 0 30 41;
+
+  /* Green - Equifax Green (#45842A) */
+  --color-green-25: 245 251 243;
+  --color-green-50: 237 248 233;
+  --color-green-100: 217 240 209;
+  --color-green-200: 181 225 166;
+  --color-green-300: 139 204 118;
+  --color-green-400: 100 179 77;
+  --color-green-500: 74 153 58;
+  --color-green-600: 69 132 42;
+  --color-green-700: 41 77 25;
+  --color-green-800: 34 63 21;
+  --color-green-900: 26 48 16;
+  --color-green-950: 18 33 11;
+
+  /* Orange - Equifax Orange (#E77204) */
+  --color-orange-25: 255 250 245;
+  --color-orange-50: 255 245 235;
+  --color-orange-100: 255 235 212;
+  --color-orange-200: 255 212 168;
+  --color-orange-300: 255 184 113;
+  --color-orange-400: 255 152 58;
+  --color-orange-500: 245 130 15;
+  --color-orange-600: 231 114 4;
+  --color-orange-700: 153 74 0;
+  --color-orange-800: 122 59 0;
+  --color-orange-900: 92 44 0;
+  --color-orange-950: 61 29 0;
+
+  /* Yellow - Equifax Yellow (#F1C319) */
+  --color-yellow-25: 255 253 245;
+  --color-yellow-50: 255 251 235;
+  --color-yellow-100: 255 245 204;
+  --color-yellow-200: 255 236 153;
+  --color-yellow-300: 255 223 92;
+  --color-yellow-400: 247 208 51;
+  --color-yellow-500: 241 195 25;
+  --color-yellow-600: 152 112 12;
+  --color-yellow-700: 122 89 9;
+  --color-yellow-800: 92 67 7;
+  --color-yellow-900: 61 45 5;
+  --color-yellow-950: 41 30 3;
+
+  /* Purple - Equifax Purple (#652F6C) */
+  --color-purple-25: 250 245 251;
+  --color-purple-50: 246 237 247;
+  --color-purple-100: 237 218 239;
+  --color-purple-200: 219 181 223;
+  --color-purple-300: 196 139 202;
+  --color-purple-400: 169 94 176;
+  --color-purple-500: 135 58 144;
+  --color-purple-600: 101 47 108;
+  --color-purple-700: 67 31 71;
+  --color-purple-800: 54 25 58;
+  --color-purple-900: 40 19 43;
+  --color-purple-950: 27 13 29;
+
+  /* Gray - Equifax Gray (#5B6771) */
+  --color-gray-25: 252 252 253;
+  --color-gray-50: 249 250 251;
+  --color-gray-100: 242 244 246;
+  --color-gray-200: 231 231 231;
+  --color-gray-300: 208 212 216;
+  --color-gray-400: 163 170 173;
+  --color-gray-500: 91 103 113;
+  --color-gray-600: 74 84 93;
+  --color-gray-700: 58 66 74;
+  --color-gray-800: 42 48 55;
+  --color-gray-900: 26 30 36;
+  --color-gray-950: 13 15 17;
+
+  /* Semantic: Success = Green */
+  --color-success-25: var(--color-green-25);
+  --color-success-50: var(--color-green-50);
+  --color-success-100: var(--color-green-100);
+  --color-success-200: var(--color-green-200);
+  --color-success-300: var(--color-green-300);
+  --color-success-400: var(--color-green-400);
+  --color-success-500: var(--color-green-500);
+  --color-success-600: var(--color-green-600);
+  --color-success-700: var(--color-green-700);
+  --color-success-800: var(--color-green-800);
+  --color-success-900: var(--color-green-900);
+  --color-success-950: var(--color-green-950);
+
+  /* Semantic: Warning = Orange */
+  --color-warning-25: var(--color-orange-25);
+  --color-warning-50: var(--color-orange-50);
+  --color-warning-100: var(--color-orange-100);
+  --color-warning-200: var(--color-orange-200);
+  --color-warning-300: var(--color-orange-300);
+  --color-warning-400: var(--color-orange-400);
+  --color-warning-500: var(--color-orange-500);
+  --color-warning-600: var(--color-orange-600);
+  --color-warning-700: var(--color-orange-700);
+  --color-warning-800: var(--color-orange-800);
+  --color-warning-900: var(--color-orange-900);
+  --color-warning-950: var(--color-orange-950);
+
+  /* Semantic: Error = Primary (Equifax Red) */
+  --color-error-25: var(--color-primary-25);
+  --color-error-50: var(--color-primary-50);
+  --color-error-100: var(--color-primary-100);
+  --color-error-200: var(--color-primary-200);
+  --color-error-300: var(--color-primary-300);
+  --color-error-400: var(--color-primary-400);
+  --color-error-500: var(--color-primary-500);
+  --color-error-600: var(--color-primary-600);
+  --color-error-700: var(--color-primary-700);
+  --color-error-800: var(--color-primary-800);
+  --color-error-900: var(--color-primary-900);
+  --color-error-950: var(--color-primary-950);
+
+  /* Base */
+  --color-white: 255 255 255;
+  --color-black: 0 0 0;
+}

@@ -7,15 +7,6 @@ const nextConfig = {
   experimental: {
     mdxRs: true,
   },
-  images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'www.employersedge.com',
-        pathname: '/o/employersedge-theme/images/**',
-      },
-    ],
-  },
 };
 
 const withMDX = createMDX({

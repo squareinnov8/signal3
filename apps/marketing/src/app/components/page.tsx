@@ -64,6 +64,13 @@ const componentCategories = [
       { name: 'Popover', status: 'stable', description: 'Rich content popovers' },
     ],
   },
+  {
+    name: 'Communication',
+    description: 'Enable real-time messaging and conversations',
+    components: [
+      { name: 'Chat', status: 'beta', description: 'Interactive messaging interface' },
+    ],
+  },
 ];
 
 const statusColors = {

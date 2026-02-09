@@ -410,6 +410,567 @@ const componentData: Record<string, any> = {
       ],
     } as AIDirective,
   },
+  navbar: {
+    name: 'Navbar',
+    description: 'Top navigation bar with support for logos, links, dropdowns, megamenus, and user actions. Built on Untitled UI\'s navigation primitives.',
+    status: 'beta',
+    package: '@signal3/web',
+    version: '0.0.1',
+    figmaLink: 'https://figma.com/file/...',
+    category: 'Navigation',
+    props: [
+      { name: 'variant', type: "'simple' | 'megamenu' | 'developer'", default: "'simple'", description: 'The navigation style variant' },
+      { name: 'logo', type: 'ReactNode', default: 'undefined', description: 'Logo element to display on the left' },
+      { name: 'items', type: 'NavItem[]', default: '[]', description: 'Array of navigation items' },
+      { name: 'actions', type: 'ReactNode', default: 'undefined', description: 'Right-side actions (buttons, user menu)' },
+      { name: 'sticky', type: 'boolean', default: 'true', description: 'Whether the navbar sticks to the top on scroll' },
+      { name: 'transparent', type: 'boolean', default: 'false', description: 'Transparent background (for hero overlays)' },
+      { name: 'topBar', type: 'ReactNode', default: 'undefined', description: 'Optional top utility bar content' },
+      { name: 'mobileBreakpoint', type: "'sm' | 'md' | 'lg'", default: "'lg'", description: 'Breakpoint for mobile menu toggle' },
+    ],
+    examples: {
+      simpleNavbar: `import { Navbar, NavItem, NavLink } from '@signal3/web';
+
+export function SimpleNavbar() {
+  return (
+    <Navbar
+      variant="simple"
+      logo={<Logo />}
+      items={[
+        { label: 'Products', href: '/products' },
+        { label: 'Solutions', href: '/solutions' },
+        { label: 'Pricing', href: '/pricing' },
+        { label: 'Resources', href: '/resources' },
+      ]}
+      actions={
+        <>
+          <Button variant="ghost">Sign in</Button>
+          <Button variant="primary">Get Started</Button>
+        </>
+      }
+    />
+  );
+}`,
+      megamenuNavbar: `import { Navbar, NavItem, MegaMenu, MegaMenuColumn } from '@signal3/web';
+
+export function MegamenuNavbar() {
+  return (
+    <Navbar
+      variant="megamenu"
+      logo={<Logo />}
+      items={[
+        {
+          label: 'Products',
+          megamenu: (
+            <MegaMenu>
+              <MegaMenuColumn title="Platform">
+                <MegaMenuItem
+                  icon={<DatabaseIcon />}
+                  title="Data Hub"
+                  description="Centralized data management"
+                  href="/products/data-hub"
+                />
+                <MegaMenuItem
+                  icon={<ShieldIcon />}
+                  title="Security Suite"
+                  description="Enterprise-grade protection"
+                  href="/products/security"
+                />
+              </MegaMenuColumn>
+              <MegaMenuColumn title="Solutions">
+                <MegaMenuItem
+                  icon={<BuildingIcon />}
+                  title="Enterprise"
+                  description="For large organizations"
+                  href="/solutions/enterprise"
+                />
+                <MegaMenuItem
+                  icon={<UsersIcon />}
+                  title="Teams"
+                  description="For growing teams"
+                  href="/solutions/teams"
+                />
+              </MegaMenuColumn>
+              <MegaMenuColumn title="Resources" featured>
+                <MegaMenuFeatured
+                  image="/featured-resource.jpg"
+                  title="2024 Industry Report"
+                  description="Download our latest insights"
+                  href="/resources/report"
+                />
+              </MegaMenuColumn>
+            </MegaMenu>
+          ),
+        },
+        { label: 'Pricing', href: '/pricing' },
+        { label: 'Docs', href: '/docs' },
+      ]}
+      actions={<UserMenu />}
+    />
+  );
+}`,
+      developerNavbar: `import { Navbar, TopBar, NavItem } from '@signal3/web';
+
+export function DeveloperNavbar() {
+  return (
+    <Navbar
+      variant="developer"
+      topBar={
+        <TopBar>
+          <TopBarLinks>
+            <a href="/status">Status</a>
+            <a href="/changelog">Changelog</a>
+            <a href="/support">Support</a>
+          </TopBarLinks>
+          <TopBarActions>
+            <ThemeToggle />
+            <NotificationBell count={3} />
+            <UserAvatar />
+          </TopBarActions>
+        </TopBar>
+      }
+      logo={<Logo />}
+      items={[
+        { label: 'Documentation', href: '/docs' },
+        { label: 'API Reference', href: '/api' },
+        { label: 'Guides', href: '/guides' },
+        { label: 'Community', href: '/community' },
+      ]}
+      actions={
+        <SearchCommand placeholder="Search docs..." />
+      }
+    />
+  );
+}`,
+      megamenuWithFeatured: `// Megamenu with featured content section
+<MegaMenu width="xl">
+  <div className="grid grid-cols-4 gap-6 p-6">
+    {/* Navigation columns */}
+    <MegaMenuColumn title="Products">
+      <MegaMenuItem href="/analytics" icon={<ChartIcon />}>
+        Analytics
+      </MegaMenuItem>
+      <MegaMenuItem href="/automation" icon={<ZapIcon />}>
+        Automation
+      </MegaMenuItem>
+      <MegaMenuItem href="/integrations" icon={<PuzzleIcon />}>
+        Integrations
+      </MegaMenuItem>
+    </MegaMenuColumn>
+
+    <MegaMenuColumn title="Solutions">
+      <MegaMenuItem href="/enterprise">Enterprise</MegaMenuItem>
+      <MegaMenuItem href="/startups">Startups</MegaMenuItem>
+      <MegaMenuItem href="/agencies">Agencies</MegaMenuItem>
+    </MegaMenuColumn>
+
+    <MegaMenuColumn title="Resources">
+      <MegaMenuItem href="/blog">Blog</MegaMenuItem>
+      <MegaMenuItem href="/webinars">Webinars</MegaMenuItem>
+      <MegaMenuItem href="/case-studies">Case Studies</MegaMenuItem>
+    </MegaMenuColumn>
+
+    {/* Featured content */}
+    <div className="rounded-lg bg-gray-50 p-4">
+      <span className="text-xs font-semibold text-primary-600">
+        NEW
+      </span>
+      <h4 className="mt-2 font-semibold">AI Features</h4>
+      <p className="mt-1 text-sm text-gray-600">
+        Explore our new AI-powered capabilities
+      </p>
+      <Button variant="link" size="sm" className="mt-3">
+        Learn more →
+      </Button>
+    </div>
+  </div>
+</MegaMenu>`,
+      megamenuWithTabs: `// Tabbed megamenu for complex navigation
+<MegaMenu>
+  <MegaMenuTabs>
+    <MegaMenuTab label="By Product">
+      <div className="grid grid-cols-3 gap-4 p-6">
+        <ProductCard
+          icon={<BarChartIcon />}
+          title="Analytics"
+          description="Track and analyze user behavior"
+        />
+        <ProductCard
+          icon={<MailIcon />}
+          title="Email"
+          description="Transactional and marketing emails"
+        />
+        <ProductCard
+          icon={<MessageIcon />}
+          title="Chat"
+          description="Real-time messaging platform"
+        />
+      </div>
+    </MegaMenuTab>
+
+    <MegaMenuTab label="By Use Case">
+      <div className="grid grid-cols-2 gap-4 p-6">
+        <UseCaseCard
+          title="E-commerce"
+          items={['Cart recovery', 'Product recommendations', 'Order tracking']}
+        />
+        <UseCaseCard
+          title="SaaS"
+          items={['Onboarding flows', 'Feature announcements', 'Usage alerts']}
+        />
+      </div>
+    </MegaMenuTab>
+
+    <MegaMenuTab label="By Industry">
+      <IndustryGrid industries={['Healthcare', 'Finance', 'Retail', 'Technology']} />
+    </MegaMenuTab>
+  </MegaMenuTabs>
+</MegaMenu>`,
+      megamenuWithIcons: `// Icon-rich megamenu layout
+<MegaMenu>
+  <div className="grid grid-cols-2 gap-px bg-gray-200">
+    {items.map((item) => (
+      <a
+        key={item.href}
+        href={item.href}
+        className="flex items-start gap-4 bg-white p-4 hover:bg-gray-50"
+      >
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary-50">
+          <item.icon className="h-5 w-5 text-primary-600" />
+        </div>
+        <div>
+          <p className="font-semibold text-gray-900">{item.title}</p>
+          <p className="mt-1 text-sm text-gray-500">{item.description}</p>
+        </div>
+      </a>
+    ))}
+  </div>
+
+  {/* Footer with CTA */}
+  <div className="border-t bg-gray-50 px-6 py-4">
+    <div className="flex items-center justify-between">
+      <p className="text-sm text-gray-600">
+        Need help choosing? Talk to our team.
+      </p>
+      <Button variant="primary" size="sm">
+        Contact Sales
+      </Button>
+    </div>
+  </div>
+</MegaMenu>`,
+    },
+    aiDirectives: {
+      componentId: 's3-navbar',
+      semanticRole: 'site-navigation',
+      description: 'Primary navigation component that provides consistent site-wide navigation with support for dropdowns, megamenus, and responsive mobile layouts.',
+      useWhen: [
+        'Building the main site header/navigation',
+        'Need hierarchical navigation with multiple levels',
+        'Displaying complex product/service offerings in megamenu',
+        'Creating developer documentation portals',
+        'Marketing sites with multiple sections',
+        'Dashboard applications with top navigation',
+      ],
+      doNotUseWhen: [
+        'Sidebar navigation (use Sidebar component)',
+        'Tab-based page navigation (use Tabs component)',
+        'Footer navigation (use Footer component)',
+        'In-page section navigation (use TableOfContents)',
+        'Breadcrumb navigation (use Breadcrumb component)',
+      ],
+      contextPatterns: [
+        'Marketing sites: Use megamenu variant with featured content',
+        'Documentation: Use developer variant with search and top bar',
+        'Dashboards: Use simple variant with user menu and notifications',
+        'E-commerce: Use megamenu with product categories and cart',
+        'Corporate: Use megamenu with company sections and CTAs',
+      ],
+      commonPairings: [
+        'Logo: Always include brand logo on the left',
+        'Button: CTA buttons on the right (Sign up, Get Started)',
+        'Avatar: User menu with avatar for authenticated users',
+        'SearchCommand: Global search in developer navbars',
+        'Badge: Notification indicators on icons',
+      ],
+      variantGuidance: {
+        simple: 'Basic navigation with links and optional dropdowns. Best for: landing pages, simple sites, dashboards.',
+        megamenu: 'Full-width dropdown menus with columns and featured content. Best for: marketing sites, e-commerce, enterprise products.',
+        developer: 'Documentation-focused with top utility bar, search, and theme toggle. Best for: API docs, developer portals, technical products.',
+      },
+      accessibilityRequirements: [
+        'Must use semantic nav element with aria-label',
+        'Dropdown triggers must indicate expanded state (aria-expanded)',
+        'Megamenus must be keyboard navigable with arrow keys',
+        'Mobile menu must trap focus when open',
+        'Skip link should be provided for keyboard users',
+        'Current page must be indicated (aria-current="page")',
+      ],
+      contentGuidelines: [
+        'Limit top-level items to 5-7 for cognitive load',
+        'Use clear, action-oriented labels (not "Services" → "Our Services")',
+        'Group related items in megamenu columns with clear headings',
+        'Include descriptions for complex product offerings',
+        'Featured content should highlight key pages or promotions',
+      ],
+      layoutConstraints: [
+        'Height: 64-80px for main navbar',
+        'Top bar (if used): 32-40px additional',
+        'Megamenu max-width: match container or viewport',
+        'Mobile breakpoint: typically lg (1024px)',
+        'Logo max-height: 32-40px',
+        'Sticky position with backdrop blur for scroll behavior',
+      ],
+    } as AIDirective,
+  },
+  chat: {
+    name: 'Chat',
+    description: 'Interactive messaging interface with chat bubbles, typing indicators, and message input. Supports real-time conversations, AI assistants, and customer support.',
+    status: 'beta',
+    package: '@signal3/web',
+    version: '0.0.1',
+    figmaLink: 'https://figma.com/file/...',
+    category: 'Communication',
+    props: [
+      { name: 'variant', type: "'default' | 'floating' | 'embedded' | 'fullscreen'", default: "'default'", description: 'The chat container style' },
+      { name: 'messages', type: 'Message[]', default: '[]', description: 'Array of message objects to display' },
+      { name: 'onSend', type: '(message: string) => void', default: 'undefined', description: 'Callback when user sends a message' },
+      { name: 'placeholder', type: 'string', default: '"Type a message..."', description: 'Input placeholder text' },
+      { name: 'showTypingIndicator', type: 'boolean', default: 'false', description: 'Show typing indicator for incoming messages' },
+      { name: 'showTimestamps', type: 'boolean', default: 'true', description: 'Display message timestamps' },
+      { name: 'showAvatars', type: 'boolean', default: 'true', description: 'Display user avatars next to messages' },
+      { name: 'showStatus', type: 'boolean', default: 'true', description: 'Show message delivery status (sent, delivered, read)' },
+      { name: 'position', type: "'bottom-right' | 'bottom-left' | 'center'", default: "'bottom-right'", description: 'Position for floating variant' },
+      { name: 'header', type: 'ReactNode', default: 'undefined', description: 'Custom header content' },
+    ],
+    examples: {
+      basicChat: `import { Chat, ChatMessage, ChatInput } from '@signal3/web';
+
+export function BasicChat() {
+  const [messages, setMessages] = useState([
+    { id: 1, content: 'Hello! How can I help you today?', sender: 'agent', timestamp: new Date() },
+  ]);
+
+  const handleSend = (content: string) => {
+    setMessages([...messages, {
+      id: messages.length + 1,
+      content,
+      sender: 'user',
+      timestamp: new Date(),
+    }]);
+  };
+
+  return (
+    <Chat
+      messages={messages}
+      onSend={handleSend}
+      placeholder="Type your message..."
+    />
+  );
+}`,
+      chatWithAvatars: `import { Chat, ChatBubble, Avatar } from '@signal3/web';
+
+// Message with avatar and status
+<ChatBubble
+  variant="outgoing"
+  avatar={<Avatar src="/user.jpg" size="sm" />}
+  status="delivered"
+  timestamp="2:34 PM"
+>
+  Hi, I have a question about my account.
+</ChatBubble>
+
+<ChatBubble
+  variant="incoming"
+  avatar={<Avatar src="/agent.jpg" size="sm" />}
+  timestamp="2:35 PM"
+>
+  Of course! I'd be happy to help. What would you like to know?
+</ChatBubble>`,
+      floatingChatWidget: `import { ChatWidget, ChatTrigger } from '@signal3/web';
+
+export function FloatingChat() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <>
+      <ChatTrigger
+        onClick={() => setIsOpen(true)}
+        unreadCount={2}
+        position="bottom-right"
+      />
+
+      <ChatWidget
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        position="bottom-right"
+        header={
+          <ChatHeader
+            title="Support"
+            subtitle="We typically reply within minutes"
+            avatar={<Avatar src="/support.jpg" status="online" />}
+          />
+        }
+      >
+        <ChatMessages messages={messages} />
+        <ChatInput onSend={handleSend} />
+      </ChatWidget>
+    </>
+  );
+}`,
+      aiAssistantChat: `import { Chat, ChatBubble, TypingIndicator } from '@signal3/web';
+
+export function AIAssistant() {
+  const [isTyping, setIsTyping] = useState(false);
+
+  return (
+    <Chat variant="embedded">
+      <ChatHeader
+        title="AI Assistant"
+        subtitle="Powered by Claude"
+        icon={<SparklesIcon />}
+      />
+
+      <ChatMessages>
+        <ChatBubble variant="incoming" isAI>
+          Hello! I'm your AI assistant. I can help you with:
+          • Answering questions about our products
+          • Troubleshooting issues
+          • Finding documentation
+
+          What would you like help with?
+        </ChatBubble>
+
+        {isTyping && (
+          <TypingIndicator>
+            <span className="text-sm text-gray-500">AI is thinking...</span>
+          </TypingIndicator>
+        )}
+      </ChatMessages>
+
+      <ChatInput
+        onSend={handleSend}
+        placeholder="Ask me anything..."
+        showAttachments={false}
+      />
+    </Chat>
+  );
+}`,
+      chatBubbleVariants: `// Outgoing message (user)
+<ChatBubble variant="outgoing">
+  This is a message from the current user
+</ChatBubble>
+
+// Incoming message (other party)
+<ChatBubble variant="incoming">
+  This is a message from someone else
+</ChatBubble>
+
+// System message
+<ChatBubble variant="system">
+  John joined the conversation
+</ChatBubble>
+
+// With rich content
+<ChatBubble variant="outgoing">
+  <ChatAttachment
+    type="image"
+    src="/screenshot.png"
+    alt="Screenshot"
+  />
+  Here's the screenshot you asked for
+</ChatBubble>
+
+// With reactions
+<ChatBubble variant="incoming" reactions={['👍', '❤️']}>
+  Great idea! Let's do it.
+</ChatBubble>`,
+      messageStatusIndicators: `// Message status variants
+<ChatBubble variant="outgoing" status="sending">
+  Sending message...
+</ChatBubble>
+
+<ChatBubble variant="outgoing" status="sent">
+  Message sent
+</ChatBubble>
+
+<ChatBubble variant="outgoing" status="delivered">
+  Message delivered
+</ChatBubble>
+
+<ChatBubble variant="outgoing" status="read">
+  Message read
+</ChatBubble>
+
+<ChatBubble variant="outgoing" status="failed">
+  Failed to send
+  <button onClick={retry}>Retry</button>
+</ChatBubble>`,
+    },
+    aiDirectives: {
+      componentId: 's3-chat',
+      semanticRole: 'conversational-interface',
+      description: 'Real-time messaging interface for two-way communication. Supports human-to-human chat, AI assistants, customer support widgets, and collaborative messaging.',
+      useWhen: [
+        'Building customer support chat widgets',
+        'Implementing AI assistant interfaces',
+        'Creating real-time messaging between users',
+        'Adding in-app communication features',
+        'Building collaborative workspaces with chat',
+        'Implementing help desk or FAQ chat bots',
+      ],
+      doNotUseWhen: [
+        'One-way notifications (use Toast or Alert)',
+        'Comments on content (use Comments component)',
+        'Discussion threads (use Forum/Thread component)',
+        'Status updates without conversation (use Activity Feed)',
+        'Form-based contact (use Contact Form)',
+      ],
+      contextPatterns: [
+        'Support widget: Floating variant, bottom-right position, with header and status',
+        'AI assistant: Embedded variant with typing indicator and streaming responses',
+        'Team chat: Fullscreen variant with thread support and reactions',
+        'In-app messaging: Default variant with avatars and read receipts',
+        'Help bot: Floating variant with quick replies and suggested actions',
+      ],
+      commonPairings: [
+        'Avatar: Display sender identity in message bubbles',
+        'Badge: Show unread count on chat trigger',
+        'Button: Quick reply buttons and action suggestions',
+        'Input: Message composition with attachments',
+        'Card: Rich message content (links, previews)',
+      ],
+      variantGuidance: {
+        default: 'Standard inline chat. Use for dedicated messaging pages or large embedded areas.',
+        floating: 'Popup chat widget. Use for support chat that overlays page content. Position bottom-right by default.',
+        embedded: 'Seamless integration. Use when chat is part of a larger interface (sidebars, panels).',
+        fullscreen: 'Full viewport chat. Use for mobile apps or dedicated messaging applications.',
+      },
+      accessibilityRequirements: [
+        'Messages must be announced to screen readers as they arrive',
+        'Chat input must have clear label and focus management',
+        'Keyboard navigation through message history',
+        'Status changes (typing, delivered) announced to assistive tech',
+        'Floating widget must trap focus when open',
+        'Close button must be keyboard accessible',
+      ],
+      contentGuidelines: [
+        'Keep message bubbles scannable - one thought per message',
+        'Use typing indicators to show real-time activity',
+        'Display timestamps relative to now (2m ago, Yesterday)',
+        'Show delivery status for user confidence',
+        'Provide clear visual distinction between incoming/outgoing',
+        'Support markdown or rich text for formatted messages',
+      ],
+      layoutConstraints: [
+        'Floating widget: 360-400px width, max 500px height',
+        'Chat bubbles: max-width 80% of container',
+        'Input area: min-height 48px, expandable for multiline',
+        'Avatar size: 32px (sm) for messages',
+        'Message spacing: 8-12px between messages from same sender, 16-24px between different senders',
+        'Timestamp: below message or grouped by time period',
+      ],
+    } as AIDirective,
+  },
 };
 
 export async function generateStaticParams() {
@@ -508,6 +1069,27 @@ export function Example() {
                 language="tsx"
               />
             </section>
+
+            {/* Examples - for components with multiple variants */}
+            {component.examples && (
+              <section id="examples" className="mb-12">
+                <h2 className="mb-6 text-xl font-semibold text-gray-900">Examples</h2>
+                <div className="space-y-8">
+                  {Object.entries(component.examples).map(([key, code]) => {
+                    const title = key
+                      .replace(/([A-Z])/g, ' $1')
+                      .replace(/^./, (str) => str.toUpperCase())
+                      .trim();
+                    return (
+                      <div key={key}>
+                        <h3 className="mb-3 text-lg font-medium text-gray-800">{title}</h3>
+                        <CodeBlock code={code as string} language="tsx" />
+                      </div>
+                    );
+                  })}
+                </div>
+              </section>
+            )}
 
             {/* Props */}
             <section className="mb-12">
@@ -710,6 +1292,11 @@ export function Example() {
                   <a href="#usage" className="block text-gray-600 hover:text-gray-900">
                     Usage
                   </a>
+                  {component.examples && (
+                    <a href="#examples" className="block text-gray-600 hover:text-gray-900">
+                      Examples
+                    </a>
+                  )}
                   <a href="#props" className="block text-gray-600 hover:text-gray-900">
                     Props
                   </a>

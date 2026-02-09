@@ -4,6 +4,7 @@ import { fontFamilies, fontSizes, fontWeights, lineHeights } from '../tokens/typ
 import { spacing } from '../tokens/spacing';
 import { shadows, focusRings } from '../tokens/shadows';
 import { radii } from '../tokens/radii';
+import { hexToChannels } from '../utils';
 
 export const signal3Theme = {
   colors: {
@@ -26,16 +27,18 @@ export const signal3Theme = {
 
 export type Signal3Theme = typeof signal3Theme;
 
-// CSS Custom Properties generator
+// CSS Custom Properties generator — outputs R G B channels for Tailwind opacity support
 export function generateCSSVariables(theme: Signal3Theme = signal3Theme): string {
   const lines: string[] = [':root {'];
 
-  // Colors
+  // Colors — output as R G B channels (e.g. "158 27 50")
   Object.entries(theme.colors).forEach(([key, value]) => {
     if (typeof value === 'object') {
       Object.entries(value).forEach(([shade, color]) => {
-        lines.push(`  --color-${key}-${shade}: ${color};`);
+        lines.push(`  --color-${key}-${shade}: ${hexToChannels(color)};`);
       });
+    } else if (typeof value === 'string' && value.startsWith('#')) {
+      lines.push(`  --color-${key}: ${hexToChannels(value)};`);
     } else {
       lines.push(`  --color-${key}: ${value};`);
     }

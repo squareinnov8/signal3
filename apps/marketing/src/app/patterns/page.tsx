@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight, Layout, CreditCard, Layers, SplitSquareHorizontal, Navigation, Building2, FileText } from 'lucide-react';
+import { ArrowRight, Layout, CreditCard, Layers, SplitSquareHorizontal, Navigation, Building2, FileText, MessageCircle } from 'lucide-react';
 
 const patterns = [
   {
@@ -36,6 +36,13 @@ const patterns = [
     href: '/patterns/split-content',
     icon: SplitSquareHorizontal,
     variants: ['Text Left', 'Text Right', 'With Stats', 'With List'],
+  },
+  {
+    title: 'Chat & Messaging',
+    description: 'Interactive chat interfaces for support, AI assistants, and real-time messaging.',
+    href: '/patterns/chat',
+    icon: MessageCircle,
+    variants: ['Support Widget', 'AI Assistant', 'Floating Chat', 'Embedded'],
   },
 ];
 

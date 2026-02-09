@@ -3,6 +3,7 @@ import { Open_Sans } from 'next/font/google';
 import './globals.css';
 import { Navigation } from '@/components/layout/Navigation';
 import { Footer } from '@/components/layout/Footer';
+import { Aura } from '@/components/Aura';
 
 // Open Sans - Official Equifax brand typeface
 const openSans = Open_Sans({
@@ -30,6 +31,7 @@ export default function RootLayout({
         <Navigation />
         <main>{children}</main>
         <Footer />
+        <Aura />
       </body>
     </html>
   );

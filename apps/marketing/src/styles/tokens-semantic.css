@@ -1,0 +1,367 @@
+/* ==========================================================================
+   Signal3 Semantic Design Tokens - Light Mode
+   Derived from Figma export: 1.-color-modes-light-mode.css
+
+   These tokens map purpose-based names to primitive color scales.
+   Primitives are defined in globals.css as R G B channels.
+
+   Naming convention:
+     Figma: --colors-text-text-primary-700        → --s3-text-primary
+     Figma: --colors-background-bg-brand-solid     → --s3-bg-brand-solid
+     Figma: --component-colors-utility-blue-*      → --s3-utility-blue-*
+
+   All values use rgb() wrapping the primitive channel vars.
+   ========================================================================== */
+
+:root {
+  /* ===== TEXT TOKENS ===== */
+  --s3-text-primary: rgb(var(--color-gray-900));
+  --s3-text-secondary: rgb(var(--color-gray-700));
+  --s3-text-tertiary: rgb(var(--color-gray-600));
+  --s3-text-quaternary: rgb(var(--color-gray-500));
+  --s3-text-disabled: rgb(var(--color-gray-500));
+  --s3-text-placeholder: rgb(var(--color-gray-500));
+  --s3-text-placeholder-subtle: rgb(var(--color-gray-300));
+  --s3-text-white: rgb(var(--color-white));
+  --s3-text-brand-primary: rgb(var(--color-primary-900));
+  --s3-text-brand-secondary: rgb(var(--color-primary-700));
+  --s3-text-brand-tertiary: rgb(var(--color-primary-600));
+  --s3-text-brand-tertiary-alt: rgb(var(--color-primary-600));
+  --s3-text-error-primary: rgb(var(--color-error-600));
+  --s3-text-warning-primary: rgb(var(--color-warning-600));
+  --s3-text-success-primary: rgb(var(--color-success-600));
+
+  /* Text - On Brand (for use on brand-colored backgrounds) */
+  --s3-text-primary-on-brand: rgb(var(--color-white));
+  --s3-text-secondary-on-brand: rgb(var(--color-primary-200));
+  --s3-text-tertiary-on-brand: rgb(var(--color-primary-200));
+  --s3-text-quaternary-on-brand: rgb(var(--color-primary-300));
+
+  /* Text - Hover States */
+  --s3-text-secondary-hover: rgb(var(--color-gray-800));
+  --s3-text-tertiary-hover: rgb(var(--color-gray-700));
+  --s3-text-brand-secondary-hover: rgb(var(--color-primary-800));
+  --s3-text-error-primary-hover: rgb(var(--color-error-700));
+
+  /* ===== BACKGROUND TOKENS ===== */
+  --s3-bg-primary: rgb(var(--color-white));
+  --s3-bg-primary-alt: rgb(var(--color-white));
+  --s3-bg-primary-hover: rgb(var(--color-gray-50));
+  --s3-bg-primary-solid: rgb(var(--color-gray-950));
+  --s3-bg-secondary: rgb(var(--color-gray-50));
+  --s3-bg-secondary-alt: rgb(var(--color-gray-50));
+  --s3-bg-secondary-subtle: rgb(var(--color-gray-25));
+  --s3-bg-secondary-hover: rgb(var(--color-gray-100));
+  --s3-bg-secondary-solid: rgb(var(--color-gray-600));
+  --s3-bg-tertiary: rgb(var(--color-gray-100));
+  --s3-bg-quaternary: rgb(var(--color-gray-200));
+  --s3-bg-active: rgb(var(--color-gray-50));
+  --s3-bg-disabled: rgb(var(--color-gray-100));
+  --s3-bg-disabled-subtle: rgb(var(--color-gray-50));
+  --s3-bg-overlay: rgb(var(--color-gray-950));
+
+  /* Background - Brand */
+  --s3-bg-brand-primary: rgb(var(--color-primary-50));
+  --s3-bg-brand-primary-alt: rgb(var(--color-primary-50));
+  --s3-bg-brand-secondary: rgb(var(--color-primary-100));
+  --s3-bg-brand-solid: rgb(var(--color-primary-600));
+  --s3-bg-brand-solid-hover: rgb(var(--color-primary-700));
+  --s3-bg-brand-section: rgb(var(--color-primary-800));
+  --s3-bg-brand-section-subtle: rgb(var(--color-primary-700));
+
+  /* Background - Semantic */
+  --s3-bg-error-primary: rgb(var(--color-error-50));
+  --s3-bg-error-secondary: rgb(var(--color-error-100));
+  --s3-bg-error-solid: rgb(var(--color-error-600));
+  --s3-bg-error-solid-hover: rgb(var(--color-error-700));
+  --s3-bg-warning-primary: rgb(var(--color-warning-50));
+  --s3-bg-warning-secondary: rgb(var(--color-warning-100));
+  --s3-bg-warning-solid: rgb(var(--color-warning-600));
+  --s3-bg-success-primary: rgb(var(--color-success-50));
+  --s3-bg-success-secondary: rgb(var(--color-success-100));
+  --s3-bg-success-solid: rgb(var(--color-success-600));
+
+  /* ===== FOREGROUND / ICON TOKENS ===== */
+  --s3-fg-primary: rgb(var(--color-gray-900));
+  --s3-fg-secondary: rgb(var(--color-gray-700));
+  --s3-fg-secondary-hover: rgb(var(--color-gray-800));
+  --s3-fg-tertiary: rgb(var(--color-gray-600));
+  --s3-fg-tertiary-hover: rgb(var(--color-gray-700));
+  --s3-fg-quaternary: rgb(var(--color-gray-400));
+  --s3-fg-quaternary-hover: rgb(var(--color-gray-500));
+  --s3-fg-white: rgb(var(--color-white));
+  --s3-fg-disabled: rgb(var(--color-gray-400));
+  --s3-fg-disabled-subtle: rgb(var(--color-gray-300));
+  --s3-fg-brand-primary: rgb(var(--color-primary-600));
+  --s3-fg-brand-primary-alt: rgb(var(--color-primary-600));
+  --s3-fg-brand-secondary: rgb(var(--color-primary-500));
+  --s3-fg-brand-secondary-alt: rgb(var(--color-primary-500));
+  --s3-fg-brand-secondary-hover: rgb(var(--color-primary-600));
+  --s3-fg-error-primary: rgb(var(--color-error-600));
+  --s3-fg-error-secondary: rgb(var(--color-error-500));
+  --s3-fg-warning-primary: rgb(var(--color-warning-600));
+  --s3-fg-warning-secondary: rgb(var(--color-warning-500));
+  --s3-fg-success-primary: rgb(var(--color-success-600));
+  --s3-fg-success-secondary: rgb(var(--color-success-500));
+
+  /* ===== BORDER TOKENS ===== */
+  --s3-border-primary: rgb(var(--color-gray-300));
+  --s3-border-secondary: rgb(var(--color-gray-200));
+  --s3-border-secondary-alt: rgb(var(--color-black));
+  --s3-border-tertiary: rgb(var(--color-gray-100));
+  --s3-border-disabled: rgb(var(--color-gray-300));
+  --s3-border-disabled-subtle: rgb(var(--color-gray-200));
+  --s3-border-brand: rgb(var(--color-primary-500));
+  --s3-border-brand-alt: rgb(var(--color-primary-600));
+  --s3-border-error: rgb(var(--color-error-500));
+  --s3-border-error-subtle: rgb(var(--color-error-300));
+
+  /* ===== COMPONENT TOKENS ===== */
+
+  /* Utility Color Scales (for badges, tags, indicators) */
+  /* Brand */
+  --s3-utility-brand-50: rgb(var(--color-primary-50));
+  --s3-utility-brand-100: rgb(var(--color-primary-100));
+  --s3-utility-brand-200: rgb(var(--color-primary-200));
+  --s3-utility-brand-300: rgb(var(--color-primary-300));
+  --s3-utility-brand-400: rgb(var(--color-primary-400));
+  --s3-utility-brand-500: rgb(var(--color-primary-500));
+  --s3-utility-brand-600: rgb(var(--color-primary-600));
+  --s3-utility-brand-700: rgb(var(--color-primary-700));
+  --s3-utility-brand-800: rgb(var(--color-primary-800));
+  --s3-utility-brand-900: rgb(var(--color-primary-900));
+
+  /* Gray */
+  --s3-utility-gray-50: rgb(var(--color-gray-50));
+  --s3-utility-gray-100: rgb(var(--color-gray-100));
+  --s3-utility-gray-200: rgb(var(--color-gray-200));
+  --s3-utility-gray-300: rgb(var(--color-gray-300));
+  --s3-utility-gray-400: rgb(var(--color-gray-400));
+  --s3-utility-gray-500: rgb(var(--color-gray-500));
+  --s3-utility-gray-600: rgb(var(--color-gray-600));
+  --s3-utility-gray-700: rgb(var(--color-gray-700));
+  --s3-utility-gray-800: rgb(var(--color-gray-800));
+  --s3-utility-gray-900: rgb(var(--color-gray-900));
+
+  /* Error */
+  --s3-utility-error-50: rgb(var(--color-error-50));
+  --s3-utility-error-100: rgb(var(--color-error-100));
+  --s3-utility-error-200: rgb(var(--color-error-200));
+  --s3-utility-error-300: rgb(var(--color-error-300));
+  --s3-utility-error-400: rgb(var(--color-error-400));
+  --s3-utility-error-500: rgb(var(--color-error-500));
+  --s3-utility-error-600: rgb(var(--color-error-600));
+  --s3-utility-error-700: rgb(var(--color-error-700));
+
+  /* Warning */
+  --s3-utility-warning-50: rgb(var(--color-warning-50));
+  --s3-utility-warning-100: rgb(var(--color-warning-100));
+  --s3-utility-warning-200: rgb(var(--color-warning-200));
+  --s3-utility-warning-300: rgb(var(--color-warning-300));
+  --s3-utility-warning-400: rgb(var(--color-warning-400));
+  --s3-utility-warning-500: rgb(var(--color-warning-500));
+  --s3-utility-warning-600: rgb(var(--color-warning-600));
+  --s3-utility-warning-700: rgb(var(--color-warning-700));
+
+  /* Success */
+  --s3-utility-success-50: rgb(var(--color-success-50));
+  --s3-utility-success-100: rgb(var(--color-success-100));
+  --s3-utility-success-200: rgb(var(--color-success-200));
+  --s3-utility-success-300: rgb(var(--color-success-300));
+  --s3-utility-success-400: rgb(var(--color-success-400));
+  --s3-utility-success-500: rgb(var(--color-success-500));
+  --s3-utility-success-600: rgb(var(--color-success-600));
+  --s3-utility-success-700: rgb(var(--color-success-700));
+
+  /* Blue */
+  --s3-utility-blue-50: rgb(var(--color-blue-50));
+  --s3-utility-blue-100: rgb(var(--color-blue-100));
+  --s3-utility-blue-200: rgb(var(--color-blue-200));
+  --s3-utility-blue-300: rgb(var(--color-blue-300));
+  --s3-utility-blue-400: rgb(var(--color-blue-400));
+  --s3-utility-blue-500: rgb(var(--color-blue-500));
+  --s3-utility-blue-600: rgb(var(--color-blue-600));
+  --s3-utility-blue-700: rgb(var(--color-blue-700));
+
+  /* Purple */
+  --s3-utility-purple-50: rgb(var(--color-purple-50));
+  --s3-utility-purple-100: rgb(var(--color-purple-100));
+  --s3-utility-purple-200: rgb(var(--color-purple-200));
+  --s3-utility-purple-300: rgb(var(--color-purple-300));
+  --s3-utility-purple-400: rgb(var(--color-purple-400));
+  --s3-utility-purple-500: rgb(var(--color-purple-500));
+  --s3-utility-purple-600: rgb(var(--color-purple-600));
+  --s3-utility-purple-700: rgb(var(--color-purple-700));
+
+  /* Orange */
+  --s3-utility-orange-50: rgb(var(--color-orange-50));
+  --s3-utility-orange-100: rgb(var(--color-orange-100));
+  --s3-utility-orange-200: rgb(var(--color-orange-200));
+  --s3-utility-orange-300: rgb(var(--color-orange-300));
+  --s3-utility-orange-400: rgb(var(--color-orange-400));
+  --s3-utility-orange-500: rgb(var(--color-orange-500));
+  --s3-utility-orange-600: rgb(var(--color-orange-600));
+  --s3-utility-orange-700: rgb(var(--color-orange-700));
+
+  /* Green */
+  --s3-utility-green-50: rgb(var(--color-green-50));
+  --s3-utility-green-100: rgb(var(--color-green-100));
+  --s3-utility-green-200: rgb(var(--color-green-200));
+  --s3-utility-green-300: rgb(var(--color-green-300));
+  --s3-utility-green-400: rgb(var(--color-green-400));
+  --s3-utility-green-500: rgb(var(--color-green-500));
+  --s3-utility-green-600: rgb(var(--color-green-600));
+  --s3-utility-green-700: rgb(var(--color-green-700));
+
+  /* Yellow */
+  --s3-utility-yellow-50: rgb(var(--color-yellow-50));
+  --s3-utility-yellow-100: rgb(var(--color-yellow-100));
+  --s3-utility-yellow-200: rgb(var(--color-yellow-200));
+  --s3-utility-yellow-300: rgb(var(--color-yellow-300));
+  --s3-utility-yellow-400: rgb(var(--color-yellow-400));
+  --s3-utility-yellow-500: rgb(var(--color-yellow-500));
+  --s3-utility-yellow-600: rgb(var(--color-yellow-600));
+  --s3-utility-yellow-700: rgb(var(--color-yellow-700));
+
+  /* Buttons */
+  --s3-button-primary-icon: rgb(var(--color-primary-300));
+  --s3-button-primary-icon-hover: rgb(var(--color-primary-200));
+  --s3-button-destructive-icon: rgb(var(--color-error-300));
+  --s3-button-destructive-icon-hover: rgb(var(--color-error-200));
+
+  /* Toggles */
+  --s3-toggle-border: rgb(var(--color-gray-300));
+  --s3-toggle-button-fg-disabled: rgb(var(--color-gray-50));
+
+  /* Sliders */
+  --s3-slider-handle-border: rgb(var(--color-primary-600));
+  --s3-slider-handle-bg: rgb(var(--color-white));
+
+  /* Tooltips */
+  --s3-tooltip-supporting-text: rgb(var(--color-gray-300));
+
+  /* Icons */
+  --s3-icon-fg-brand: rgb(var(--color-primary-600));
+  --s3-icon-fg-brand-on-brand: rgb(var(--color-primary-200));
+  --s3-icon-featured-brand: rgb(var(--color-primary-600));
+  --s3-icon-featured-gray: rgb(var(--color-gray-500));
+  --s3-icon-featured-error: rgb(var(--color-error-600));
+  --s3-icon-featured-warning: rgb(var(--color-warning-600));
+  --s3-icon-featured-success: rgb(var(--color-success-600));
+
+  /* Text Editor */
+  --s3-text-editor-icon-fg: rgb(var(--color-gray-400));
+  --s3-text-editor-icon-fg-active: rgb(var(--color-gray-500));
+
+  /* Footers */
+  --s3-footer-button-fg: rgb(var(--color-primary-200));
+  --s3-footer-button-fg-hover: rgb(var(--color-white));
+
+  /* Avatars */
+  --s3-avatar-bg-neutral: #e0e0e0;
+
+  /* App Store Badges */
+  --s3-app-store-badge-border: #a6a6a6;
+
+  /* Mockups */
+  --s3-mockup-border: rgb(var(--color-gray-900));
+
+  /* ===== ALPHA TOKENS ===== */
+  --s3-alpha-white-10: rgba(255, 255, 255, 0.1);
+  --s3-alpha-white-20: rgba(255, 255, 255, 0.2);
+  --s3-alpha-white-30: rgba(255, 255, 255, 0.3);
+  --s3-alpha-white-40: rgba(255, 255, 255, 0.4);
+  --s3-alpha-white-50: rgba(255, 255, 255, 0.5);
+  --s3-alpha-white-60: rgba(255, 255, 255, 0.6);
+  --s3-alpha-white-70: rgba(255, 255, 255, 0.7);
+  --s3-alpha-white-80: rgba(255, 255, 255, 0.8);
+  --s3-alpha-white-90: rgba(255, 255, 255, 0.9);
+  --s3-alpha-white-100: rgba(255, 255, 255, 1);
+  --s3-alpha-black-10: rgba(0, 0, 0, 0.1);
+  --s3-alpha-black-20: rgba(0, 0, 0, 0.2);
+  --s3-alpha-black-30: rgba(0, 0, 0, 0.3);
+  --s3-alpha-black-40: rgba(0, 0, 0, 0.4);
+  --s3-alpha-black-50: rgba(0, 0, 0, 0.5);
+  --s3-alpha-black-60: rgba(0, 0, 0, 0.6);
+  --s3-alpha-black-70: rgba(0, 0, 0, 0.7);
+  --s3-alpha-black-80: rgba(0, 0, 0, 0.8);
+  --s3-alpha-black-90: rgba(0, 0, 0, 0.9);
+  --s3-alpha-black-100: rgba(0, 0, 0, 1);
+
+  /* ===== EFFECT TOKENS ===== */
+  --s3-shadow-color: 10 13 18; /* #0A0D12 */
+  --s3-shadow-xs: 0px 1px 2px rgba(10, 13, 18, 0.05);
+  --s3-shadow-sm: 0px 1px 3px rgba(10, 13, 18, 0.1), 0px 1px 2px rgba(10, 13, 18, 0.06);
+  --s3-shadow-md: 0px 4px 8px -2px rgba(10, 13, 18, 0.1), 0px 2px 4px -2px rgba(10, 13, 18, 0.06);
+  --s3-shadow-lg: 0px 12px 16px -4px rgba(10, 13, 18, 0.08), 0px 4px 6px -2px rgba(10, 13, 18, 0.03);
+  --s3-shadow-xl: 0px 20px 24px -4px rgba(10, 13, 18, 0.08), 0px 8px 8px -4px rgba(10, 13, 18, 0.03);
+  --s3-shadow-2xl: 0px 24px 48px -12px rgba(10, 13, 18, 0.18);
+  --s3-shadow-3xl: 0px 32px 64px -12px rgba(10, 13, 18, 0.14);
+  --s3-shadow-skeuomorphic-inner: inset 0px -1px 0px rgba(10, 13, 18, 0.08);
+
+  /* Focus Rings */
+  --s3-focus-ring: 0px 0px 0px 4px rgb(var(--color-primary-100));
+  --s3-focus-ring-error: 0px 0px 0px 4px rgb(var(--color-error-100));
+}
+
+/* ==========================================================================
+   Dark Mode - Semantic Token Overrides
+   Activate with: <html data-theme="dark"> or <html class="dark">
+   Primitives stay the same; only purpose mappings flip.
+   ========================================================================== */
+
+[data-theme="dark"],
+.dark {
+  /* Text */
+  --s3-text-primary: rgb(var(--color-gray-50));
+  --s3-text-secondary: rgb(var(--color-gray-300));
+  --s3-text-tertiary: rgb(var(--color-gray-400));
+  --s3-text-quaternary: rgb(var(--color-gray-500));
+  --s3-text-disabled: rgb(var(--color-gray-600));
+  --s3-text-placeholder: rgb(var(--color-gray-400));
+  --s3-text-placeholder-subtle: rgb(var(--color-gray-600));
+  --s3-text-brand-primary: rgb(var(--color-primary-50));
+  --s3-text-brand-secondary: rgb(var(--color-primary-300));
+  --s3-text-brand-tertiary: rgb(var(--color-primary-400));
+  --s3-text-error-primary: rgb(var(--color-error-400));
+  --s3-text-warning-primary: rgb(var(--color-warning-400));
+  --s3-text-success-primary: rgb(var(--color-success-400));
+
+  /* Backgrounds */
+  --s3-bg-primary: rgb(var(--color-gray-950));
+  --s3-bg-primary-alt: rgb(var(--color-gray-900));
+  --s3-bg-primary-hover: rgb(var(--color-gray-800));
+  --s3-bg-primary-solid: rgb(var(--color-gray-50));
+  --s3-bg-secondary: rgb(var(--color-gray-900));
+  --s3-bg-secondary-alt: rgb(var(--color-gray-900));
+  --s3-bg-secondary-subtle: rgb(var(--color-gray-900));
+  --s3-bg-secondary-hover: rgb(var(--color-gray-800));
+  --s3-bg-secondary-solid: rgb(var(--color-gray-400));
+  --s3-bg-tertiary: rgb(var(--color-gray-800));
+  --s3-bg-quaternary: rgb(var(--color-gray-700));
+  --s3-bg-active: rgb(var(--color-gray-800));
+  --s3-bg-disabled: rgb(var(--color-gray-800));
+  --s3-bg-disabled-subtle: rgb(var(--color-gray-900));
+  --s3-bg-overlay: rgb(var(--color-gray-950));
+
+  /* Borders */
+  --s3-border-primary: rgb(var(--color-gray-700));
+  --s3-border-secondary: rgb(var(--color-gray-800));
+  --s3-border-tertiary: rgb(var(--color-gray-800));
+  --s3-border-disabled: rgb(var(--color-gray-700));
+  --s3-border-disabled-subtle: rgb(var(--color-gray-800));
+
+  /* Foreground */
+  --s3-fg-primary: rgb(var(--color-gray-50));
+  --s3-fg-secondary: rgb(var(--color-gray-300));
+  --s3-fg-secondary-hover: rgb(var(--color-gray-200));
+  --s3-fg-tertiary: rgb(var(--color-gray-400));
+  --s3-fg-tertiary-hover: rgb(var(--color-gray-300));
+  --s3-fg-quaternary: rgb(var(--color-gray-500));
+  --s3-fg-quaternary-hover: rgb(var(--color-gray-400));
+  --s3-fg-disabled: rgb(var(--color-gray-600));
+  --s3-fg-disabled-subtle: rgb(var(--color-gray-700));
+
+  /* Tooltips */
+  --s3-tooltip-supporting-text: rgb(var(--color-gray-400));
+}

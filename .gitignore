@@ -42,3 +42,4 @@ yarn-error.log*
 # Figma tokens (local overrides)
 .figma/tokens.local.json
 .vercel
+.env*.local

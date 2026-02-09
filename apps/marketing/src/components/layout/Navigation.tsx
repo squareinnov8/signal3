@@ -61,8 +61,13 @@ export function Navigation() {
   const pathname = usePathname();
 
   const isActive = (href: string) => {
+    // Use Cases is a special case - check it first
     if (href === '/patterns/use-cases') {
       return pathname.startsWith('/patterns/use-cases');
+    }
+    // For /patterns, exclude use-cases subpaths
+    if (href === '/patterns') {
+      return pathname === '/patterns' || (pathname.startsWith('/patterns/') && !pathname.startsWith('/patterns/use-cases'));
     }
     return pathname === href || pathname.startsWith(href + '/');
   };
@@ -109,9 +114,14 @@ export function Navigation() {
         <nav className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           {/* Logo */}
           <Link href="/" className="flex-shrink-0">
-            <span className="text-2xl font-bold tracking-tight text-primary-600">
-              EQUIFAX<span className="align-super text-xs">&reg;</span>
-            </span>
+            <Image
+              src="/logos/EFXlogo_red.svg"
+              alt="Equifax"
+              width={140}
+              height={36}
+              className="h-8 w-auto"
+              priority
+            />
           </Link>
 
           {/* Desktop Navigation - Blue themed links */}

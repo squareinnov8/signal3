@@ -56,6 +56,17 @@ export function cn(...classes: (string | boolean | undefined | null)[]): string 
 }
 
 /**
+ * Convert hex color to space-separated R G B channels for CSS variables.
+ * Used by Tailwind's opacity modifier support: rgb(var(--color) / <alpha-value>)
+ * @example hexToChannels('#9E1B32') // returns '158 27 50'
+ */
+export function hexToChannels(hex: string): string {
+  const rgb = hexToRgb(hex);
+  if (!rgb) return hex;
+  return `${rgb.r} ${rgb.g} ${rgb.b}`;
+}
+
+/**
  * Type-safe object keys
  */
 export function objectKeys<T extends object>(obj: T): (keyof T)[] {
