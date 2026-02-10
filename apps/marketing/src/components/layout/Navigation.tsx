@@ -12,7 +12,12 @@ import {
   Bell,
   Grid3X3,
   User,
+  Sun,
+  Moon,
+  Palette,
+  Check,
 } from 'lucide-react';
+import { useTheme, type ThemeName } from './ThemeProvider';
 
 const navigation = [
   { name: 'Components', href: '/components' },
@@ -118,6 +123,60 @@ function AccountDropdown() {
   );
 }
 
+const themes: { id: ThemeName; name: string; icon: typeof Sun }[] = [
+  { id: 'one-equifax', name: 'OneEquifax', icon: Sun },
+  { id: 'one-equifax-dark', name: 'OneEquifax (Dark)', icon: Moon },
+];
+
+function ThemeDropdown() {
+  const [isOpen, setIsOpen] = useState(false);
+  const { theme, setTheme } = useTheme();
+
+  return (
+    <div className="relative flex items-center">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        onBlur={() => setTimeout(() => setIsOpen(false), 200)}
+        className="flex items-center justify-center gap-1.5 rounded p-2 text-gray-400 hover:bg-gray-800 hover:text-white"
+        title="Switch theme"
+      >
+        <Palette className="h-4 w-4" />
+        <ChevronDown className={`h-3 w-3 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+      </button>
+
+      {isOpen && (
+        <div className="absolute right-0 top-full z-50 mt-2 w-52 rounded-lg border border-gray-200 bg-white py-1 shadow-lg">
+          <div className="border-b border-gray-100 px-3 py-2">
+            <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">Theme</p>
+          </div>
+          {themes.map((t) => {
+            const Icon = t.icon;
+            const isActive = theme === t.id;
+            return (
+              <button
+                key={t.id}
+                onClick={() => {
+                  setTheme(t.id);
+                  setIsOpen(false);
+                }}
+                className={`flex w-full items-center gap-3 px-3 py-2.5 text-sm transition-colors ${
+                  isActive
+                    ? 'bg-primary-50 text-primary-700'
+                    : 'text-gray-700 hover:bg-gray-50'
+                }`}
+              >
+                <Icon className="h-4 w-4" />
+                <span className="flex-1 text-left">{t.name}</span>
+                {isActive && <Check className="h-4 w-4 text-primary-600" />}
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
@@ -151,6 +210,8 @@ export function Navigation() {
             <button className="flex items-center justify-center rounded p-2 text-gray-400 hover:bg-gray-800 hover:text-white">
               <Grid3X3 className="h-4 w-4" />
             </button>
+            {/* Theme Switcher */}
+            <ThemeDropdown />
             {/* Notifications with badge */}
             <button className="flex items-center justify-center rounded p-2 text-gray-400 hover:bg-gray-800 hover:text-white">
               <IconWithBadge count={3}>

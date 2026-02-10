@@ -6,6 +6,7 @@ import './globals.css';
 import { Navigation } from '@/components/layout/Navigation';
 import { Footer } from '@/components/layout/Footer';
 import { Aura } from '@/components/Aura';
+import { ThemeProvider } from '@/components/layout/ThemeProvider';
 
 // Open Sans - Official Equifax brand typeface
 const openSans = Open_Sans({
@@ -28,12 +29,30 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={openSans.variable}>
+    <html lang="en" className={openSans.variable} suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var theme = localStorage.getItem('signal3-theme');
+                  if (theme && theme !== 'one-equifax') {
+                    document.documentElement.setAttribute('data-theme', theme);
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
       <body className="min-h-screen bg-white font-body text-gray-900 antialiased">
-        <Navigation />
-        <main>{children}</main>
-        <Footer />
-        <Aura />
+        <ThemeProvider>
+          <Navigation />
+          <main>{children}</main>
+          <Footer />
+          <Aura />
+        </ThemeProvider>
         <Analytics />
 
         {/* Pendo Analytics */}

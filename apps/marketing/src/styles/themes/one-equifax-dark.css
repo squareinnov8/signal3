@@ -1,0 +1,274 @@
+/* ==========================================================================
+   OneEquifax (Dark) Theme
+   Selector: [data-theme="one-equifax-dark"]
+
+   This theme overrides Tailwind utility classes for dark mode.
+   It uses descendant selectors with higher specificity than @layer utilities.
+
+   Architecture:
+     - Surface colors (bg-white, bg-gray-50/100) → dark backgrounds
+     - Text colors (text-gray-900..500) → inverted for readability
+     - Borders → darker tones
+     - Brand/accent colors preserved as-is
+     - text-white stays #fff (Tailwind built-in, not overridden)
+     - bg-gray-900 stays dark (used for dev nav, code blocks)
+   ========================================================================== */
+
+/* ===== SURFACE / BACKGROUND OVERRIDES ===== */
+
+[data-theme="one-equifax-dark"] .bg-white {
+  background-color: rgb(13 15 17) !important;
+}
+
+/* Tailwind backdrop variants (Navigation.tsx uses these) */
+[data-theme="one-equifax-dark"] .bg-white\/95 {
+  background-color: rgba(13, 15, 17, 0.95) !important;
+}
+
+[data-theme="one-equifax-dark"] .bg-white\/80 {
+  background-color: rgba(13, 15, 17, 0.80) !important;
+}
+
+[data-theme="one-equifax-dark"] .supports-\[backdrop-filter\]\:bg-white\/80 {
+  background-color: rgba(13, 15, 17, 0.80) !important;
+}
+
+/* Light gray surfaces → raised dark surfaces */
+[data-theme="one-equifax-dark"] .bg-gray-50 {
+  background-color: rgb(26 30 36) !important;
+}
+
+[data-theme="one-equifax-dark"] .bg-gray-100 {
+  background-color: rgb(42 48 55) !important;
+}
+
+[data-theme="one-equifax-dark"] .bg-gray-200 {
+  background-color: rgb(58 66 74) !important;
+}
+
+/* Selection highlight */
+[data-theme="one-equifax-dark"] ::selection {
+  background-color: rgb(110 18 33 / 0.4);
+  color: rgb(252 228 232);
+}
+
+/* ===== TEXT COLOR OVERRIDES ===== */
+
+[data-theme="one-equifax-dark"] .text-gray-900 {
+  color: rgb(249 250 251) !important;
+}
+
+[data-theme="one-equifax-dark"] .text-gray-800 {
+  color: rgb(242 244 246) !important;
+}
+
+[data-theme="one-equifax-dark"] .text-gray-700 {
+  color: rgb(231 231 231) !important;
+}
+
+[data-theme="one-equifax-dark"] .text-gray-600 {
+  color: rgb(208 212 216) !important;
+}
+
+[data-theme="one-equifax-dark"] .text-gray-500 {
+  color: rgb(163 170 173) !important;
+}
+
+[data-theme="one-equifax-dark"] .text-gray-400 {
+  color: rgb(163 170 173) !important;
+}
+
+/* Placeholder text */
+[data-theme="one-equifax-dark"] .placeholder-gray-500::placeholder {
+  color: rgb(163 170 173) !important;
+}
+
+/* ===== BORDER OVERRIDES ===== */
+
+[data-theme="one-equifax-dark"] .border-gray-100 {
+  border-color: rgb(42 48 55) !important;
+}
+
+[data-theme="one-equifax-dark"] .border-gray-200 {
+  border-color: rgb(58 66 74) !important;
+}
+
+[data-theme="one-equifax-dark"] .border-gray-300 {
+  border-color: rgb(74 84 93) !important;
+}
+
+[data-theme="one-equifax-dark"] .divide-gray-200 > :not([hidden]) ~ :not([hidden]) {
+  border-color: rgb(58 66 74) !important;
+}
+
+/* ===== RING OVERRIDES ===== */
+
+[data-theme="one-equifax-dark"] .ring-gray-200 {
+  --tw-ring-color: rgb(58 66 74) !important;
+}
+
+[data-theme="one-equifax-dark"] .ring-gray-100 {
+  --tw-ring-color: rgb(42 48 55) !important;
+}
+
+/* ===== SHADOW OVERRIDES ===== */
+
+[data-theme="one-equifax-dark"] .shadow-sm {
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3), 0px 1px 2px rgba(0, 0, 0, 0.2) !important;
+}
+
+[data-theme="one-equifax-dark"] .shadow-md {
+  box-shadow: 0px 4px 8px -2px rgba(0, 0, 0, 0.3), 0px 2px 4px -2px rgba(0, 0, 0, 0.2) !important;
+}
+
+[data-theme="one-equifax-dark"] .shadow-lg {
+  box-shadow: 0px 12px 16px -4px rgba(0, 0, 0, 0.3), 0px 4px 6px -2px rgba(0, 0, 0, 0.2) !important;
+}
+
+[data-theme="one-equifax-dark"] .shadow-xl {
+  box-shadow: 0px 20px 24px -4px rgba(0, 0, 0, 0.3), 0px 8px 8px -4px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* ===== GRADIENT OVERRIDES ===== */
+
+/* .gradient-bg uses from-primary-50 via-white to-blue-50 */
+[data-theme="one-equifax-dark"] .gradient-bg {
+  background: linear-gradient(to bottom right, rgb(82 13 24 / 0.3), rgb(13 15 17), rgb(0 45 61 / 0.3)) !important;
+}
+
+/* .gradient-text stays as-is (brand gradient on text) */
+
+/* ===== COMPONENT-SPECIFIC OVERRIDES ===== */
+
+/* Dropdown menus (account dropdown, theme dropdown) */
+[data-theme="one-equifax-dark"] .bg-white.shadow-lg,
+[data-theme="one-equifax-dark"] .bg-white.rounded-lg.border {
+  background-color: rgb(26 30 36) !important;
+}
+
+/* Hover states on dark surfaces */
+[data-theme="one-equifax-dark"] .hover\:bg-gray-50:hover {
+  background-color: rgb(42 48 55) !important;
+}
+
+[data-theme="one-equifax-dark"] .hover\:bg-gray-100:hover {
+  background-color: rgb(58 66 74) !important;
+}
+
+/* Code blocks — already dark, keep as-is */
+/* pre, .bg-gray-900 — no override needed */
+
+/* Cards and content containers */
+[data-theme="one-equifax-dark"] .bg-white.rounded-lg,
+[data-theme="one-equifax-dark"] .bg-white.rounded-xl {
+  background-color: rgb(26 30 36) !important;
+}
+
+/* Primary colored backgrounds — slightly adjust light tints */
+[data-theme="one-equifax-dark"] .bg-primary-50 {
+  background-color: rgb(82 13 24 / 0.2) !important;
+}
+
+[data-theme="one-equifax-dark"] .bg-blue-50 {
+  background-color: rgb(0 45 61 / 0.2) !important;
+}
+
+[data-theme="one-equifax-dark"] .bg-green-50,
+[data-theme="one-equifax-dark"] .bg-success-50 {
+  background-color: rgb(26 48 16 / 0.3) !important;
+}
+
+[data-theme="one-equifax-dark"] .bg-red-50,
+[data-theme="one-equifax-dark"] .bg-error-50 {
+  background-color: rgb(82 13 24 / 0.2) !important;
+}
+
+[data-theme="one-equifax-dark"] .bg-purple-50 {
+  background-color: rgb(40 19 43 / 0.3) !important;
+}
+
+[data-theme="one-equifax-dark"] .bg-orange-50 {
+  background-color: rgb(92 44 0 / 0.3) !important;
+}
+
+/* Semantic tinted text on dark backgrounds */
+[data-theme="one-equifax-dark"] .text-green-900,
+[data-theme="one-equifax-dark"] .text-green-800 {
+  color: rgb(139 204 118) !important;
+}
+
+[data-theme="one-equifax-dark"] .text-red-900,
+[data-theme="one-equifax-dark"] .text-red-800 {
+  color: rgb(244 161 174) !important;
+}
+
+[data-theme="one-equifax-dark"] .text-red-600 {
+  color: rgb(244 161 174) !important;
+}
+
+[data-theme="one-equifax-dark"] .text-purple-800,
+[data-theme="one-equifax-dark"] .text-purple-700 {
+  color: rgb(196 139 202) !important;
+}
+
+[data-theme="one-equifax-dark"] .text-green-800,
+[data-theme="one-equifax-dark"] .text-green-600 {
+  color: rgb(139 204 118) !important;
+}
+
+/* Semantic badge/ring tints */
+[data-theme="one-equifax-dark"] .ring-green-200,
+[data-theme="one-equifax-dark"] .ring-success-200 {
+  --tw-ring-color: rgb(41 77 25 / 0.5) !important;
+}
+
+[data-theme="one-equifax-dark"] .ring-purple-200 {
+  --tw-ring-color: rgb(67 31 71 / 0.5) !important;
+}
+
+/* ===== INLINE CODE OVERRIDES ===== */
+
+[data-theme="one-equifax-dark"] code:not(pre code) {
+  background-color: rgb(42 48 55) !important;
+  color: rgb(208 212 216) !important;
+}
+
+/* ===== FOCUS RING OVERRIDES ===== */
+
+[data-theme="one-equifax-dark"] {
+  --s3-focus-ring: 0px 0px 0px 4px rgb(var(--color-primary-800));
+}
+
+/* ===== SEMANTIC TOKEN DARK OVERRIDES ===== */
+/* These supplement the existing [data-theme="dark"] block in tokens-semantic.css
+   by also activating when our named theme is applied */
+
+[data-theme="one-equifax-dark"] {
+  /* Text */
+  --s3-text-primary: rgb(var(--color-gray-50));
+  --s3-text-secondary: rgb(var(--color-gray-300));
+  --s3-text-tertiary: rgb(var(--color-gray-400));
+  --s3-text-quaternary: rgb(var(--color-gray-500));
+  --s3-text-disabled: rgb(var(--color-gray-600));
+  --s3-text-placeholder: rgb(var(--color-gray-400));
+
+  /* Backgrounds */
+  --s3-bg-primary: rgb(13 15 17);
+  --s3-bg-primary-alt: rgb(26 30 36);
+  --s3-bg-primary-hover: rgb(42 48 55);
+  --s3-bg-secondary: rgb(26 30 36);
+  --s3-bg-secondary-hover: rgb(42 48 55);
+  --s3-bg-tertiary: rgb(42 48 55);
+  --s3-bg-quaternary: rgb(58 66 74);
+
+  /* Borders */
+  --s3-border-primary: rgb(var(--color-gray-700));
+  --s3-border-secondary: rgb(var(--color-gray-800));
+  --s3-border-tertiary: rgb(var(--color-gray-800));
+
+  /* Foreground */
+  --s3-fg-primary: rgb(var(--color-gray-50));
+  --s3-fg-secondary: rgb(var(--color-gray-300));
+  --s3-fg-tertiary: rgb(var(--color-gray-400));
+  --s3-fg-quaternary: rgb(var(--color-gray-500));
+}
